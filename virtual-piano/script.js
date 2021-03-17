@@ -32,6 +32,26 @@ piano.addEventListener('mouseover', event => {
 lettersBtn.addEventListener('click', showLetters);
 notesBtn.addEventListener('click', showNotes);
 
+fullscreenBtn.addEventListener('click', openFullScreen);
+fullscreenBtn.addEventListener('click', closeFullScreen);
+
+window.addEventListener('keydown', event => {
+  console.log(event);
+})
+
+function openFullScreen() {
+  const doc = document.documentElement;
+  if (doc.requestFullscreen) {
+    doc.requestFullscreen();
+    fullScreen = 1;
+  }
+}
+function closeFullScreen() {
+  if (fullScreen) {
+    document.exitFullscreen();
+    fullScreen = 0;
+  }
+}
 function sound(key) {
   const note = key.dataset.note;
   const src =`./assets/audio/${note}.mp3`;
