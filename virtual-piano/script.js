@@ -16,8 +16,7 @@ piano.addEventListener('mousedown', event => {
 
 piano.addEventListener('mouseup', event => {
   const el = event.target;
-  el.classList.remove('piano-key-active');
-  el.classList.remove ('piano-key-active-pseudo');
+  upEffects(el);
 })
 
 piano.addEventListener('mouseout', event => {
@@ -36,7 +35,18 @@ fullscreenBtn.addEventListener('click', openFullScreen);
 fullscreenBtn.addEventListener('click', closeFullScreen);
 
 window.addEventListener('keydown', event => {
-  console.log(event);
+  const letter = event.code[3];
+  pianoKeys.forEach(elem => {
+    if (elem.dataset.letter === letter) {
+      sound(elem);
+    }
+  })
+})
+
+window.addEventListener('keyup', () => {
+  pianoKeys.forEach(elem => { 
+    upEffects(elem);
+  })
 })
 
 function openFullScreen() {
@@ -55,8 +65,7 @@ function closeFullScreen() {
 function sound(key) {
   const note = key.dataset.note;
   const src =`./assets/audio/${note}.mp3`;
-  key.classList.add('piano-key-active');
-  key.classList.add('piano-key-active-pseudo');
+  downEffects(key);
   playAudio(src);
 }
 function playAudio(src) {
@@ -64,6 +73,14 @@ function playAudio(src) {
   audio.src = src;
   audio.currentTime = 0;
   audio.play();
+}
+function downEffects(key) {
+  key.classList.add('piano-key-active');
+  key.classList.add('piano-key-active-pseudo');
+}
+function upEffects(key) {
+  key.classList.remove('piano-key-active');
+  key.classList.remove ('piano-key-active-pseudo');
 }
 function showNotes(){
   pianoKeys.forEach(key => {
