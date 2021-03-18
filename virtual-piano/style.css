@@ -146,17 +146,14 @@ body {
 .piano-key::after {
 	display: none;
 	content: attr(data-letter);
-  pointer-events: none;
 }
 .piano-key:hover::before,
 .piano-key:hover::after {
 	color: #d7dfe6;
 }
-
 .sharp:active {
 	border-top: 0;
 }
-
 .piano-key.sharp::before,
 .piano-key.sharp::after {
 	bottom: 175px;

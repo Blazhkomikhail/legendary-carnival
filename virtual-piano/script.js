@@ -4,7 +4,6 @@ const notesBtn = document.querySelector('.btn-notes');
 const lettersBtn = document.querySelector('.btn-letters');
 const fullscreenBtn = document.querySelector('.fullscreen ');
 let mouseDown = 0;
-let fullScreen = 0;
 
 document.addEventListener('mousedown', () => ++mouseDown);
 document.addEventListener('mouseup', () => --mouseDown);
@@ -51,15 +50,11 @@ window.addEventListener('keyup', () => {
 
 function openFullScreen() {
   const doc = document.documentElement;
-  if (doc.requestFullscreen) {
-    doc.requestFullscreen();
-    fullScreen = 1;
-  }
+  doc.requestFullscreen();
 }
 function closeFullScreen() {
-  if (fullScreen) {
+  if (document.fullscreenEnabled) {
     document.exitFullscreen();
-    fullScreen = 0;
   }
 }
 function sound(key) {
