@@ -30,8 +30,7 @@ piano.addEventListener('mouseover', event => {
 lettersBtn.addEventListener('click', showLetters);
 notesBtn.addEventListener('click', showNotes);
 
-fullscreenBtn.addEventListener('click', openFullScreen);
-fullscreenBtn.addEventListener('click', closeFullScreen);
+fullscreenBtn.addEventListener('click', openCloseFullScreen);
 
 window.addEventListener('keydown', event => {
   const letter = event.code[3];
@@ -48,14 +47,9 @@ window.addEventListener('keyup', () => {
   })
 })
 
-function openFullScreen() {
-  const doc = document.documentElement;
-  doc.requestFullscreen();
-}
-function closeFullScreen() {
-  if (document.fullscreenEnabled) {
-    document.exitFullscreen();
-  }
+function openCloseFullScreen() {
+  !document.fullscreenElement ? 
+  document.documentElement.requestFullscreen() : document.exitFullscreen();
 }
 function sound(key) {
   const note = key.dataset.note;
