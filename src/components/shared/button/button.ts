@@ -1,12 +1,9 @@
-import { BaseComponent } from "../base-component";
-import './button.scss';
+export class Button {
+  readonly element: HTMLElement;
 
-export class Button extends BaseComponent {
-  private readonly buttonText: string;
-
-  constructor(text: string) {
-    super('button', ['button', 'header__button']);
-    this.buttonText = text;
-    this.element.innerHTML = this.buttonText;
+  constructor(text: string = 'Button', styles: string[] = []) {
+    this.element = document.createElement('button');
+    this.element.innerHTML = text;
+    this.element.classList.add(...styles);
   }
 }

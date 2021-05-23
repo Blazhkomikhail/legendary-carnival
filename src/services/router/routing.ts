@@ -1,5 +1,5 @@
-const appContainer = document.getElementById('app');
-import {Game} from '../../components/game/game';
+import { appContainer } from '../../index';
+import { Game } from '../../components/game/game';
 
 export const routing = [{
     name: 'game',
