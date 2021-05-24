@@ -21,4 +21,5 @@ export class Router {
 
     this.currentRoute ? this.currentRoute.component() : this.defaultRoute.component();
   }
+
 }

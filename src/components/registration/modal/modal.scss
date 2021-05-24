@@ -1,6 +1,6 @@
 .registration__cover {
     position: fixed;
-    top:50px;
+    top: 0;
     bottom: 0;
     left: 0;
     right: 0;
@@ -62,6 +62,11 @@
     border: none;
     border-bottom: 1px solid #212121;
     border-radius: 4px 4px 0px 0px;
+
+    &:focus {
+      border: none;
+      outline-style: none;
+    }
   }
 
   &__buttons-wrap {
