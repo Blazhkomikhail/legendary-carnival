@@ -6,29 +6,67 @@ import { render } from '../shared/render';
 import { Modal } from '../registration/modal/modal';
 import { appContainer } from '../../index';
 import './header.scss';
-const isModalOpen = false;
+interface IButtonText {
+  [key: string]: string;
+}
+interface IButtonHandler {
+  [key: string]: EventHandlerNonNull;
+}
 export class Header extends BaseComponent {
   private logo: Logo;
   private menu: Menu;
   private button: Button;
+  private readonly buttonsText: IButtonText;
+  private readonly buttonsHandlers: IButtonHandler;
 
-  constructor (private buttonText: string) {
+  constructor (private currentHash: string) {
     super('header', ['header']);
+    this.buttonsText = {
+      'game' : 'Stop game',
+      'about-game' : 'Register new player',
+      'best-score' : 'Start game',
+      'game-settings' : 'Start game'
+    };
+    this.buttonsHandlers = {
+      'game' : this.stopGame,
+      'about-game' : this.openModalWindow,
+      'best-score' : this.startGame,
+      'game-settings' : this.startGame
+    }
     this.logo = new Logo();
     this.menu = new Menu();
-    this.button = new Button(buttonText, ['header__button'], this.openModalWindow);
-    
+
+    if (this.buttonsText[currentHash]) {
+      this.button = new Button(
+        this.buttonsText[currentHash], 
+        ['header__button'], 
+        this.buttonsHandlers[currentHash]
+        );
+    } else {
+      this.button = new Button(
+        this.buttonsText.game, 
+        ['header__button'], 
+        this.buttonsHandlers.game
+        );
+    }
+            
     render(this.element, [
       this.logo.element,
       this.menu.element,
       this.button.element
     ])
   }
-
+  
   openModalWindow() {
-    if(isModalOpen) return;
     const registration = new Modal();
     appContainer.appendChild(registration.element);
   }
- 
+
+  startGame() {
+    window.location.hash = 'game';
+  }
+
+  stopGame() {
+    console.log('stop game');
+  }
 }
