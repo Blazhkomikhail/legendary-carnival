@@ -2,8 +2,6 @@ import { Header } from './components/header/header';
 import { Router } from './services/router/router';
 import { routing } from './services/router/routing';
 const router = new Router(routing);
-
-
 export class App {
   private readonly header: Header;
   private readonly hash: string;
@@ -14,6 +12,7 @@ export class App {
     this.header = new Header(this.hash);
   
     this.rootElement.appendChild(this.header.element);
+    router.route();
   }
 
   clearRootElement() {
