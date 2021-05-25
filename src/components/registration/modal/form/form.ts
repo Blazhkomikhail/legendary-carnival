@@ -17,8 +17,15 @@ export class Form extends BaseComponent {
 
     const inputsWrapper = document.createElement('div');
     inputsWrapper.classList.add('modal__inputs-wrap');
+
     this.firstNameInput = new Input('text', ['modal__input', 'firstname-input'], RegExpers.firstName);
+    this.firstNameInput.element.setAttribute('maxlength', '30');
+    this.firstNameInput.element.dataset.name = 'firstName';
+
     this.lastNameInput = new Input('text', ['modal__input', 'lastname-input'], RegExpers.lastName);
+    this.lastNameInput.element.setAttribute('maxlength', '30');
+    this.lastNameInput.element.dataset.name = 'lastName';
+
     this.emailInput = new Input('email', ['modal__input', 'email-input'], RegExpers.email);
     this.submitBtn = new Input('submit', ['modal__submit-btn']);
 
@@ -57,7 +64,7 @@ export class Form extends BaseComponent {
       btnsWrapper
     ]);
   }
-
+  
   closeModalWindow() {
     const popUp = document.querySelector('.registration__cover');
     popUp.remove();

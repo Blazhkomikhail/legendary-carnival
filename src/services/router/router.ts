@@ -16,8 +16,8 @@ export class Router {
 
   route () {
     this.currentHash = window.location.hash.slice(1);
-    this.currentRoute = this.routing.find((routName) => routName.name === this.currentHash);
-    this.defaultRoute = this.routing.find((routName) => routName.name === this.defaultPage);
+    this.currentRoute = this.routing.find((rout) => rout.name === this.currentHash);
+    this.defaultRoute = this.routing.find((rout) => rout.name === this.defaultPage);
 
     this.currentRoute ? this.currentRoute.component() : this.defaultRoute.component();
   }

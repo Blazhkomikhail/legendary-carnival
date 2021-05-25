@@ -1,3 +1,5 @@
+// import { Tooltip } from './tooltip';
+import { inputsState } from '../../registration/modal/input-state';
 export class Input {
   readonly element: HTMLInputElement;
 
@@ -13,9 +15,9 @@ export class Input {
     if (this.regexp) {
       this.element.addEventListener('input', () => {
         if (this.regexp.test(this.element.value)) {
-          this.element.style.border = '1px solid green';
+          this.element.style.border = '2px solid green';
         } else {
-          this.element.style.border = '1px solid red';
+          this.element.style.border = '2px solid red';
         }
       })
     }

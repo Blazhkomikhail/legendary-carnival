@@ -12,11 +12,11 @@ export class Header extends BaseComponent {
   private menu: Menu;
   private button: Button;
 
-  constructor () {
+  constructor (private buttonText: string) {
     super('header', ['header']);
     this.logo = new Logo();
     this.menu = new Menu();
-    this.button = new Button('Register new player', ['header__button'], this.openModalWindow);
+    this.button = new Button(buttonText, ['header__button'], this.openModalWindow);
     
     render(this.element, [
       this.logo.element,
