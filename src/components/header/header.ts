@@ -3,9 +3,10 @@ import { Logo } from './logo/logo';
 import { Menu } from './menu/menu';
 import { Button } from '../shared/button/button';
 import { render } from '../shared/render';
-import { Modal } from '../registration/modal/modal';
+import { Modal } from '../shared/modal/modal';
 import { appContainer } from '../../index';
 import './header.scss';
+import { Form } from '../registration/modal/form/form';
 interface IButtonText {
   [key: string]: string;
 }
@@ -58,7 +59,7 @@ export class Header extends BaseComponent {
   }
   
   openModalWindow() {
-    const registration = new Modal();
+    const registration = new Modal('Register new Player', new Form());
     appContainer.appendChild(registration.element);
   }
 

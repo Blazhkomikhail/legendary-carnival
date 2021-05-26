@@ -1,13 +1,13 @@
 import './modal.scss';
-import { BaseComponent } from '../../shared/base-component';
-import { Form } from './form/form';
-import { render } from '../../shared/render';
-// export let isModalOpen = false;
+import { BaseComponent } from '../base-component';
+import { Form } from '../../registration/modal/form/form';
+import { Message } from '../../../services/db/message/message';
+import { render } from '../render';
 
 export class Modal extends BaseComponent {
   private modalWindow: HTMLElement; 
 
-  constructor() {
+  constructor(readonly heading: string = '', readonly innerContent: Form | Message) {
     super('div', ['registration__cover']);
     this.modalWindow = this.createModal();
     this.element.appendChild(this.modalWindow);
@@ -19,9 +19,9 @@ export class Modal extends BaseComponent {
 
     const modalHeading = document.createElement('h3');
     modalHeading.classList.add('modal__heading');
-    modalHeading.innerHTML = 'Register new Player';
+    modalHeading.innerHTML = this.heading;
     
-    const registrationForm = new Form();
+    const registrationForm = this.innerContent || null;
 
     render(modalBox, [modalHeading, registrationForm.element]);
     

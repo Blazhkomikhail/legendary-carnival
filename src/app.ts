@@ -10,7 +10,7 @@ export class App {
     this.clearRootElement();
     this.hash = window.location.hash.slice(1);
     this.header = new Header(this.hash);
-  
+
     this.rootElement.appendChild(this.header.element);
     router.route();
   }

@@ -23,6 +23,7 @@ export class Menu extends BaseComponent {
 
     const item = document.createElement('li');
     item.classList.add('menu__item');
+    item.dataset.name = `${name.split(' ').join('-').toLowerCase()}`;
 
     const link = document.createElement('a');
     link.classList.add('menu__item-link');
