@@ -68,6 +68,6 @@ export class Header extends BaseComponent {
   }
 
   stopGame() {
-    console.log('stop game');
+    window.location.hash = 'about-game';
   }
 }
