@@ -1,0 +1,51 @@
+.settings {
+  padding-top: 40px;
+  width: 100vw;
+  height: auto;
+
+  display: flex;
+  justify-content: center;
+
+  &__container {
+    padding: 60px;
+    width: 80vw;
+    box-sizing: border-box;
+
+    background-color: #fff;
+    color: #000;
+  }
+
+  &__cards-container,
+  &__level-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__cards-container {
+    margin-bottom: 40px;
+  }
+
+  &__select {
+    padding: 0 15px;
+
+    user-select: none;
+    display: inline-block;
+
+    width: 256px;
+    height: 34px;
+    position: relative;
+    
+    border: none;
+    border-bottom: 1px solid #cbd1d4;
+    line-height: 32px;
+    white-space: nowrap;
+    cursor: pointer;
+    background-color: transparent;
+    outline-style: none;
+
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+  }
+
+
+}

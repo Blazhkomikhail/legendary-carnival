@@ -1,12 +1,22 @@
 [
   {
-    "category": "unsorted",
+    "category": "animals",
     "images": [
       "001-deer.svg",
       "004-fox.svg",
       "002-bear.svg",
       "007-robin.svg",
       "005-owl.svg"
+    ]
+  },
+  {
+    "category": "dogs",
+    "images": [
+      "010-corgi.png",
+      "007-bull-terrier.png",
+      "003-Basset.png",
+      "004-beagle.png",
+      "005-collie.png"
     ]
   }
 ]

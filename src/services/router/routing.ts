@@ -1,6 +1,7 @@
 import { appContainer } from '../../index';
 import { Game } from '../../components/game/game';
 import { About } from '../../components/about/about';
+import { GameSettings } from '../../components/game-setings/game-settings';
 
 export const routing = [{
     name: 'game',
@@ -27,7 +28,8 @@ export const routing = [{
   {
     name: 'game-settings',
     component: () => {
-      appContainer.innerHTML += `game-settings`;
+      const settingsPage = new GameSettings();
+      appContainer.appendChild(settingsPage.element);
     }
   },
 ]

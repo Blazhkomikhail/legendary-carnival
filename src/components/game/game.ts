@@ -3,6 +3,7 @@ import { Card } from '../card/card';
 import { CardsField } from '../cards-field/cards-field';
 import { delay } from '../shared/delay';
 import { ImageCategoryModel } from '../../image-category-models/image-category-models';
+import { gameSettings } from '../../index';
 
 const FLIP_DELAY = 3000;
 
@@ -34,8 +35,8 @@ export class Game extends BaseComponent {
   async start() {
     const res = await fetch('./images.json');
     const categories: ImageCategoryModel[] = await res.json();
-    const cat = categories[0];
-    const images = cat.images.map((name: string) => `${cat.category}/${name}`);
+    const cat = categories.find(type => type.category === gameSettings.cards);
+    const images = cat.images.map((name: string) => `cards/${cat.category}/${name}`);
     this.newGame(images); 
   }
 

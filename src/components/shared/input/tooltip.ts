@@ -14,7 +14,7 @@ export class Tooltip extends BaseComponent {
     } else {
       this.element.innerHTML = `Это поле не может содержать менее 2-х символов. 
     Также не может начинаться с цифр 
-    и не может содержать служебные символы`;
+    и содержать служебные символы`;
       if (inpName === 'firstName') {
         tooltip.style.right = '35px';
       }
