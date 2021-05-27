@@ -1,12 +1,12 @@
 .card__wrap {
-  flex: 0 0 30%;
+  flex: 0 0 25%;
   display: flex;
   justify-content: center;
   align-items: center;
   perspective: 15rem;
   
   &:hover > .card {
-    transform: translateZ(30px);
+    // transform: translateZ(20px);
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
   }
 
@@ -19,7 +19,7 @@
 .card {
   position: relative;
   width: 80%;
-  height: 9rem;
+  height: 7rem;
   cursor: pointer;
   transform-style: preserve-3d;
   transform-origin: right;
@@ -37,14 +37,12 @@
   }
 
   &__front {
-    padding: 5px;
     background-color: #fff;
     background-position: center;
     background-size: cover;
   }
 
   &__back {
-    background-color: forestgreen;
     background-image: url('../../assets/card_cover.png');
     background-position: center;
     background-size: cover;

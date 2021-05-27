@@ -19,8 +19,17 @@ export class Game extends BaseComponent {
   }
 
   newGame(images: string[]) {
+    let cutedImages = images;
+    if (gameSettings.level === 'low') {
+      cutedImages.length = 4; 
+    } else if (gameSettings.level === 'middle') {
+      cutedImages.length = 6;
+
+    }
+
+
     this.cardsField.clear();
-    const cards = images
+    const cards = cutedImages
       .concat(images)
       .map((url) => new Card(url))
       .sort(() => Math.random() - 0.5);
