@@ -1,9 +1,11 @@
-import { BaseComponent } from '../../../shared/base-component';
-import { Input } from '../../../shared/input/input';
-import { Button } from '../../../shared/button/button';
-import { render } from '../../../shared/render';
+import { BaseComponent } from '../../shared/base-component';
+import { Input } from '../../shared/input/input';
+import { Button } from '../../shared/button/button';
+import { render } from '../../shared/render';
 import { RegExpers } from '../validation/regexps';
-import { DB } from '../../../../index';
+import { DB } from '../../../index';
+import { modalCover } from '../../shared/modal/modal'
+export let form: HTMLElement;
 
 interface IDBData {
   [key: string]: string | number;
@@ -14,18 +16,26 @@ export class Form extends BaseComponent {
   private readonly emailInput: Input;
   private readonly submitBtn: Input;
   private readonly cancelButton: Button;
-  private readonly inputs: HTMLInputElement[];
+  private readonly inputs: Input[];
   private userData: IDBData;
 
   constructor() {
     super('form', ['modal__form']);
     this.element.setAttribute('method', '#');
+    form = this.element;
 
     this.element.addEventListener('submit', (e) => {
       e.preventDefault();
-      this.getUserData();
-      this.sendUserData();
-      this.closeModalWindow();
+
+      if (this.isInputsValid()) {
+        this.getUserData();
+        this.sendUserData();
+        this.closeModalWindow();
+      } else {
+        this.getInvalidInput()?.showTooltip();
+        this.getInvalidInput()?.addRedBorder();
+      }
+
     })
 
     const inputsWrapper = document.createElement('div');
@@ -41,7 +51,7 @@ export class Form extends BaseComponent {
 
     this.emailInput = new Input('email', ['modal__input', 'email-input'], RegExpers.email);
     this.emailInput.element.dataset.name = 'email';
-    this.inputs = [this.firstNameInput.element, this.lastNameInput.element, this.emailInput.element];
+    this.inputs = [this.firstNameInput, this.lastNameInput, this.emailInput];
     this.submitBtn = new Input('submit', ['modal__submit-btn']);
 
     const mainContainer = document.createElement('main');
@@ -81,8 +91,27 @@ export class Form extends BaseComponent {
   }
   
   closeModalWindow() {
-    const popUp = document.querySelector('.registration__cover');
-    popUp.remove();
+    modalCover.remove();
+  }
+
+  isInputsValid() {
+    const result: boolean[] = [];
+    this.inputs.forEach(input => {
+      const name = input.element.dataset.name;
+      result.push(RegExpers[name].test(input.element.value));
+    })
+    return result.every(e => e);
+  }
+
+  getInvalidInput() {
+    let result: Input[] = [];
+    this.inputs.forEach(input => {
+      const name = input.element.dataset.name;
+      if (!RegExpers[name].test(input.element.value)) {
+        result.push(input);
+      }
+    })
+    return result[0];
   }
 
   getUserData() {
@@ -94,7 +123,7 @@ export class Form extends BaseComponent {
     }
 
     this.inputs.forEach(input => {
-      this.userData[input.dataset.name] = input.value;
+      this.userData[input.element.dataset.name] = input.element.value;
     })
   }
 

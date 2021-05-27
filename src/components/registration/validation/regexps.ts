@@ -1,7 +1,5 @@
 interface IRegexper { 
-  firstName: RegExp,
-  lastName: RegExp,
-  email: RegExp,
+  [key: string]: RegExp
 }
 
 export const RegExpers: IRegexper = {
