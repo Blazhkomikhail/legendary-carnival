@@ -6,6 +6,7 @@ import { ImageCategoryModel } from '../../image-category-models/image-category-m
 import { gameSettings } from '../../index';
 import { render } from '../shared/render';
 import { Timer } from '../timer/timer';
+import './game.scss';
 
 const FLIP_DELAY = 3000;
 
@@ -20,6 +21,7 @@ export class Game extends BaseComponent {
     super('main', ['game']);
     const startTime = '00 : 00';
     this.timerWrap = document.createElement('div');
+    this.timerWrap.classList.add('game__timer-wrap');
     this.timerWrap.innerHTML = startTime;
     setTimeout(() => {
       this.timer.startTimer(this.timerWrap);
