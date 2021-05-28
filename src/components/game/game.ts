@@ -4,18 +4,28 @@ import { CardsField } from '../cards-field/cards-field';
 import { delay } from '../shared/delay';
 import { ImageCategoryModel } from '../../image-category-models/image-category-models';
 import { gameSettings } from '../../index';
+import { render } from '../shared/render';
+import { Timer } from '../timer/timer';
 
 const FLIP_DELAY = 3000;
 
 export class Game extends BaseComponent {
   private readonly cardsField: CardsField;
+  private timerWrap: HTMLElement;
   private activeCard?: Card;
   private isAnimation = false;
+  private timer = new Timer();
 
   constructor() {
-    super('main', ['main']);
+    super('main', ['game']);
+    const startTime = '00 : 00';
+    this.timerWrap = document.createElement('div');
+    this.timerWrap.innerHTML = startTime;
+    setTimeout(() => {
+      this.timer.startTimer(this.timerWrap);
+    }, FLIP_DELAY);
     this.cardsField = new CardsField();
-    this.element.appendChild(this.cardsField.element);
+    render(this.element, [this.timerWrap, this.cardsField.element]);
   }
 
   newGame(images: string[]) {
@@ -60,7 +70,10 @@ export class Game extends BaseComponent {
     }
     if (this.activeCard.image !== card.image) {
       await delay(FLIP_DELAY);
-      await Promise.all([this.activeCard.flipeToBack(), card.flipeToBack()]);
+      await Promise.all([
+        this.activeCard.flipeToBack(), 
+        card.flipeToBack()
+      ]);
     }
     this.activeCard = undefined;
     this.isAnimation = false;
