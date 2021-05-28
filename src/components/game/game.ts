@@ -8,7 +8,7 @@ import { render } from '../shared/render';
 import { Timer } from '../timer/timer';
 import './game.scss';
 
-const FLIP_DELAY = 3000;
+const FLIP_DELAY = 2000;
 
 export class Game extends BaseComponent {
   private readonly cardsField: CardsField;
@@ -71,12 +71,20 @@ export class Game extends BaseComponent {
       return;
     }
     if (this.activeCard.image !== card.image) {
+      this.activeCard.element.classList.add('card__front_red');
+      card.element.classList.add('card__front_red');
+
       await delay(FLIP_DELAY);
       await Promise.all([
         this.activeCard.flipeToBack(), 
-        card.flipeToBack()
+        card.flipeToBack(),
+        this.activeCard.element.classList.remove('card__front_red'),
+        card.element.classList.remove('card__front_red')
       ]);
-    }
+    } else {
+      this.activeCard.element.classList.add('card__front_green');
+      card.element.classList.add('card__front_green');
+    }    
     this.activeCard = undefined;
     this.isAnimation = false;
   }
