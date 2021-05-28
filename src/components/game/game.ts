@@ -6,36 +6,61 @@ import { ImageCategoryModel } from '../../image-category-models/image-category-m
 import { gameSettings } from '../../index';
 import { render } from '../shared/render';
 import { Timer } from '../timer/timer';
+import { secondsCounter } from '../timer/timer';
 import './game.scss';
 
+export let score = 0;
 const FLIP_DELAY = 2000;
 
 export class Game extends BaseComponent {
   private readonly cardsField: CardsField;
-  private timerWrap: HTMLElement;
   private activeCard?: Card;
   private isAnimation = false;
+  private matchCount = 0;
+  private levelCoef: number;
+  private score: HTMLElement;
   private timer = new Timer();
 
   constructor() {
     super('main', ['game']);
     const startTime = '00 : 00';
-    this.timerWrap = document.createElement('div');
-    this.timerWrap.classList.add('game__timer-wrap');
-    this.timerWrap.innerHTML = startTime;
+
+    const timeScoreWrap = document.createElement('div');
+    timeScoreWrap.classList.add('game__time-score');
+
+    const scoreWrap = document.createElement('div');
+    scoreWrap.classList.add('game__score-wrap');
+    this.score = document.createElement('span');
+    this.score.innerHTML = `${score}`;
+    scoreWrap.innerHTML = `Score: `;
+    scoreWrap.appendChild(this.score);
+    const timerWrap = document.createElement('div');
+    timerWrap.classList.add('game__timer-wrap');
+    timerWrap.innerHTML = startTime;
+
     setTimeout(() => {
-      this.timer.startTimer(this.timerWrap);
+      this.timer.startTimer(timerWrap);
     }, FLIP_DELAY);
     this.cardsField = new CardsField();
-    render(this.element, [this.timerWrap, this.cardsField.element]);
+    render(timeScoreWrap, [timerWrap, scoreWrap]);
+    render(this.element, [timeScoreWrap, this.cardsField.element]);
   }
 
   newGame(images: string[]) {
+    score = 0;
     const cutedImages = images;
     if (gameSettings.level === 'low') {
-      cutedImages.length = 4; 
+      const cardsNum = 4;
+      cutedImages.length = cardsNum; 
+      this.levelCoef = Number(`1.${cardsNum}`);
     } else if (gameSettings.level === 'middle') {
-      cutedImages.length = 6;
+      const cardsNum = 6;
+      cutedImages.length = cardsNum;
+      this.levelCoef = Number(`1.${cardsNum}`);
+    } else {
+      const cardsNum = 8;
+      this.levelCoef = cardsNum;
+      this.levelCoef = Number(`1.${cardsNum}`);
     }
 
     this.cardsField.clear();
@@ -58,11 +83,20 @@ export class Game extends BaseComponent {
     this.newGame(images); 
   }
 
+  private scoreCount() {
+    const scoreCalc = Math.floor(
+      (this.matchCount * 100 - Math.floor(secondsCounter / 5) * 10)
+      * this.levelCoef
+      );
+      console.log('levelCoef: ', this.levelCoef, 'secondsCounter: ', secondsCounter, 
+      'this.matchCount: ', this.matchCount);
+    scoreCalc < 0 ? score = 0 : score = scoreCalc;
+  }
+
   private async cardHandler(card: Card) {
     if (this.isAnimation) return;
     if (!card.isFlipped) return;
     this.isAnimation = true;
-
     await card.flipeToFront();
 
     if (!this.activeCard) {
@@ -76,7 +110,7 @@ export class Game extends BaseComponent {
 
       await delay(FLIP_DELAY);
       await Promise.all([
-        this.activeCard.flipeToBack(), 
+        this.activeCard.flipeToBack(),
         card.flipeToBack(),
         this.activeCard.element.classList.remove('card__front_red'),
         card.element.classList.remove('card__front_red')
@@ -84,7 +118,11 @@ export class Game extends BaseComponent {
     } else {
       this.activeCard.element.classList.add('card__front_green');
       card.element.classList.add('card__front_green');
-    }    
+      this.matchCount += 1;
+      this.scoreCount();
+      this.score.innerHTML = `${score}`;
+    }
+    console.log(score);
     this.activeCard = undefined;
     this.isAnimation = false;
   }

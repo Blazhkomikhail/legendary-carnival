@@ -1,5 +1,5 @@
 const SECOND = 1000;
-
+export let secondsCounter = 0;
 export class Timer {
   private seconds: number;
   private minutes: number;
@@ -17,6 +17,7 @@ export class Timer {
   }
 
   showTimer(container: HTMLElement) {
+    secondsCounter++;
     container.innerHTML = this.stopwatch();
   } 
 
@@ -48,6 +49,7 @@ export class Timer {
   stopTimer() {
     if(!this.isRun) return;
     clearInterval(this.interval);
+    this.isRun = false;
   }
 }
 

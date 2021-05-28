@@ -1,11 +1,29 @@
 .game {
+  padding-top: 30px;
+  box-sizing: border-box;
+  
+  &__time-score {
+    margin-bottom: 40px;
+    width: 80vw;
+    display: flex;
+    justify-content: space-around;
+  }
   
   &__timer-wrap {
-    margin-bottom: 40px;
+    width: 100px;
     padding: 10px;
     border: 1px solid #fff;
     border-radius: 3px;
+    
+    text-align: center;
   }
 
+  &__score-wrap {
+    width: 100px;
+    padding: 10px;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    text-align: center;
+  }
 }
 
