@@ -125,6 +125,7 @@ export class Form extends BaseComponent {
     this.inputs.forEach(input => {
       this.userData[input.element.dataset.name] = input.element.value;
     })
+    this.userData.score = localStorage.getItem('Score');
   }
 
   sendUserData() {

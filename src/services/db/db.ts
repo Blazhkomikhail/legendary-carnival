@@ -39,13 +39,12 @@ export class IndexedDB {
   }
   
   addUser(data: IData) { 
-    //data must be started by key
+    //data have to start with key
     const transaction = this.db.transaction(['players'], 'readwrite');
     const store = transaction.objectStore('players');
-
-    const request = store.add(data);
+    const request = store.put(data);
     
-    request.onerror = () => {
+    request.onerror = (e) => {
       let message = new Modal(
         'Warning!', 
         new Message('Something went wrong. Try again later!')

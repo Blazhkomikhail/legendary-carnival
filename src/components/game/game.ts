@@ -48,6 +48,8 @@ export class Game extends BaseComponent {
 
   newGame(images: string[]) {
     score = 0;
+    localStorage.clear();
+    this.updateScore();
     const cutedImages = images;
     if (gameSettings.level === 'low') {
       const cardsNum = 4;
@@ -91,6 +93,10 @@ export class Game extends BaseComponent {
     scoreCalc < 0 ? score = 0 : score = scoreCalc;
   }
 
+  private updateScore() {
+    this.score.innerHTML = `${score}`;
+  }
+
   private async cardHandler(card: Card) {
     if (this.isAnimation) return;
     if (!card.isFlipped) return;
@@ -118,7 +124,8 @@ export class Game extends BaseComponent {
       card.element.classList.add('card__front_green');
       this.matchCount += 1;
       this.scoreCount();
-      this.score.innerHTML = `${score}`;
+      this.updateScore();
+      localStorage.setItem('Score', `${score}`);
     }
     this.activeCard = undefined;
     this.isAnimation = false;
