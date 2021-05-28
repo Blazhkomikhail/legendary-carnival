@@ -8,7 +8,8 @@ export let modalCover: HTMLElement;
 export class Modal extends BaseComponent {
   private modalWindow: HTMLElement;
 
-  constructor(readonly heading: string = '', readonly innerContent: Form | Message) {
+  constructor(readonly heading: string = '',
+    readonly innerContent: Form | Message) {
     super('div', ['registration__cover']);
     this.modalWindow = this.createModal();
     this.element.appendChild(this.modalWindow);

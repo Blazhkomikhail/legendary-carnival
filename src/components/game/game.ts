@@ -19,14 +19,12 @@ export class Game extends BaseComponent {
   }
 
   newGame(images: string[]) {
-    let cutedImages = images;
+    const cutedImages = images;
     if (gameSettings.level === 'low') {
       cutedImages.length = 4; 
     } else if (gameSettings.level === 'middle') {
       cutedImages.length = 6;
-
     }
-
 
     this.cardsField.clear();
     const cards = cutedImages
@@ -37,7 +35,6 @@ export class Game extends BaseComponent {
     cards.forEach((card) => {
       card.element.addEventListener('click', () => this.cardHandler(card));
     })
-
     this.cardsField.addCards(cards);
   }
 
@@ -65,9 +62,7 @@ export class Game extends BaseComponent {
       await delay(FLIP_DELAY);
       await Promise.all([this.activeCard.flipeToBack(), card.flipeToBack()]);
     }
-
     this.activeCard = undefined;
     this.isAnimation = false;
   }
-  
 }

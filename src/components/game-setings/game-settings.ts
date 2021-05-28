@@ -4,7 +4,7 @@ import { gameSettings } from '../../index';
 import './game-settings.scss';
 
 export class GameSettings extends BaseComponent {
-  private selectOption(select: HTMLSelectElement, fieldName: string) {
+  static selectOption(select: HTMLSelectElement, fieldName: string) {
     const cardsName = gameSettings[fieldName];
     const list = select.options;
     [].forEach.call(list, (option: HTMLOptionElement) => {
@@ -31,7 +31,7 @@ export class GameSettings extends BaseComponent {
       <option value='dogs'>Dogs</option>
     `
 
-    this.selectOption(cardsSelect, 'cards');
+    GameSettings.selectOption(cardsSelect, 'cards');
     
     cardsSelect.addEventListener('change', () => {
       gameSettings.cards = cardsSelect.value;
@@ -49,7 +49,7 @@ export class GameSettings extends BaseComponent {
       <option value='middle'>Middle</option>
       <option value='high'>High</option>
     `
-    this.selectOption(levelSelect, 'level');
+    GameSettings.selectOption(levelSelect, 'level');
 
     levelSelect.addEventListener('change', () => {
       gameSettings.level = levelSelect.value;
