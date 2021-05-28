@@ -88,8 +88,6 @@ export class Game extends BaseComponent {
       (this.matchCount * 100 - Math.floor(secondsCounter / 5) * 10)
       * this.levelCoef
       );
-      console.log('levelCoef: ', this.levelCoef, 'secondsCounter: ', secondsCounter, 
-      'this.matchCount: ', this.matchCount);
     scoreCalc < 0 ? score = 0 : score = scoreCalc;
   }
 
@@ -122,7 +120,6 @@ export class Game extends BaseComponent {
       this.scoreCount();
       this.score.innerHTML = `${score}`;
     }
-    console.log(score);
     this.activeCard = undefined;
     this.isAnimation = false;
   }
