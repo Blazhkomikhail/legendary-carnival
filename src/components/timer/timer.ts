@@ -1,6 +1,6 @@
 const SECOND = 1000;
 export let secondsCounter: number;
-let interval: ReturnType<typeof setInterval>;
+export let interval: ReturnType<typeof setInterval>;
 export class Timer {
   private seconds: number;
   private minutes: number;
@@ -19,7 +19,6 @@ export class Timer {
 
   showTimer(container: HTMLElement) {
     secondsCounter++;
-    console.log(secondsCounter);
     container.innerHTML = this.stopwatch();
   } 
 

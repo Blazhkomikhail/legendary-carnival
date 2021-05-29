@@ -6,6 +6,7 @@ import { render } from '../shared/render';
 import { Modal } from '../shared/modal/modal';
 import { appContainer } from '../../index';
 import { Form } from '../registration/form/form';
+
 import './header.scss';
 interface IButtonText {
   [key: string]: string;

@@ -2,6 +2,7 @@ import { appContainer } from '../../index';
 import { Game } from '../../components/game/game';
 import { About } from '../../components/about/about';
 import { GameSettings } from '../../components/game-setings/game-settings';
+import { BestScore } from '../../components/best-score/best-score';
 
 export const routing = [{
     name: 'game',
@@ -22,7 +23,8 @@ export const routing = [{
   {
     name: 'best-score',
     component: () => {
-      appContainer.innerHTML += `best-score`;
+      const bestScorePage = new BestScore();
+      appContainer.appendChild(bestScorePage.element);
     }
   },
   {

@@ -5,6 +5,7 @@ import { render } from '../../shared/render';
 import { RegExpers } from '../validation/regexps';
 import { DB } from '../../../index';
 import { modalCover } from '../../shared/modal/modal'
+import { Picture } from '../../shared/picture';
 export let form: HTMLElement;
 
 interface IDBData {
@@ -35,7 +36,6 @@ export class Form extends BaseComponent {
         this.getInvalidInput()?.showTooltip();
         this.getInvalidInput()?.addRedBorder();
       }
-
     })
 
     const inputsWrapper = document.createElement('div');
@@ -51,19 +51,14 @@ export class Form extends BaseComponent {
 
     this.emailInput = new Input('email', ['modal__input', 'email-input'], RegExpers.email);
     this.emailInput.element.dataset.name = 'email';
+
     this.inputs = [this.firstNameInput, this.lastNameInput, this.emailInput];
     this.submitBtn = new Input('submit', ['modal__submit-btn']);
-
-    const mainContainer = document.createElement('main');
-    mainContainer.classList.add('modal__main');
-
-    const avatar = document.createElement('img');
-    avatar.src = './images/avatar.svg';
-    avatar.classList.add('modal__avatar');
-
-    const btnsWrapper = document.createElement('div');
-    btnsWrapper.classList.add('modal__buttons-wrap');
     this.submitBtn.element.setAttribute('value', 'Add user');
+
+    const mainContainer = new BaseComponent('main', ['modal__main']);
+    const avatar = new Picture('Avatar', ['modal__avatar'], './images/avatar.svg');
+    const btnsWrapper = new BaseComponent('div', ['modal__buttons-wrap']);
 
     this.cancelButton = new Button('Cancel', ['modal__cancel-btn'], this.closeModalWindow);
     this.cancelButton.element.setAttribute('type', 'Button');
@@ -74,19 +69,19 @@ export class Form extends BaseComponent {
       this.emailInput.element,
     ]);
 
-    render(mainContainer, [
+    render(mainContainer.element, [
       inputsWrapper,
-      avatar
+      avatar.element
     ]);
 
-    render(btnsWrapper, [
+    render(btnsWrapper.element, [
       this.submitBtn.element,
       this.cancelButton.element
     ]);
 
     render(this.element, [
-      mainContainer,
-      btnsWrapper
+      mainContainer.element,
+      btnsWrapper.element
     ]);
   }
   

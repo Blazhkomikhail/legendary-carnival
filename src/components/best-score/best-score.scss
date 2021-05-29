@@ -1,0 +1,67 @@
+.score {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #333333;
+
+  &__content-wrap {
+    padding: 50px;
+
+    box-sizing: border-box;
+    width: 80%;
+    background-color: #f2f2f2;
+  }
+
+  &__heading {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  &__line-box {
+    margin-bottom: 20px;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #cbcbcb;
+  }
+
+  &__avatar {
+    margin-right: 15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+  }
+
+  &__user-box {
+    display: flex;
+    align-items: center;
+  }
+
+  &__user-text-box {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__full-name {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  &__email {
+    font-size: 12px;
+  }
+
+  &__score-wrap {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  &__score-box {
+    color: #2196f3;
+  }
+
+} 

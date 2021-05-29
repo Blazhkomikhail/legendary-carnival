@@ -8,6 +8,7 @@ interface ISettings {
 export let gameSettings: ISettings;
 export let appContainer: HTMLElement;
 export let DB = new IndexedDB();
+
 gameSettings = {
   cards : 'dogs',
   level : 'middle'
@@ -15,6 +16,7 @@ gameSettings = {
 
 window.onload = () => {
   appContainer = document.getElementById('app');
+  DB.getUsers();
   window.addEventListener('popstate', () => new App(appContainer));
-  new App(appContainer);
+  const app = new App(appContainer);
 }

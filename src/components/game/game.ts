@@ -9,7 +9,8 @@ import { Timer } from '../timer/timer';
 import { secondsCounter } from '../timer/timer';
 import './game.scss';
 
-const FLIP_DELAY = 2000;
+const START_DELAY = 3000;
+const FLIP_DELAY = 1000;
 
 export class Game extends BaseComponent {
   private readonly cardsField: CardsField;
@@ -18,33 +19,25 @@ export class Game extends BaseComponent {
   private matchCount = 0;
   private levelCoef: number;
   private score = 0;
-  private scoreBox: HTMLElement;
+  private scoreBox: BaseComponent;
   private timer = new Timer();
 
   constructor() {
     super('main', ['game']);
     const startTime = '00 : 00';
-    const timeScoreWrap = document.createElement('div');
-    timeScoreWrap.classList.add('game__time-score');
-
-    const scoreWrap = document.createElement('div');
-    scoreWrap.classList.add('game__score-wrap');
-    this.scoreBox = document.createElement('span');
-    this.scoreBox.innerHTML = `${this.score}`;
-    scoreWrap.innerHTML = `Score: `;
-    scoreWrap.appendChild(this.scoreBox);
-
-    const timerWrap = document.createElement('div');
-    timerWrap.classList.add('game__timer-wrap');
-    timerWrap.innerHTML = startTime;
+    const timeScoreWrap = new BaseComponent('div', ['game__time-score']);
+    const scoreWrap = new BaseComponent('div', ['game__score-wrap'], `Score: `);
+    this.scoreBox = new BaseComponent('span', [], `${this.score}`);
+    scoreWrap.element.appendChild(this.scoreBox.element);
+    const timerWrap = new BaseComponent('div', ['game__timer-wrap'], startTime);
 
     setTimeout(() => {
-      this.timer.startTimer(timerWrap);
-    }, FLIP_DELAY);
+      this.timer.startTimer(timerWrap.element);
+    }, START_DELAY);
 
     this.cardsField = new CardsField();
-    render(timeScoreWrap, [timerWrap, scoreWrap]);
-    render(this.element, [timeScoreWrap, this.cardsField.element]);
+    render(timeScoreWrap.element, [timerWrap.element, scoreWrap.element]);
+    render(this.element, [timeScoreWrap.element, this.cardsField.element]);
   }
 
   newGame(images: string[]) {
@@ -95,7 +88,7 @@ export class Game extends BaseComponent {
   }
 
   private updatePageScore() {
-    this.scoreBox.innerHTML = `${this.score}`;
+    this.scoreBox.element.innerHTML = `${this.score}`;
   }
 
   private async cardHandler(card: Card) {

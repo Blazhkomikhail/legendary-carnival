@@ -1,9 +1,9 @@
 import { Modal } from '../../components/shared/modal/modal';
 import { Message } from './message/message';
 import { appContainer } from '../../index';
-const MESSAGE_TIME = 4000;
-
-interface IData {
+const MESSAGE_TIME = 3000;
+export let users: Array<IData>;
+export interface IData {
   [key: string]: string | number;
 }
 
@@ -29,8 +29,8 @@ export class IndexedDB {
       this.db = this.openRequest.result;
     };
 
-    this.openRequest.onerror = (e) => {
-      console.dir(e);
+    this.openRequest.onerror = () => {
+      return new Error('Error');
     };
   }
 
@@ -66,17 +66,17 @@ export class IndexedDB {
     };
   };
 
-  getUser(key: string) {
+  getUsers() {
     const transaction = this.db.transaction(['players'], 'readonly');
     const store = transaction.objectStore('players');
 
-    const request = store.get(key);
+    const request = store.getAll();
 
     request.onerror = () => {
       console.log('do smtg');
     }
     request.onsuccess = () => {
-      console.log(request.result);
+      users = request.result;
     }
   }
 }
