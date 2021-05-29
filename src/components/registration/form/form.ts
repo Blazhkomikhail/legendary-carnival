@@ -125,5 +125,6 @@ export class Form extends BaseComponent {
 
   sendUserData() {
     DB.addUser(this.userData);
+    DB.getUsers();
   }
 }
