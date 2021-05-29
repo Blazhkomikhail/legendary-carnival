@@ -9,7 +9,6 @@ import { Timer } from '../timer/timer';
 import { secondsCounter } from '../timer/timer';
 import './game.scss';
 
-export let score = 0;
 const FLIP_DELAY = 2000;
 
 export class Game extends BaseComponent {
@@ -18,22 +17,23 @@ export class Game extends BaseComponent {
   private isAnimation = false;
   private matchCount = 0;
   private levelCoef: number;
-  private score: HTMLElement;
+  private score = 0;
+  private scoreBox: HTMLElement;
   private timer = new Timer();
 
   constructor() {
     super('main', ['game']);
     const startTime = '00 : 00';
-
     const timeScoreWrap = document.createElement('div');
     timeScoreWrap.classList.add('game__time-score');
 
     const scoreWrap = document.createElement('div');
     scoreWrap.classList.add('game__score-wrap');
-    this.score = document.createElement('span');
-    this.score.innerHTML = `${score}`;
+    this.scoreBox = document.createElement('span');
+    this.scoreBox.innerHTML = `${this.score}`;
     scoreWrap.innerHTML = `Score: `;
-    scoreWrap.appendChild(this.score);
+    scoreWrap.appendChild(this.scoreBox);
+
     const timerWrap = document.createElement('div');
     timerWrap.classList.add('game__timer-wrap');
     timerWrap.innerHTML = startTime;
@@ -41,15 +41,16 @@ export class Game extends BaseComponent {
     setTimeout(() => {
       this.timer.startTimer(timerWrap);
     }, FLIP_DELAY);
+
     this.cardsField = new CardsField();
     render(timeScoreWrap, [timerWrap, scoreWrap]);
     render(this.element, [timeScoreWrap, this.cardsField.element]);
   }
 
   newGame(images: string[]) {
-    score = 0;
+    this.score = 0;
     localStorage.clear();
-    this.updateScore();
+    
     const cutedImages = images;
     if (gameSettings.level === 'low') {
       const cardsNum = 4;
@@ -86,15 +87,15 @@ export class Game extends BaseComponent {
   }
 
   private scoreCount() {
-    const scoreCalc = Math.floor(
-      (this.matchCount * 100 - Math.floor(secondsCounter / 5) * 10)
+    let scoreCalc = Math.floor(
+      (this.matchCount * 100 - Math.floor(secondsCounter / 4) * 10)
       * this.levelCoef
       );
-    scoreCalc < 0 ? score = 0 : score = scoreCalc;
+    scoreCalc < 0 ? this.score = 0 : this.score = scoreCalc;
   }
 
-  private updateScore() {
-    this.score.innerHTML = `${score}`;
+  private updatePageScore() {
+    this.scoreBox.innerHTML = `${this.score}`;
   }
 
   private async cardHandler(card: Card) {
@@ -124,8 +125,8 @@ export class Game extends BaseComponent {
       card.element.classList.add('card__front_green');
       this.matchCount += 1;
       this.scoreCount();
-      this.updateScore();
-      localStorage.setItem('Score', `${score}`);
+      this.updatePageScore();
+      localStorage.setItem('Score', `${this.score}`);
     }
     this.activeCard = undefined;
     this.isAnimation = false;
