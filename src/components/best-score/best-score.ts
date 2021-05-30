@@ -20,12 +20,17 @@ export class BestScore extends BaseComponent {
   }
 
   setData() {
-    users.sort((a, b) => Number(b.score) - Number(a.score));
-    users.forEach((user, idx) => {
-      if (idx > 9) return;
-      this.userLines.push(this.createScoreLine(user));
-    })
-    render(this.contentWrap.element, [...this.userLines]);
+    if (!users.length) {
+      const noPlayersMessage = new BaseComponent('p', ['score__message'], 'There are no best players yet...');
+      render(this.contentWrap.element, [noPlayersMessage.element]);
+    } else {
+      users.sort((a, b) => Number(b.score) - Number(a.score));
+      users.forEach((user, idx) => {
+        if (idx > 9) return;
+        this.userLines.push(this.createScoreLine(user));
+      })
+      render(this.contentWrap.element, [...this.userLines]);
+    }
   }
 
   createScoreLine(data: IData) {
