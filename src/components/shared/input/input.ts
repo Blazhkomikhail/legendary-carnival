@@ -1,4 +1,4 @@
-import { Tooltip } from './tooltip/tooltip';
+import Tooltip from './tooltip/tooltip';
 import './input.scss';
 export default class Input {
   readonly element: HTMLElement;

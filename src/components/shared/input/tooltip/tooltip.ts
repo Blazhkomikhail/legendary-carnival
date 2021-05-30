@@ -1,6 +1,6 @@
 import BaseComponent from '../../base-component';
 import './tooltip.scss';
-export class Tooltip extends BaseComponent {
+export default class Tooltip extends BaseComponent {
 
   constructor(inpName: string) {
     super('div', ['input__tooltip']);

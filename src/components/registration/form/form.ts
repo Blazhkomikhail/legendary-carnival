@@ -26,12 +26,6 @@ export default class Form extends BaseComponent {
     this.element.setAttribute('method', '#');
     form = this.element;
 
-    // this.element.addEventListener('submit', (e) => {
-    //   e.preventDefault();
-
-      
-    // })
-
     const inputsWrapper = new BaseComponent('div', ['modal__inputs-wrap']);
 
     this.firstNameInput = new Input(
