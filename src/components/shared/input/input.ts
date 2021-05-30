@@ -1,5 +1,5 @@
-import { Tooltip } from './tooltip';
-import { tooltip } from './tooltip';
+import { Tooltip } from './tooltip/tooltip';
+import { tooltip } from './tooltip/tooltip';
 import { form } from '../../registration/form/form';
 export default class Input {
   readonly element: HTMLInputElement;

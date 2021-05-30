@@ -90,12 +90,10 @@ export default class Form extends BaseComponent {
   }
 
   isInputsValid() {
-    const result: boolean[] = [];
-    this.inputs.forEach(input => {
+    return this.inputs.every((input) => {
       const name = input.element.dataset.name;
-      result.push(RegExpers[name].test(input.element.value));
+      return RegExpers[name].test(input.element.value);
     })
-    return result.every(e => e);
   }
 
   getInvalidInput() {

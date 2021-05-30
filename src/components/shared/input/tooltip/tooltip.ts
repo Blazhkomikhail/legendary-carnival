@@ -1,4 +1,4 @@
-import BaseComponent from '../base-component';
+import BaseComponent from '../../base-component';
 import './tooltip.scss';
 export let tooltip: HTMLElement;
 export class Tooltip extends BaseComponent {
