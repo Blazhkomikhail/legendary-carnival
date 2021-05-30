@@ -102,8 +102,7 @@ export default class Game extends BaseComponent {
   }
 
   private async cardHandler(card: Card) {
-    if (this.isAnimation) return;
-    if (!card.isFlipped) return;
+    if (this.isAnimation || !card.isFlipped) return;
     this.isAnimation = true;
     await card.flipeToFront();
 
