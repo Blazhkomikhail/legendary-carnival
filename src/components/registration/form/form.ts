@@ -6,6 +6,7 @@ import { RegExpers } from '../validation/regexps';
 import { DB } from '../../../index';
 import { modalCover } from '../../shared/modal/modal'
 import { Picture } from '../../shared/picture';
+import { MESSAGE_TIME } from '../../../services/db/db';
 export let form: HTMLElement;
 
 interface IDBData {
@@ -38,8 +39,7 @@ export class Form extends BaseComponent {
       }
     })
 
-    const inputsWrapper = document.createElement('div');
-    inputsWrapper.classList.add('modal__inputs-wrap');
+    const inputsWrapper = new BaseComponent('div', ['modal__inputs-wrap']);
 
     this.firstNameInput = new Input('text', ['modal__input', 'firstname-input'], RegExpers.firstName);
     this.firstNameInput.element.setAttribute('maxlength', '30');
@@ -63,14 +63,14 @@ export class Form extends BaseComponent {
     this.cancelButton = new Button('Cancel', ['modal__cancel-btn'], this.closeModalWindow);
     this.cancelButton.element.setAttribute('type', 'Button');
 
-    render(inputsWrapper, [
+    render(inputsWrapper.element, [
       this.firstNameInput.element,
       this.lastNameInput.element,
       this.emailInput.element,
     ]);
 
     render(mainContainer.element, [
-      inputsWrapper,
+      inputsWrapper.element,
       avatar.element
     ]);
 
@@ -126,5 +126,8 @@ export class Form extends BaseComponent {
   sendUserData() {
     DB.addUser(this.userData);
     DB.getUsers();
+    setTimeout(() => {
+      window.location.hash = 'best-score';
+    }, MESSAGE_TIME);
   }
 }

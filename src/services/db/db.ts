@@ -1,9 +1,8 @@
 import { Modal } from '../../components/shared/modal/modal';
 import { Message } from './message/message';
 import { appContainer } from '../../index';
-const MESSAGE_TIME = 3000;
-export let users: Array<IData>;
-export interface IData {
+export const MESSAGE_TIME = 3000;
+export interface IRecord {
   [key: string]: string | number;
 }
 
@@ -38,13 +37,13 @@ export class IndexedDB {
     return 'indexedDB' in window;
   }
   
-  addUser(data: IData) { 
+  addUser(data: IRecord) { 
     //data have to start with key
     const transaction = this.db.transaction(['players'], 'readwrite');
     const store = transaction.objectStore('players');
     const request = store.put(data);
     
-    request.onerror = (e) => {
+    request.onerror = () => {
       let message = new Modal(
         'Warning!', 
         new Message('Something went wrong. Try again later!')
@@ -66,18 +65,19 @@ export class IndexedDB {
     };
   };
 
-  getUsers() {
-    const transaction = this.db.transaction(['players'], 'readonly');
-    const store = transaction.objectStore('players');
-
-    const request = store.getAll();
-
-    request.onerror = () => {
-      console.log('do smtg');
-    }
-    request.onsuccess = () => {
-      users = request.result;
-    }
+  getUsers<IRecord>():Promise<Array<IRecord>> {
+    return new Promise ((resolve, reject) => {  
+      const transaction = this.db.transaction('players', 'readonly');
+      const store = transaction.objectStore('players');
+      const request = store.getAll();
+      let resData: IRecord[] = [];
+      request.onsuccess = () => {
+        resData = request.result;
+      }
+      transaction.oncomplete = () => {
+        resolve(resData);
+      };
+    })
   }
 }
 

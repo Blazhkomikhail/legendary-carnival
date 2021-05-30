@@ -1,7 +1,6 @@
 import { BaseComponent } from '../shared/base-component';
 import { DB } from '../../index';
-import { users } from '../../services/db/db';
-import { IData } from '../../services/db/db';
+import { IRecord } from '../../services/db/db';
 import { render } from '../shared/render';
 import './best-score.scss';
 
@@ -15,17 +14,20 @@ export class BestScore extends BaseComponent {
     this.contentWrap = new BaseComponent('div', ['score__content-wrap']);
     this.heading = new BaseComponent('h2', ['score__heading'], 'Best players');
     this.contentWrap.element.appendChild(this.heading.element);
-    this.setData();
+    DB.getUsers().then((resData: IRecord[]) => {
+      this.setData(resData);
+    })
+    
     render(this.element, [this.contentWrap.element]);
   }
 
-  setData() {
-    if (!users.length) {
+  setData(data: IRecord[]) {
+    if (!data.length) {
       const noPlayersMessage = new BaseComponent('p', ['score__message'], 'There are no best players yet...');
       render(this.contentWrap.element, [noPlayersMessage.element]);
     } else {
-      users.sort((a, b) => Number(b.score) - Number(a.score));
-      users.forEach((user, idx) => {
+      data.sort((a, b) => Number(b.score) - Number(a.score));
+      data.forEach((user, idx) => {
         if (idx > 9) return;
         this.userLines.push(this.createScoreLine(user));
       })
@@ -33,7 +35,7 @@ export class BestScore extends BaseComponent {
     }
   }
 
-  createScoreLine(data: IData) {
+  createScoreLine(data: IRecord) {
     const lineBox = new BaseComponent('div', ['score__line-box']);
     
     const userBox = new BaseComponent('div', ['score__user-box']);
@@ -55,9 +57,5 @@ export class BestScore extends BaseComponent {
     ]);
 
     return lineBox.element;
-  }
-
-  getData() {
-    DB.getUsers();
   }
 }
