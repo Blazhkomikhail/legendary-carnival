@@ -19,7 +19,11 @@ export default class Router {
     this.currentRoute = this.routing.find((rout) => rout.name === this.currentHash);
     this.defaultRoute = this.routing.find((rout) => rout.name === this.defaultPage);
 
-    this.currentRoute ? this.currentRoute.component() : this.defaultRoute.component();
+    if (this.currentRoute) {
+      this.currentRoute.component();
+    } else {
+      this.defaultRoute.component();
+    }
   }
 
 }

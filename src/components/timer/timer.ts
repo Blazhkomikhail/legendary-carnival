@@ -19,7 +19,6 @@ export default class Timer {
 
   showTimer(container: HTMLElement) {
     secondsCounter++;
-    console.log(secondsCounter)
     container.innerHTML = this.stopwatch();
   } 
 
