@@ -1,9 +1,9 @@
-import { BaseComponent } from '../../../components/shared/base-component';
+import { BaseComponent } from './base-component';
 
 export class Message extends BaseComponent {
 
   constructor(private text: string) {
-    super('span', ['message-text']);
+    super('p', ['message-text']);
     this.element.innerHTML = text;
   }
 }

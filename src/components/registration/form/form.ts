@@ -6,7 +6,7 @@ import { RegExpers } from '../validation/regexps';
 import { DB } from '../../../index';
 import { modalCover } from '../../shared/modal/modal'
 import { Picture } from '../../shared/picture';
-import { MESSAGE_TIME } from '../../../services/db/db';
+import { MESSAGE_TIME } from '../../../services/settings/settings';
 export let form: HTMLElement;
 
 interface IDBData {

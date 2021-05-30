@@ -1,7 +1,8 @@
 import { Modal } from '../../components/shared/modal/modal';
-import { Message } from './message/message';
+import { Message } from '../../components/shared/message';
 import { appContainer } from '../../index';
-export const MESSAGE_TIME = 3000;
+import { MESSAGE_TIME } from '../settings/settings';
+
 export interface IRecord {
   [key: string]: string | number;
 }

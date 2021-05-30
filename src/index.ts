@@ -16,7 +16,6 @@ gameSettings = {
 
 window.onload = () => {
   appContainer = document.getElementById('app');
-  DB.getUsers();
   window.addEventListener('popstate', () => new App(appContainer));
   const app = new App(appContainer);
 }

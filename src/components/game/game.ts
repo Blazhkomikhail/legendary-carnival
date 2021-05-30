@@ -3,14 +3,18 @@ import { Card } from '../card/card';
 import { CardsField } from '../cards-field/cards-field';
 import { delay } from '../shared/delay';
 import { ImageCategoryModel } from '../../image-category-models/image-category-models';
-import { gameSettings } from '../../index';
+import { appContainer, gameSettings } from '../../index';
 import { render } from '../shared/render';
 import { Timer } from '../timer/timer';
 import { secondsCounter } from '../timer/timer';
+import { Modal } from '../shared/modal/modal';
+import { Message } from '../shared/message';
 import './game.scss';
-
-const START_DELAY = 3000;
-const FLIP_DELAY = 1000;
+import { FLIP_CARDS_DELAY } from '../../services/settings/settings';
+import { START_GAME_DELAY } from '../../services/settings/settings';
+import { MESSAGE_TIME } from '../../services/settings/settings';
+import { Button } from '../shared/button/button';
+import { Form } from '../registration/form/form';
 
 export class Game extends BaseComponent {
   private readonly cardsField: CardsField;
@@ -21,6 +25,7 @@ export class Game extends BaseComponent {
   private score = 0;
   private scoreBox: BaseComponent;
   private timer = new Timer();
+  private matchesNum = 0;
 
   constructor() {
     super('main', ['game']);
@@ -33,7 +38,7 @@ export class Game extends BaseComponent {
 
     setTimeout(() => {
       this.timer.startTimer(timerWrap.element);
-    }, START_DELAY);
+    }, START_GAME_DELAY);
 
     this.cardsField = new CardsField();
     render(timeScoreWrap.element, [timerWrap.element, scoreWrap.element]);
@@ -47,14 +52,17 @@ export class Game extends BaseComponent {
     const cutedImages = images;
     if (gameSettings.level === 'low') {
       const cardsNum = 4;
+      this.matchesNum = cardsNum;
       cutedImages.length = cardsNum; 
       this.levelCoef = Number(`1.${cardsNum}`);
     } else if (gameSettings.level === 'middle') {
       const cardsNum = 6;
+      this.matchesNum = cardsNum;
       cutedImages.length = cardsNum;
       this.levelCoef = Number(`1.${cardsNum}`);
     } else {
       const cardsNum = 8;
+      this.matchesNum = cardsNum;
       this.levelCoef = cardsNum;
       this.levelCoef = Number(`1.${cardsNum}`);
     }
@@ -106,7 +114,7 @@ export class Game extends BaseComponent {
       this.activeCard.element.classList.add('card__front_red');
       card.element.classList.add('card__front_red');
 
-      await delay(FLIP_DELAY);
+      await delay(FLIP_CARDS_DELAY);
       await Promise.all([
         this.activeCard.flipeToBack(),
         card.flipeToBack(),
@@ -123,5 +131,30 @@ export class Game extends BaseComponent {
     }
     this.activeCard = undefined;
     this.isAnimation = false;
+    console.log(this.matchesNum, this.matchCount);
+    if (this.matchesNum === this.matchCount) {
+      const message = new Modal('Congratulations!',
+      new Message(`You win! Your Score: ${this.score}`));
+
+      const buttonWrap = new BaseComponent('div', ['game__modal-btn-wrap']);
+      
+      const regButton = new Button('Registration', ['game__modal_reg-btn'], () => {
+        this.redirectToReg(message.element);
+      });
+      const newGameBtn = new Button('Play again!', ['game__modal_new-game-btn'], this.startNewGame);
+      render(buttonWrap.element, [regButton.element, newGameBtn.element]);
+      render(message.element, [buttonWrap.element]);
+      appContainer.appendChild(message.element);
+    }
+  }
+
+  private redirectToReg(message: HTMLElement) {
+    message.remove();
+    const registration = new Modal('Register new Player', new Form());
+    appContainer.appendChild(registration.element);
+  }
+
+  private startNewGame() {
+    window.location.hash = '';
   }
 }
