@@ -1,4 +1,4 @@
-export class Button {
+export default class Button {
   readonly element: HTMLElement;
 
   constructor(text: string = 'Button', styles: string[] = [], callback: EventHandlerNonNull = null) {

@@ -1,18 +1,18 @@
-import { BaseComponent } from '../../shared/base-component';
-import { Input } from '../../shared/input/input';
-import { Button } from '../../shared/button/button';
-import { render } from '../../shared/render';
+import BaseComponent from '../../shared/base-component';
+import Input from '../../shared/input/input';
+import Button from '../../shared/button/button';
+import render from '../../shared/render';
 import { RegExpers } from '../validation/regexps';
 import { DB } from '../../../index';
 import { modalCover } from '../../shared/modal/modal'
-import { Picture } from '../../shared/picture';
+import Picture from '../../shared/picture';
 import { MESSAGE_TIME } from '../../../services/settings/settings';
 export let form: HTMLElement;
 
 interface IDBData {
   [key: string]: string | number;
 }
-export class Form extends BaseComponent {
+export default class Form extends BaseComponent {
   private readonly firstNameInput: Input;
   private readonly lastNameInput: Input;
   private readonly emailInput: Input;

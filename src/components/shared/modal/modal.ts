@@ -1,11 +1,11 @@
 import './modal.scss';
-import { BaseComponent } from '../base-component';
-import { Form } from '../../registration/form/form';
-import { Message } from '../message';
-import { render } from '../render';
+import BaseComponent from '../base-component';
+import Form from '../../registration/form/form';
+import Message from '../message';
+import render from '../render';
 export let modalCover: HTMLElement;
 
-export class Modal extends BaseComponent {
+export default class Modal extends BaseComponent {
   private modalWindow: HTMLElement;
 
   constructor(readonly heading: string = '',

@@ -1,8 +1,8 @@
 import { appContainer } from '../../index';
-import { Game } from '../../components/game/game';
-import { About } from '../../components/about/about';
-import { GameSettings } from '../../components/game-setings/game-settings';
-import { BestScore } from '../../components/best-score/best-score';
+import Game from '../../components/game/game';
+import About from '../../components/about/about';
+import GameSettings from '../../components/game-setings/game-settings';
+import BestScore from '../../components/best-score/best-score';
 
 export const routing = [{
     name: 'game',

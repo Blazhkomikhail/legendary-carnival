@@ -1,7 +1,7 @@
-import { BaseComponent } from "../../shared/base-component";
+import BaseComponent from "../../shared/base-component";
 import './logo.scss';
 
-export class Logo extends BaseComponent{
+export default class Logo extends BaseComponent{
   
   constructor() {
     super('a', ['logo', 'header__logo']);

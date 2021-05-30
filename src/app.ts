@@ -1,9 +1,9 @@
-import { Header } from './components/header/header';
-import { Router } from './services/router/router';
+import Header from './components/header/header';
+import Router from './services/router/router';
 import { routing } from './services/router/routing';
 
 const router = new Router(routing);
-export class App {
+export default class App {
   private readonly header: Header;
   
   private readonly hash: string;

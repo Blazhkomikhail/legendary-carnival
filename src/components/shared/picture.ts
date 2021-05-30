@@ -1,6 +1,6 @@
-import { BaseComponent } from './base-component';
+import BaseComponent from './base-component';
 
-export class Picture extends BaseComponent {
+export default class Picture extends BaseComponent {
 
   constructor(private alt: string = 'Image', private styles: string[] = [], path: string = '') {
     super('img', [...styles])

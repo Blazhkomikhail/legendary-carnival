@@ -1,10 +1,10 @@
 import './cards-field.scss';
-import { BaseComponent } from '../shared/base-component';
-import { Card } from '../card/card';
+import BaseComponent from '../shared/base-component';
+import Card from '../card/card';
 
 const SHOW_TIME = 3;
 
-export class CardsField extends BaseComponent {
+export default class CardsField extends BaseComponent {
   private cards: Card[] = [];
 
   constructor () {

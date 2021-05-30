@@ -1,9 +1,9 @@
-import { BaseComponent } from '../shared/base-component';
-import { Picture } from '../shared/picture';
-import { render } from '../shared/render';
+import BaseComponent from '../shared/base-component';
+import Picture from '../shared/picture';
+import render from '../shared/render';
 import './about.scss';
 
-export class About extends BaseComponent {
+export default class About extends BaseComponent {
 
   constructor() {
     super('main', ['about']);

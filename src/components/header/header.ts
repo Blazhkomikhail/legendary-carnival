@@ -1,11 +1,12 @@
-import { BaseComponent } from '../shared/base-component';
-import { Logo } from './logo/logo';
-import { Menu } from './menu/menu';
-import { Button } from '../shared/button/button';
-import { render } from '../shared/render';
-import { Modal } from '../shared/modal/modal';
+import BaseComponent from '../shared/base-component';
+import Logo from './logo/logo';
+import Menu from './menu/menu';
+import Button from '../shared/button/button';
+import render from '../shared/render';
+import Modal from '../shared/modal/modal';
 import { appContainer } from '../../index';
-import { Form } from '../registration/form/form';
+import Form from '../registration/form/form';
+import { timer } from '../game/game';
 
 import './header.scss';
 interface IButtonText {
@@ -14,7 +15,7 @@ interface IButtonText {
 interface IButtonHandler {
   [key: string]: EventHandlerNonNull;
 }
-export class Header extends BaseComponent {
+export default class Header extends BaseComponent {
   private logo: Logo;
   private menu: Menu;
   private button: Button;
@@ -70,5 +71,6 @@ export class Header extends BaseComponent {
 
   stopGame() {
     window.location.hash = 'about-game';
+    timer.stopTimer();
   }
 }

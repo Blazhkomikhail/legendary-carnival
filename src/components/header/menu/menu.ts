@@ -1,7 +1,7 @@
-import { BaseComponent } from '../../shared/base-component';
-import { render } from '../../shared/render';
+import BaseComponent from '../../shared/base-component';
+import render from '../../shared/render';
 import './menu.scss';
-export class Menu extends BaseComponent {
+export default class Menu extends BaseComponent {
   private menuBtnWrap: HTMLElement;
   private buttons: HTMLElement[];
 

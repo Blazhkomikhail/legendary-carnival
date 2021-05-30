@@ -3,7 +3,7 @@ interface IComponent {
   component: CallableFunction;
 }
 
-export class Router {
+export default class Router {
   currentHash: string;
   currentRoute: IComponent;
   defaultRoute: IComponent;

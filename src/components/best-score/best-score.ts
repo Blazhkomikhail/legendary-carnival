@@ -1,10 +1,10 @@
-import { BaseComponent } from '../shared/base-component';
+import BaseComponent from '../shared/base-component';
 import { DB } from '../../index';
 import { IRecord } from '../../services/db/db';
-import { render } from '../shared/render';
+import render from '../shared/render';
 import './best-score.scss';
 
-export class BestScore extends BaseComponent {
+export default class BestScore extends BaseComponent {
   private userLines: HTMLElement[] = [];
   private contentWrap: BaseComponent;
   private heading: BaseComponent;

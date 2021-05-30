@@ -1,9 +1,9 @@
 import './card.scss';
-import { BaseComponent } from '../shared/base-component';
+import BaseComponent from '../shared/base-component';
 
 const FLIP_CLASS = 'flipped';
 
-export class Card extends BaseComponent {
+export default class Card extends BaseComponent {
   isFlipped = false;
 
   constructor(readonly image: string) {

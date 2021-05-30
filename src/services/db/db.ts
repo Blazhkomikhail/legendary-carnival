@@ -1,5 +1,5 @@
-import { Modal } from '../../components/shared/modal/modal';
-import { Message } from '../../components/shared/message';
+import Modal from '../../components/shared/modal/modal';
+import Message from '../../components/shared/message';
 import { appContainer } from '../../index';
 import { MESSAGE_TIME } from '../settings/settings';
 
@@ -7,7 +7,7 @@ export interface IRecord {
   [key: string]: string | number;
 }
 
-export class IndexedDB {
+export default class IndexedDB {
   private openRequest: IDBOpenDBRequest;
   private db: IDBDatabase;
 

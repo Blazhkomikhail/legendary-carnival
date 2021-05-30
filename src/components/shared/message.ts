@@ -1,6 +1,6 @@
-import { BaseComponent } from './base-component';
+import BaseComponent from './base-component';
 
-export class Message extends BaseComponent {
+export default class Message extends BaseComponent {
 
   constructor(private text: string) {
     super('p', ['message-text']);

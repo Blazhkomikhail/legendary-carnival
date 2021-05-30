@@ -1,9 +1,9 @@
-import { BaseComponent } from '../shared/base-component';
-import { render } from '../shared/render';
-import { gameSettings } from '../../index';
+import BaseComponent from '../shared/base-component';
+import render from '../shared/render';
+import { gameSettings } from '../../services/settings/settings';
 import './game-settings.scss';
 
-export class GameSettings extends BaseComponent {
+export default class GameSettings extends BaseComponent {
   static selectOption(select: HTMLSelectElement, fieldName: string) {
     const cardsName = gameSettings[fieldName];
     const list = select.options;

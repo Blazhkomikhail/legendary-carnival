@@ -1,7 +1,7 @@
 import { Tooltip } from './tooltip';
 import { tooltip } from './tooltip';
 import { form } from '../../registration/form/form';
-export class Input {
+export default class Input {
   readonly element: HTMLInputElement;
 
   constructor(
