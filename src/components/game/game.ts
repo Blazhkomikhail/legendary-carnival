@@ -141,8 +141,8 @@ export class Game extends BaseComponent {
       const regButton = new Button('Registration', ['game__modal_reg-btn'], () => {
         this.redirectToReg(message.element);
       });
-      const newGameBtn = new Button('Play again!', ['game__modal_new-game-btn'], this.startNewGame);
-      render(buttonWrap.element, [regButton.element, newGameBtn.element]);
+      const cancelBtn = new Button('Cancel', ['game__modal_cancel-btn'], this.redirectToBestScore);
+      render(buttonWrap.element, [cancelBtn.element, regButton.element]);
       render(message.element, [buttonWrap.element]);
       appContainer.appendChild(message.element);
     }
@@ -154,7 +154,7 @@ export class Game extends BaseComponent {
     appContainer.appendChild(registration.element);
   }
 
-  private startNewGame() {
-    window.location.hash = '';
+  private redirectToBestScore() {
+    window.location.hash = 'best-score';
   }
 }
