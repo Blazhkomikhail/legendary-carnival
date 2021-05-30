@@ -1,27 +1,33 @@
 import { Tooltip } from './tooltip/tooltip';
-import { tooltip } from './tooltip/tooltip';
-import { form } from '../../registration/form/form';
+import './input.scss';
 export default class Input {
-  readonly element: HTMLInputElement;
+  readonly element: HTMLElement;
+  readonly inputElement: HTMLInputElement;
+  private tooltip: Tooltip;
 
   constructor(
     private type: string = 'text', 
     private className: string[] = [],
+    private dataset: string = '',
     private regexp?: RegExp
     ) {
-    this.element = document.createElement('input');
-    this.element.setAttribute('type', this.type);
-    this.element.classList.add(...this.className);
+    this.inputElement = document.createElement('input');
+    this.inputElement.setAttribute('type', this.type);
+    this.inputElement.classList.add(...this.className);
+    this.inputElement.dataset.name = this.dataset;
+    this.element = document.createElement('div');
+    this.element.classList.add('intput-wrapper', 'input__' + this.dataset + '-wrapper');
+    this.element.appendChild(this.inputElement);
 
-    this.element.addEventListener('focus', () => {
-      if(!tooltip) return;
-      tooltip.remove();
+    this.inputElement.addEventListener('focus', () => {
+      if(!this.tooltip) return;
+      this.tooltip.element.remove();
     })
 
     if (this.regexp) {
-      this.element.addEventListener('input', () => {   
-        if (this.regexp.test(this.element.value)) {
-          this.addGreenBorder()
+      this.inputElement.addEventListener('input', () => {   
+        if (this.regexp.test(this.inputElement.value)) {
+          this.addGreenBorder();
         } else {
           this.addRedBorder();
         }
@@ -30,16 +36,16 @@ export default class Input {
   }
 
   addRedBorder() {
-    this.element.style.border = '2px solid red';
+    this.inputElement.style.border = '2px solid red';
   }
 
   addGreenBorder() {
-    this.element.style.border = '2px solid green';
+    this.inputElement.style.border = '2px solid green';
   }
 
   showTooltip() {
-    const inpName = this.element.dataset.name;
-    const tooltip = new Tooltip(inpName);
-    form.appendChild(tooltip.element);
+    const inpName = this.inputElement.dataset.name;
+    this.tooltip = new Tooltip(inpName);
+    this.element.appendChild(this.tooltip.element);
   }
 }

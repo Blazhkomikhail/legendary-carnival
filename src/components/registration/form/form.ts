@@ -16,7 +16,7 @@ export default class Form extends BaseComponent {
   private readonly firstNameInput: Input;
   private readonly lastNameInput: Input;
   private readonly emailInput: Input;
-  private readonly submitBtn: Input;
+  private readonly submitBtn: Button;
   private readonly cancelButton: Button;
   private readonly inputs: Input[];
   private userData: IDBData;
@@ -26,9 +26,40 @@ export default class Form extends BaseComponent {
     this.element.setAttribute('method', '#');
     form = this.element;
 
-    this.element.addEventListener('submit', (e) => {
-      e.preventDefault();
+    // this.element.addEventListener('submit', (e) => {
+    //   e.preventDefault();
 
+      
+    // })
+
+    const inputsWrapper = new BaseComponent('div', ['modal__inputs-wrap']);
+
+    this.firstNameInput = new Input(
+      'text', 
+      ['modal__input', 'firstname-input'],
+      'firstName', 
+      RegExpers.firstName);
+    this.firstNameInput.inputElement.setAttribute('maxlength', '30');
+    this.firstNameInput.inputElement.placeholder = 'First Name';
+
+    this.lastNameInput = new Input(
+      'text', 
+      ['modal__input', 'lastname-input'], 
+      'lastName', RegExpers.lastName
+      );
+    this.lastNameInput.inputElement.setAttribute('maxlength', '30');
+    this.lastNameInput.inputElement.placeholder = 'Last Name';
+
+    this.emailInput = new Input(
+      'email', 
+      ['modal__input', 'email-input'], 
+      'email', 
+      RegExpers.email
+      );
+    this.emailInput.inputElement.placeholder = 'Email';
+
+    this.inputs = [this.firstNameInput, this.lastNameInput, this.emailInput];
+    this.submitBtn = new Button('Add user', ['modal__submit-btn'], () => {
       if (this.isInputsValid()) {
         this.getUserData();
         this.sendUserData();
@@ -37,24 +68,7 @@ export default class Form extends BaseComponent {
         this.getInvalidInput()?.showTooltip();
         this.getInvalidInput()?.addRedBorder();
       }
-    })
-
-    const inputsWrapper = new BaseComponent('div', ['modal__inputs-wrap']);
-
-    this.firstNameInput = new Input('text', ['modal__input', 'firstname-input'], RegExpers.firstName);
-    this.firstNameInput.element.setAttribute('maxlength', '30');
-    this.firstNameInput.element.dataset.name = 'firstName';
-
-    this.lastNameInput = new Input('text', ['modal__input', 'lastname-input'], RegExpers.lastName);
-    this.lastNameInput.element.setAttribute('maxlength', '30');
-    this.lastNameInput.element.dataset.name = 'lastName';
-
-    this.emailInput = new Input('email', ['modal__input', 'email-input'], RegExpers.email);
-    this.emailInput.element.dataset.name = 'email';
-
-    this.inputs = [this.firstNameInput, this.lastNameInput, this.emailInput];
-    this.submitBtn = new Input('submit', ['modal__submit-btn']);
-    this.submitBtn.element.setAttribute('value', 'Add user');
+    });
 
     const mainContainer = new BaseComponent('main', ['modal__main']);
     const avatar = new Picture('Avatar', ['modal__avatar'], './images/avatar.svg');
@@ -91,16 +105,16 @@ export default class Form extends BaseComponent {
 
   isInputsValid() {
     return this.inputs.every((input) => {
-      const name = input.element.dataset.name;
-      return RegExpers[name].test(input.element.value);
+      const name = input.inputElement.dataset.name;
+      return RegExpers[name].test(input.inputElement.value);
     })
   }
 
   getInvalidInput() {
     let result: Input[] = [];
     this.inputs.forEach(input => {
-      const name = input.element.dataset.name;
-      if (!RegExpers[name].test(input.element.value)) {
+      const name = input.inputElement.dataset.name;
+      if (!RegExpers[name].test(input.inputElement.value)) {
         result.push(input);
       }
     })
@@ -116,7 +130,7 @@ export default class Form extends BaseComponent {
     }
 
     this.inputs.forEach(input => {
-      this.userData[input.element.dataset.name] = input.element.value;
+      this.userData[input.inputElement.dataset.name] = input.inputElement.value;
     })
     this.userData.score = localStorage.getItem('Score');
   }
