@@ -131,7 +131,6 @@ export class Game extends BaseComponent {
     }
     this.activeCard = undefined;
     this.isAnimation = false;
-    console.log(this.matchesNum, this.matchCount);
     if (this.matchesNum === this.matchCount) {
       const message = new Modal('Congratulations!',
       new Message(`You win! Your Score: ${this.score}`));
