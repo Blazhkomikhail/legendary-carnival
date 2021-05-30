@@ -27,8 +27,10 @@ export default class Menu extends BaseComponent {
   }
 
   private createButton(name: string) {
+    const commonName = name.replace(/ /g, '-').toLowerCase();
+
     const item = new BaseComponent('li', ['menu__item']);
-    item.element.dataset.name = name.replace(/ /g, '-').toLowerCase();
+    item.element.dataset.name = commonName;
     
     const hash = window.location.hash.slice(1);
     if (item.element.dataset.name === hash) {
@@ -36,9 +38,9 @@ export default class Menu extends BaseComponent {
     }
 
     const link = new BaseComponent('a', ['menu__item-link']);
-    link.element.setAttribute('href', '#' + name.replace(/ /g, '-').toLowerCase());
+    link.element.setAttribute('href', '#' + commonName);
 
-    const className = `${name.replace(/ /g, '-').toLowerCase()}`;
+    const className = commonName;
     link.element.innerHTML = `
         <span class="item__icon item__icon_${className}"></span>
         <span class="item__text">${name}</span>
