@@ -4,34 +4,35 @@ import About from '../../components/about/about';
 import GameSettings from '../../components/game-setings/game-settings';
 import BestScore from '../../components/best-score/best-score';
 
-export const routing = [{
+export const routing = [
+  {
     name: 'game',
-    component: () => {
+    component: (): void => {
       window.location.hash = 'game';
       const game = new Game();
       game.start();
       appContainer.appendChild(game.element);
-    }
+    },
   },
   {
     name: 'about-game',
-    component: () => {
+    component: (): void => {
       const about = new About();
       appContainer.appendChild(about.element);
-    }
+    },
   },
   {
     name: 'best-score',
-    component: () => {
+    component: (): void => {
       const bestScorePage = new BestScore();
       appContainer.appendChild(bestScorePage.element);
-    }
+    },
   },
   {
     name: 'game-settings',
-    component: () => {
+    component: (): void => {
       const settingsPage = new GameSettings();
       appContainer.appendChild(settingsPage.element);
-    }
+    },
   },
-]
+];

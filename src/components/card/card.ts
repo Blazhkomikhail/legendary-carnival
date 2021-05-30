@@ -8,32 +8,31 @@ export default class Card extends BaseComponent {
 
   constructor(readonly image: string) {
     super('div', ['card__wrap']);
-    
+
     this.element.innerHTML = `
       <div class="card">
         <div class="card__front" style="background-image: url('./images/${image}')"></div>
         <div class="card__back"></div>
       </div>
-    `
+    `;
   }
 
-  flipeToBack() {
+  flipeToBack(): Promise<void> {
     this.isFlipped = true;
     return this.flip(true);
   }
 
-  flipeToFront() {
+  flipeToFront(): Promise<void> {
     this.isFlipped = false;
     return this.flip();
   }
 
   private flip(isFront = false): Promise<void> {
-    return new Promise ((resolve) => {
+    return new Promise((resolve) => {
       this.element.classList.toggle(FLIP_CLASS, isFront);
       this.element.addEventListener('transitionend', () => resolve(), {
         once: true,
       });
-    })
+    });
   }
-
 }

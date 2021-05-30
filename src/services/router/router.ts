@@ -1,23 +1,31 @@
 interface IComponent {
-  name: string,
+  name: string;
   component: CallableFunction;
 }
 
 export default class Router {
   currentHash: string;
+
   currentRoute: IComponent;
+
   defaultRoute: IComponent;
+
   private readonly defaultPage = 'game';
+
   private readonly routing: IComponent[];
 
   constructor(routingArr: IComponent[]) {
     this.routing = routingArr;
   }
 
-  route () {
+  route(): void {
     this.currentHash = window.location.hash.slice(1);
-    this.currentRoute = this.routing.find((rout) => rout.name === this.currentHash);
-    this.defaultRoute = this.routing.find((rout) => rout.name === this.defaultPage);
+    this.currentRoute = this.routing.find(
+      (rout) => rout.name === this.currentHash
+    );
+    this.defaultRoute = this.routing.find(
+      (rout) => rout.name === this.defaultPage
+    );
 
     if (this.currentRoute) {
       this.currentRoute.component();
@@ -25,5 +33,4 @@ export default class Router {
       this.defaultRoute.component();
     }
   }
-
 }

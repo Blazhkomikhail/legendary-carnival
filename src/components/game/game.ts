@@ -4,15 +4,18 @@ import CardsField from '../cards-field/cards-field';
 import { delay } from '../shared/delay';
 import { ImageCategoryModel } from '../../image-category-models/image-category-models';
 import { appContainer } from '../../index';
-import { gameSettings } from '../../services/settings/settings';
+import {
+  gameSettings,
+  FLIP_CARDS_DELAY,
+  START_GAME_DELAY,
+} from '../../services/settings/settings';
 import render from '../shared/render';
 import Timer from '../timer/timer';
-import { secondsCounter } from '../timer/timer';
+
 import Modal from '../shared/modal/modal';
 import Message from '../shared/message';
 import './game.scss';
-import { FLIP_CARDS_DELAY } from '../../services/settings/settings';
-import { START_GAME_DELAY } from '../../services/settings/settings';
+
 import Button from '../shared/button/button';
 import Form from '../registration/form/form';
 
@@ -20,12 +23,19 @@ export const timer = new Timer();
 
 export default class Game extends BaseComponent {
   private readonly cardsField: CardsField;
+
   private activeCard?: Card;
+
   private isAnimation = false;
+
   private matchCount = 0;
+
   private levelCoef: number;
+
   private score = 0;
+
   private scoreBox: BaseComponent;
+
   private matchesNum = 0;
 
   constructor() {
@@ -46,16 +56,16 @@ export default class Game extends BaseComponent {
     render(this.element, [timeScoreWrap.element, this.cardsField.element]);
   }
 
-  newGame(images: string[]) {
+  newGame(images: string[]): void {
     this.score = 0;
     localStorage.clear();
     timer.stopTimer();
-    
+
     const cutedImages = images;
     if (gameSettings.level === 'low') {
       const cardsNum = 4;
       this.matchesNum = cardsNum;
-      cutedImages.length = cardsNum; 
+      cutedImages.length = cardsNum;
       this.levelCoef = Number(`1.${cardsNum}`);
     } else if (gameSettings.level === 'middle') {
       const cardsNum = 6;
@@ -77,24 +87,30 @@ export default class Game extends BaseComponent {
 
     cards.forEach((card) => {
       card.element.addEventListener('click', () => this.cardHandler(card));
-    })
+    });
     this.cardsField.addCards(cards);
   }
 
-  async start() {
+  async start(): Promise<void> {
     const res = await fetch('./images.json');
     const categories: ImageCategoryModel[] = await res.json();
-    const cat = categories.find(type => type.category === gameSettings.cards);
-    const images = cat.images.map((name: string) => `cards/${cat.category}/${name}`);
-    this.newGame(images); 
+    const cat = categories.find((type) => type.category === gameSettings.cards);
+    const images = cat.images.map(
+      (name: string) => `cards/${cat.category}/${name}`
+    );
+    this.newGame(images);
   }
 
   private scoreCount() {
-    let scoreCalc = Math.floor(
-      (this.matchCount * 100 - Math.floor(secondsCounter / 4) * 10)
-      * this.levelCoef
-      );
-    scoreCalc < 0 ? this.score = 0 : this.score = scoreCalc;
+    const scoreCalc = Math.floor(
+      (this.matchCount * 100 - Math.floor(timer.getSeconds() / 4) * 10) *
+        this.levelCoef
+    );
+    if (scoreCalc > 0) {
+      this.score = scoreCalc;
+    } else {
+      this.score = 0;
+    }
   }
 
   private updatePageScore() {
@@ -120,7 +136,7 @@ export default class Game extends BaseComponent {
         this.activeCard.flipeToBack(),
         card.flipeToBack(),
         this.activeCard.element.classList.remove('card__front_red'),
-        card.element.classList.remove('card__front_red')
+        card.element.classList.remove('card__front_red'),
       ]);
     } else {
       this.activeCard.element.classList.add('card__front_green');
@@ -134,27 +150,37 @@ export default class Game extends BaseComponent {
     this.isAnimation = false;
     if (this.matchesNum === this.matchCount) {
       timer.stopTimer();
-      const message = new Modal('Congratulations!',
-      new Message(`You win! Your Score: ${this.score}`));
+      const message = new Modal(
+        'Congratulations!',
+        new Message(`You win! Your Score: ${this.score}`)
+      );
 
       const buttonWrap = new BaseComponent('div', ['game__modal-btn-wrap']);
-      const regButton = new Button('Registration', ['game__modal_reg-btn'], () => {
-        this.redirectToReg(message.element);
-      });
-      const cancelBtn = new Button('Cancel', ['game__modal_cancel-btn'], this.redirectToBestScore);
+      const regButton = new Button(
+        'Registration',
+        ['game__modal_reg-btn'],
+        () => {
+          Game.redirectToReg(message.element);
+        }
+      );
+      const cancelBtn = new Button(
+        'Cancel',
+        ['game__modal_cancel-btn'],
+        Game.redirectToBestScore
+      );
       render(buttonWrap.element, [cancelBtn.element, regButton.element]);
       render(message.element, [buttonWrap.element]);
       appContainer.appendChild(message.element);
     }
   }
 
-  private redirectToReg(message: HTMLElement) {
+  static redirectToReg(message: HTMLElement): void {
     message.remove();
     const registration = new Modal('Register new Player', new Form());
     appContainer.appendChild(registration.element);
   }
 
-  private redirectToBestScore() {
+  static redirectToBestScore(): void {
     window.location.hash = 'best-score';
   }
 }

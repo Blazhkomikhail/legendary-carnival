@@ -4,14 +4,15 @@ import { gameSettings } from '../../services/settings/settings';
 import './game-settings.scss';
 
 export default class GameSettings extends BaseComponent {
-  static selectOption(select: HTMLSelectElement, fieldName: string) {
+  static selectOption(select: HTMLSelectElement, fieldName: string): void {
     const cardsName = gameSettings[fieldName];
+    const selectOptions = select.options;
     const list = select.options;
     [].forEach.call(list, (option: HTMLOptionElement) => {
       if (option.value === cardsName) {
-        select.options.selectedIndex = option.index;
+        selectOptions.selectedIndex = option.index;
       }
-    })
+    });
   }
 
   constructor() {
@@ -29,13 +30,13 @@ export default class GameSettings extends BaseComponent {
     cardsSelect.innerHTML = `
       <option value='animals'>Animals</option>
       <option value='dogs'>Dogs</option>
-    `
+    `;
 
     GameSettings.selectOption(cardsSelect, 'cards');
-    
+
     cardsSelect.addEventListener('change', () => {
       gameSettings.cards = cardsSelect.value;
-    })
+    });
 
     const levelSelectWrap = document.createElement('div');
     levelSelectWrap.classList.add('settings__level-container');
@@ -48,31 +49,19 @@ export default class GameSettings extends BaseComponent {
       <option value='low'>Low</option>
       <option value='middle'>Middle</option>
       <option value='high'>High</option>
-    `
+    `;
     GameSettings.selectOption(levelSelect, 'level');
 
     levelSelect.addEventListener('change', () => {
       gameSettings.level = levelSelect.value;
-    })
+    });
 
-    render(cardsSelectWrap, [
-      cardsLabel,
-      cardsSelect
-    ])
+    render(cardsSelectWrap, [cardsLabel, cardsSelect]);
 
-    render(levelSelectWrap, [
-      levelLabel,
-      levelSelect
-    ])
+    render(levelSelectWrap, [levelLabel, levelSelect]);
 
-    render(contentWrapper, [
-      cardsSelectWrap,
-      levelSelectWrap
-    ])
+    render(contentWrapper, [cardsSelectWrap, levelSelectWrap]);
 
-    render(this.element, [
-      contentWrapper
-    ])
+    render(this.element, [contentWrapper]);
   }
-
 }

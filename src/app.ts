@@ -5,7 +5,7 @@ import { routing } from './services/router/routing';
 const router = new Router(routing);
 export default class App {
   private readonly header: Header;
-  
+
   private readonly hash: string;
 
   constructor(private readonly rootElement: HTMLElement) {
@@ -17,7 +17,7 @@ export default class App {
     router.route();
   }
 
-  clearRootElement() {
+  clearRootElement(): void {
     this.rootElement.innerHTML = '';
   }
 }

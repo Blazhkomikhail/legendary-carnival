@@ -1,7 +1,11 @@
 export default class Button {
   readonly element: HTMLElement;
 
-  constructor(text: string = 'Button', styles: string[] = [], callback: EventHandlerNonNull = null) {
+  constructor(
+    text = 'Button',
+    styles: string[] = [],
+    callback: EventHandlerNonNull = null
+  ) {
     this.element = document.createElement('button');
     this.element.setAttribute('type', 'button');
     this.element.innerHTML = text;
