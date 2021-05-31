@@ -3,11 +3,10 @@ import Input from '../../shared/input/input';
 import Button from '../../shared/button/button';
 import render from '../../shared/render';
 import { RegExpers } from '../validation/regexps';
-import { DB } from '../../../index';
+import { DB, appContainer } from '../../../index';
 import Picture from '../../shared/picture';
 import { MESSAGE_TIME } from '../../../services/settings/settings';
 
-let form: HTMLElement;
 interface IDBData {
   [key: string]: string | number;
 }
@@ -26,11 +25,12 @@ export default class Form extends BaseComponent {
 
   private userData: IDBData;
 
-  constructor() {
+  private rootElement = appContainer;
+
+  constructor(private readonly cancelHandler: EventHandlerNonNull) {
     super('form', ['modal__form']);
     this.element.setAttribute('method', '#');
     const inputsWrapper = new BaseComponent('div', ['modal__inputs-wrap']);
-    form = this.element;
     this.firstNameInput = new Input(
       'text',
       ['modal__input', 'firstname-input'],
@@ -60,7 +60,6 @@ export default class Form extends BaseComponent {
       if (this.isInputsValid()) {
         this.getUserData();
         this.sendUserData();
-        Form.closeModalWindow();
       } else {
         this.getInvalidInputs()?.forEach((input) => {
           input.showTooltip();
@@ -80,7 +79,7 @@ export default class Form extends BaseComponent {
     this.cancelButton = new Button(
       'Cancel',
       ['modal__cancel-btn'],
-      Form.closeModalWindow
+      this.cancelHandler
     );
     this.cancelButton.element.setAttribute('type', 'Button');
 
@@ -98,10 +97,6 @@ export default class Form extends BaseComponent {
     ]);
 
     render(this.element, [mainContainer.element, btnsWrapper.element]);
-  }
-
-  static closeModalWindow(): void {
-    form.parentElement;
   }
 
   isInputsValid(): boolean {
@@ -137,7 +132,7 @@ export default class Form extends BaseComponent {
   }
 
   sendUserData(): void {
-    DB.addUser(this.userData);
+    DB.addUser(this.userData, this.rootElement);
     DB.getUsers();
     setTimeout(() => {
       window.location.hash = 'best-score';

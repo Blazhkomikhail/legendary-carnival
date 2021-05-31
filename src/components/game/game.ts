@@ -3,21 +3,23 @@ import Card from '../card/card';
 import CardsField from '../cards-field/cards-field';
 import { delay } from '../shared/delay';
 import { ImageCategoryModel } from '../../image-category-models/image-category-models';
-import { appContainer } from '../../index';
+
 import {
   gameSettings,
   FLIP_CARDS_DELAY,
   START_GAME_DELAY,
 } from '../../services/settings/settings';
 import render from '../shared/render';
+
 import Timer from '../timer/timer';
 
 import Modal from '../shared/modal/modal';
-import Message from '../shared/message';
+
 import './game.scss';
 
 import Button from '../shared/button/button';
-import Form from '../registration/form/form';
+
+import { imageCategoties } from '../../assets/imageCategoties';
 
 export const timer = new Timer();
 
@@ -38,28 +40,41 @@ export default class Game extends BaseComponent {
 
   private matchesNum = 0;
 
-  constructor() {
-    super('main', ['game']);
-    const startTime = '00 : 00';
-    const timeScoreWrap = new BaseComponent('div', ['game__time-score']);
-    const scoreWrap = new BaseComponent('div', ['game__score-wrap'], `Score: `);
-    this.scoreBox = new BaseComponent('span', [], `${this.score}`);
-    scoreWrap.element.appendChild(this.scoreBox.element);
-    const timerWrap = new BaseComponent('div', ['game__timer-wrap'], startTime);
+  private appContainer: HTMLElement;
 
-    setTimeout(() => {
-      timer.startTimer(timerWrap.element);
-    }, START_GAME_DELAY);
+  private categories: ImageCategoryModel[];
+
+  private timerWrap: HTMLElement;
+
+  constructor(rootContainer: HTMLElement) {
+    super('main', ['game']);
+    this.appContainer = rootContainer;
+    this.categories = imageCategoties;
+    const startTime = '00 : 00';
+    const timeScoreWrap = new BaseComponent('div', ['game__time-score'])
+      .element;
+    const scoreWrap = new BaseComponent('div', ['game__score-wrap'], `Score: `)
+      .element;
+    this.scoreBox = new BaseComponent('span', [], `${this.score}`);
+    scoreWrap.appendChild(this.scoreBox.element);
+    this.timerWrap = new BaseComponent(
+      'div',
+      ['game__timer-wrap'],
+      startTime
+    ).element;
 
     this.cardsField = new CardsField();
-    render(timeScoreWrap.element, [timerWrap.element, scoreWrap.element]);
-    render(this.element, [timeScoreWrap.element, this.cardsField.element]);
+    render(timeScoreWrap, [this.timerWrap, scoreWrap]);
+    render(this.element, [timeScoreWrap, this.cardsField.element]);
   }
 
   newGame(images: string[]): void {
     this.score = 0;
     localStorage.clear();
     timer.stopTimer();
+    setTimeout(() => {
+      timer.startTimer(this.timerWrap);
+    }, START_GAME_DELAY);
 
     const cutedImages = images;
     if (gameSettings.level === 'low') {
@@ -92,9 +107,9 @@ export default class Game extends BaseComponent {
   }
 
   async start(): Promise<void> {
-    const res = await fetch('./images.json');
-    const categories: ImageCategoryModel[] = await res.json();
-    const cat = categories.find((type) => type.category === gameSettings.cards);
+    const cat = this.categories.find(
+      (type) => type.category === gameSettings.cards
+    );
     const images = cat.images.map(
       (name: string) => `cards/${cat.category}/${name}`
     );
@@ -152,7 +167,7 @@ export default class Game extends BaseComponent {
       timer.stopTimer();
       const message = new Modal(
         'Congratulations!',
-        new Message(`You win! Your Score: ${this.score}`)
+        `You win! Your Score: ${this.score}`
       );
 
       const buttonWrap = new BaseComponent('div', ['game__modal-btn-wrap']);
@@ -160,7 +175,7 @@ export default class Game extends BaseComponent {
         'Registration',
         ['game__modal_reg-btn'],
         () => {
-          Game.redirectToReg(message.element);
+          this.redirectToReg(message.element);
         }
       );
       const cancelBtn = new Button(
@@ -170,14 +185,14 @@ export default class Game extends BaseComponent {
       );
       render(buttonWrap.element, [cancelBtn.element, regButton.element]);
       render(message.element, [buttonWrap.element]);
-      appContainer.appendChild(message.element);
+      this.appContainer.appendChild(message.element);
     }
   }
 
-  static redirectToReg(message: HTMLElement): void {
+  private redirectToReg(message: HTMLElement): void {
     message.remove();
-    const registration = new Modal('Register new Player', new Form());
-    appContainer.appendChild(registration.element);
+    const registration = new Modal('Register new Player');
+    this.appContainer.appendChild(registration.element);
   }
 
   static redirectToBestScore(): void {

@@ -7,10 +7,9 @@ import render from '../render';
 export default class Modal extends BaseComponent {
   private modalWindow: HTMLElement;
 
-  constructor(
-    readonly heading: string = '',
-    readonly innerContent: Form | Message
-  ) {
+  private mainContent: HTMLElement;
+
+  constructor(readonly heading: string = '', readonly message: string = '') {
     super('div', ['registration__cover']);
     this.modalWindow = this.createModal();
     this.element.appendChild(this.modalWindow);
@@ -24,10 +23,18 @@ export default class Modal extends BaseComponent {
     modalHeading.classList.add('modal__heading');
     modalHeading.innerHTML = this.heading;
 
-    const registrationForm = this.innerContent || null;
+    if (this.message) {
+      this.mainContent = new Message(this.message).element;
+    } else {
+      this.mainContent = new Form(this.destroyModal.bind(this)).element;
+    }
 
-    render(modalBox, [modalHeading, registrationForm.element]);
+    render(modalBox, [modalHeading, this.mainContent]);
 
     return modalBox;
+  }
+
+  destroyModal(): void {
+    this.element.remove();
   }
 }

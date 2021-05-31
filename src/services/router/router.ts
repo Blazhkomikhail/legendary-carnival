@@ -1,3 +1,5 @@
+import { routing } from './routing';
+
 interface IComponent {
   name: string;
   component: CallableFunction;
@@ -14,8 +16,8 @@ export default class Router {
 
   private readonly routing: IComponent[];
 
-  constructor(routingArr: IComponent[]) {
-    this.routing = routingArr;
+  constructor() {
+    this.routing = routing;
   }
 
   route(): void {

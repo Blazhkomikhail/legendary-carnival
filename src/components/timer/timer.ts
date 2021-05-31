@@ -37,13 +37,13 @@ export default class Timer {
       this.minutes += 1;
     }
     if (this.seconds < 10) {
-      this.displaySeconds = '0' + this.seconds.toString();
+      this.displaySeconds = `0${this.seconds.toString()}`;
     } else {
       this.displaySeconds = this.seconds.toString();
     }
 
     if (this.minutes < 10) {
-      this.displayMinutes = '0' + this.minutes.toString();
+      this.displayMinutes = `0${this.minutes.toString()}`;
     } else {
       this.displayMinutes = this.minutes.toString();
     }
@@ -65,6 +65,8 @@ export default class Timer {
   stopTimer(): void {
     if (!this.interval) return;
     clearInterval(this.interval);
+    this.seconds = 0;
+    this.minutes = 0;
     this.isRun = false;
   }
 

@@ -1,7 +1,7 @@
-export default function render (
+export default function render(
   rootElement: HTMLElement,
   children: HTMLElement[] = []
-  ): void {
+): void {
   children.forEach((child) => {
     rootElement.appendChild(child);
   });

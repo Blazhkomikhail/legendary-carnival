@@ -1,23 +1,39 @@
 import Header from './components/header/header';
 import Router from './services/router/router';
-import { routing } from './services/router/routing';
+import Modal from './components/shared/modal/modal';
+import { timer } from './components/game/game';
 
-const router = new Router(routing);
+const router = new Router();
 export default class App {
   private readonly header: Header;
 
-  private readonly hash: string;
+  constructor(public rootElement: HTMLElement) {
+    this.header = new Header(
+      App.startGame,
+      App.stopGame,
+      this.openModalWindow.bind(this)
+    );
 
-  constructor(private readonly rootElement: HTMLElement) {
     this.clearRootElement();
-    this.hash = window.location.hash.slice(1);
-    this.header = new Header(this.hash);
-
     this.rootElement.appendChild(this.header.element);
     router.route();
   }
 
   clearRootElement(): void {
     this.rootElement.innerHTML = '';
+  }
+
+  openModalWindow(): void {
+    const registration = new Modal('Register new Player');
+    this.rootElement.appendChild(registration.element);
+  }
+
+  static startGame(): void {
+    window.location.hash = 'game';
+  }
+
+  static stopGame(): void {
+    window.location.hash = 'about-game';
+    timer.stopTimer();
   }
 }
