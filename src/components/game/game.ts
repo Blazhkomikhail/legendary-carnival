@@ -15,11 +15,11 @@ import Timer from '../timer/timer';
 
 import Modal from '../shared/modal/modal';
 
-import './game.scss';
-
 import Button from '../shared/button/button';
 
 import { imageCategoties } from '../../assets/imageCategoties';
+
+import './game.scss';
 
 export const timer = new Timer();
 
@@ -197,5 +197,9 @@ export default class Game extends BaseComponent {
 
   static redirectToBestScore(): void {
     window.location.hash = 'best-score';
+  }
+
+  destroyGame(): void {
+    this.element.remove();
   }
 }

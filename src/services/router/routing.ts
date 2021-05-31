@@ -8,7 +8,6 @@ export const routing = [
   {
     name: 'game',
     component: (): void => {
-      window.location.hash = 'game';
       const game = new Game(appContainer);
       game.start();
       appContainer.appendChild(game.element);
