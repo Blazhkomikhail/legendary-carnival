@@ -106,7 +106,7 @@ export default class Game extends BaseComponent {
     this.cardsField.addCards(cards);
   }
 
-  async start(): Promise<void> {
+  start(): void {
     const cat = this.categories.find(
       (type) => type.category === gameSettings.cards
     );
