@@ -45,7 +45,13 @@ export default class BestScore extends BaseComponent {
     const lineBox = new BaseComponent('div', ['score__line-box']);
 
     const userBox = new BaseComponent('div', ['score__user-box']);
-    const avatar = new BaseComponent('div', ['score__avatar']);
+    const avatar = document.createElement('img');
+    avatar.classList.add('score__avatar');
+    if (data.avatar) {
+      avatar.src = `${data.avatar}`;
+    } else {
+      avatar.src = './images/avatar.svg';
+    }
     const userTextBox = new BaseComponent('div', ['score__user-text-box']);
     const fullName = new BaseComponent(
       'span',
@@ -58,7 +64,7 @@ export default class BestScore extends BaseComponent {
       `${data.email}`
     );
     render(userTextBox.element, [fullName.element, emailBox.element]);
-    render(userBox.element, [avatar.element, userTextBox.element]);
+    render(userBox.element, [avatar, userTextBox.element]);
 
     const scoreWrap = new BaseComponent('div', ['score__score-wrap']);
     const scoreTextBox = new BaseComponent(

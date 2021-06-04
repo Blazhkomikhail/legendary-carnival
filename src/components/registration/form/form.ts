@@ -4,8 +4,8 @@ import Button from '../../shared/button/button';
 import render from '../../shared/render';
 import { RegExpers } from '../validation/regexps';
 import { DB, appContainer } from '../../../index';
-import Picture from '../../shared/picture';
 import { MESSAGE_TIME } from '../../../services/settings/settings';
+import './form.scss';
 
 interface IDBData {
   [key: string]: string | number;
@@ -25,15 +25,20 @@ export default class Form extends BaseComponent {
 
   private userData: IDBData;
 
-  private rootElement = appContainer;
+  private readonly rootElement = appContainer;
+
+  private readonly avatarInput: HTMLInputElement;
+
+  private readonly avatarImage: HTMLImageElement;
 
   constructor(private readonly cancelHandler: EventHandlerNonNull) {
-    super('form', ['modal__form']);
+    super('form', ['form']);
     this.element.setAttribute('method', '#');
-    const inputsWrapper = new BaseComponent('div', ['modal__inputs-wrap']);
+    const mainContainer = new BaseComponent('main', ['form__main']);
+    const inputsWrapper = new BaseComponent('div', ['form__inputs-wrap']);
     this.firstNameInput = new Input(
       'text',
-      ['modal__input', 'firstname-input'],
+      ['form__input', 'firstname-input'],
       'firstName',
       RegExpers.firstName
     );
@@ -41,7 +46,7 @@ export default class Form extends BaseComponent {
 
     this.lastNameInput = new Input(
       'text',
-      ['modal__input', 'lastname-input'],
+      ['form__input', 'lastname-input'],
       'lastName',
       RegExpers.lastName
     );
@@ -49,14 +54,14 @@ export default class Form extends BaseComponent {
 
     this.emailInput = new Input(
       'email',
-      ['modal__input', 'email-input'],
+      ['form__input', 'email-input'],
       'email',
       RegExpers.email
     );
 
     this.inputs = [this.firstNameInput, this.lastNameInput, this.emailInput];
 
-    this.submitBtn = new Button('Add user', ['modal__submit-btn'], () => {
+    this.submitBtn = new Button('Add user', ['form__submit-btn'], () => {
       if (this.isInputsValid()) {
         this.getUserData();
         this.sendUserData();
@@ -68,20 +73,41 @@ export default class Form extends BaseComponent {
       }
     });
 
-    const mainContainer = new BaseComponent('main', ['modal__main']);
-    const avatar = new Picture(
-      'Avatar',
-      ['modal__avatar'],
-      './images/avatar.svg'
-    );
-    const btnsWrapper = new BaseComponent('div', ['modal__buttons-wrap']);
+    const avatarWrapper = new BaseComponent('div', ['form__avatar-wrap']);
+    this.avatarImage = document.createElement('img');
+    this.avatarImage.classList.add('form__avatar');
+    this.avatarImage.src = './images/avatar.svg';
+    this.avatarImage.setAttribute('alt', 'Avatar');
+
+    const avatarLebel = document.createElement('label');
+    avatarLebel.classList.add('form__avatar-label');
+    avatarLebel.setAttribute('for', 'upload-photo');
+    avatarLebel.innerHTML = 'Add your photo';
+
+    this.avatarInput = document.createElement('input');
+    this.avatarInput.type = 'file';
+    this.avatarInput.classList.add('form__avatar-input');
+    this.avatarInput.setAttribute('name', 'photo');
+    this.avatarInput.id = 'upload-photo';
+
+    const btnsWrapper = new BaseComponent('div', ['form__buttons-wrap']);
 
     this.cancelButton = new Button(
       'Cancel',
-      ['modal__cancel-btn'],
+      ['form__cancel-btn'],
       this.cancelHandler
     );
     this.cancelButton.element.setAttribute('type', 'Button');
+
+    this.avatarInput.addEventListener('change', () => this.getAvatarImage());
+
+    avatarWrapper.element.appendChild(this.avatarImage);
+
+    render(avatarWrapper.element, [
+      this.avatarImage,
+      avatarLebel,
+      this.avatarInput,
+    ]);
 
     render(inputsWrapper.element, [
       this.firstNameInput.element,
@@ -89,7 +115,10 @@ export default class Form extends BaseComponent {
       this.emailInput.element,
     ]);
 
-    render(mainContainer.element, [inputsWrapper.element, avatar.element]);
+    render(mainContainer.element, [
+      inputsWrapper.element,
+      avatarWrapper.element,
+    ]);
 
     render(btnsWrapper.element, [
       this.submitBtn.element,
@@ -123,12 +152,36 @@ export default class Form extends BaseComponent {
       firstName: '',
       lastName: '',
       score: 0,
+      avatar: '',
     };
 
     this.inputs.forEach((input) => {
       this.userData[input.inputElement.dataset.name] = input.inputElement.value;
     });
     this.userData.score = localStorage.getItem('Score');
+    this.userData.avatar = localStorage.getItem('AvatarImage');
+  }
+
+  getAvatarImage(): void {
+    const file = this.avatarInput.files[0];
+    this.convertImage(file);
+  }
+
+  convertImage(file: File): void {
+    const avatarImg = this.avatarImage;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    let base64 = '';
+    reader.onload = () => {
+      base64 = reader.result.toString();
+      Form.changeAvatar(base64, avatarImg);
+      localStorage.setItem('AvatarImage', base64);
+    };
+  }
+
+  static changeAvatar(file: string, avatarImg: HTMLImageElement): void {
+    const avatar = avatarImg;
+    avatar.src = file;
   }
 
   sendUserData(): void {

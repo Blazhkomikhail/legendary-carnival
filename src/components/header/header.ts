@@ -65,10 +65,20 @@ export default class Header extends BaseComponent {
       );
     }
 
+    const avatar = document.createElement('img');
+    avatar.classList.add('header__avatar');
+    const avatarImage = localStorage.getItem('AvatarImage');
+    if (avatarImage) {
+      avatar.src = avatarImage;
+    } else {
+      avatar.src = './images/avatar.svg';
+    }
+
     render(this.element, [
       this.logo.element,
       this.menu.element,
       this.button.element,
+      avatar,
     ]);
   }
 }

@@ -28,7 +28,17 @@
     &:hover {
       cursor: pointer;
     }
-  
   }
 
+  &__avatar {
+    margin-left: 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+  }
+
+}
+.menu {
+  flex-grow: 1;
 }
