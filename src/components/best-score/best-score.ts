@@ -1,8 +1,9 @@
 import BaseComponent from '../shared/base-component';
-import { DB } from '../../index';
-import { IRecord } from '../../services/db/db';
+import IndexedDB, { IRecord } from '../../services/db/db';
 import render from '../shared/render';
 import './best-score.scss';
+
+const DB = new IndexedDB();
 
 export default class BestScore extends BaseComponent {
   private userLines: HTMLElement[] = [];

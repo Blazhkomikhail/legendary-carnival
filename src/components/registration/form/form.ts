@@ -3,7 +3,7 @@ import Input from '../../shared/input/input';
 import Button from '../../shared/button/button';
 import render from '../../shared/render';
 import { RegExpers } from '../validation/regexps';
-import { DB, appContainer } from '../../../index';
+import IndexedDB from '../../../services/db/db';
 import { MESSAGE_TIME } from '../../../services/settings/settings';
 import './form.scss';
 
@@ -25,11 +25,11 @@ export default class Form extends BaseComponent {
 
   private userData: IDBData;
 
-  private readonly rootElement = appContainer;
-
   private readonly avatarInput: HTMLInputElement;
 
   private readonly avatarImage: HTMLImageElement;
+
+  private readonly DB = new IndexedDB();
 
   constructor(private readonly cancelHandler: EventHandlerNonNull) {
     super('form', ['form']);
@@ -185,8 +185,8 @@ export default class Form extends BaseComponent {
   }
 
   sendUserData(): void {
-    DB.addUser(this.userData, this.rootElement);
-    DB.getUsers();
+    this.DB.addUser(this.userData);
+    this.DB.getUsers();
     setTimeout(() => {
       window.location.hash = 'best-score';
     }, MESSAGE_TIME);

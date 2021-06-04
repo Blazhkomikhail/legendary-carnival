@@ -22,11 +22,13 @@ export default class Timer {
     this.displaySeconds = '0';
     this.displayMinutes = '0';
     this.isRun = false;
+    this.interval = null;
   }
 
   showTimer(container: HTMLElement): void {
     const contain = container;
     this.secondsCounter += 1;
+    console.log(this.secondsCounter);
     contain.innerHTML = this.stopwatch();
   }
 
@@ -58,12 +60,15 @@ export default class Timer {
     this.interval = setInterval(() => {
       this.showTimer(container);
     }, SECOND);
+    console.log('startTime Intervar: ', this.interval);
 
     this.isRun = true;
   }
 
   stopTimer(): void {
+    console.log(this.interval);
     if (!this.interval) return;
+    console.log(this.interval);
     clearInterval(this.interval);
     this.seconds = 0;
     this.minutes = 0;

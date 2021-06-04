@@ -1,7 +1,3 @@
-import Modal from '../../components/shared/modal/modal';
-
-import { MESSAGE_TIME } from '../settings/settings';
-
 export interface IRecord {
   [key: string]: string | number;
 }
@@ -11,7 +7,10 @@ export default class IndexedDB {
 
   private db: IDBDatabase;
 
-  constructor() {
+  constructor(
+    private readonly successHandle: EventHandlerNonNull = null,
+    private readonly errorHandle: EventHandlerNonNull = null
+  ) {
     if (!IndexedDB.idbOK) return;
     this.openRequest = indexedDB.open('Blazhkomikhail', 2);
 
@@ -39,29 +38,14 @@ export default class IndexedDB {
     return 'indexedDB' in window;
   }
 
-  addUser(data: IRecord, rootElement: HTMLElement): void {
+  addUser(data: IRecord): void {
     // data have to start with key
     const transaction = this.db.transaction(['players'], 'readwrite');
     const store = transaction.objectStore('players');
     const request = store.put(data);
 
-    request.onerror = () => {
-      const message = new Modal(
-        'Warning!',
-        'Something went wrong. Try again later!'
-      );
-      rootElement.appendChild(message.element);
-      setTimeout(() => {
-        message.element.remove();
-      }, MESSAGE_TIME);
-    };
-    request.onsuccess = () => {
-      const message = new Modal('Successful!', 'New player created!');
-      rootElement.appendChild(message.element);
-      setTimeout(() => {
-        message.element.remove();
-      }, MESSAGE_TIME);
-    };
+    request.onerror = this.errorHandle;
+    request.onsuccess = this.successHandle;
   }
 
   getUsers(): Promise<Array<IRecord>> {

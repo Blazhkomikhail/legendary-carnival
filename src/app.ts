@@ -1,39 +1,60 @@
-import Header from './components/header/header';
-import Router from './services/router/router';
-import Modal from './components/shared/modal/modal';
-import { timer } from './components/game/game';
+// import Header from './components/header/header';
+// import Router from './services/router/router';
+// import Modal from './components/shared/modal/modal';
+// import { timer } from './components/game/game';
+// import { MESSAGE_TIME } from './services/settings/settings';
 
-const router = new Router();
-export default class App {
-  private readonly header: Header;
+// export default class App {
+//   private readonly header: Header;
 
-  constructor(public rootElement: HTMLElement) {
-    this.header = new Header(
-      App.startGame,
-      App.stopGame,
-      this.openModalWindow.bind(this)
-    );
+//   private readonly router = new Router();
 
-    this.clearRootElement();
-    this.rootElement.appendChild(this.header.element);
-    router.route();
-  }
+//   constructor(public rootElement: HTMLElement) {
+//     this.header = new Header(
+//       App.startGame,
+//       App.stopGame,
+//       this.openRegisterWindow.bind(this)
+//     );
 
-  clearRootElement(): void {
-    this.rootElement.innerHTML = '';
-  }
+//     this.clearRootElement();
+//     this.rootElement.appendChild(this.header.element);
+//     this.router.route(this.rootElement);
+//   }
 
-  openModalWindow(): void {
-    const registration = new Modal('Register new Player');
-    this.rootElement.appendChild(registration.element);
-  }
+//   clearRootElement(): void {
+//     this.rootElement.innerHTML = '';
+//   }
 
-  static startGame(): void {
-    window.location.hash = 'game';
-  }
+//   openRegisterWindow(): void {
+//     const registration = new Modal('Register new Player');
+//     this.rootElement.appendChild(registration.element);
+//   }
 
-  static stopGame(): void {
-    window.location.hash = 'about-game';
-    timer.stopTimer();
-  }
-}
+//   showDBErrorMessage() {
+//     const message = new Modal(
+//       'Warning!',
+//       'Something went wrong. Try again later!'
+//     );
+//     this.rootElement.appendChild(message.element);
+//     setTimeout(() => {
+//       message.element.remove();
+//     }, MESSAGE_TIME);
+//   }
+
+//   showDBSuccessMessage() {
+//     const message = new Modal('Successful!', 'New player created!');
+//       this.rootElement.appendChild(message.element);
+//       setTimeout(() => {
+//         message.element.remove();
+//       }, MESSAGE_TIME);
+//   }
+
+//   static startGame(): void {
+//     window.location.hash = 'game';
+//   }
+
+//   static stopGame(): void {
+//     window.location.hash = 'about-game';
+//     timer.stopTimer();
+//   }
+// }

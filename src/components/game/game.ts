@@ -21,8 +21,6 @@ import { imageCategoties } from '../../assets/imageCategoties';
 
 import './game.scss';
 
-export const timer = new Timer();
-
 export default class Game extends BaseComponent {
   private readonly cardsField: CardsField;
 
@@ -43,6 +41,8 @@ export default class Game extends BaseComponent {
   private appContainer: HTMLElement;
 
   private categories: ImageCategoryModel[];
+
+  private readonly timer = new Timer();
 
   private timerWrap: HTMLElement;
 
@@ -71,9 +71,9 @@ export default class Game extends BaseComponent {
   newGame(images: string[]): void {
     this.score = 0;
     localStorage.clear();
-    timer.stopTimer();
+    this.timer.stopTimer();
     setTimeout(() => {
-      timer.startTimer(this.timerWrap);
+      this.timer.startTimer(this.timerWrap);
     }, START_GAME_DELAY);
 
     const cutedImages = images;
@@ -118,7 +118,7 @@ export default class Game extends BaseComponent {
 
   private scoreCount() {
     const scoreCalc = Math.floor(
-      (this.matchCount * 100 - Math.floor(timer.getSeconds() / 4) * 10) *
+      (this.matchCount * 100 - Math.floor(this.timer.getSeconds() / 4) * 10) *
         this.levelCoef
     );
     if (scoreCalc > 0) {
@@ -164,7 +164,7 @@ export default class Game extends BaseComponent {
     this.activeCard = undefined;
     this.isAnimation = false;
     if (this.matchesNum === this.matchCount) {
-      timer.stopTimer();
+      this.timer.stopTimer();
       const message = new Modal(
         'Congratulations!',
         `You win! Your Score: ${this.score}`
