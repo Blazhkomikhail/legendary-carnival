@@ -1,4 +1,5 @@
 const SECOND = 1000;
+let interval: ReturnType<typeof setInterval>;
 
 export default class Timer {
   private seconds: number;
@@ -13,8 +14,6 @@ export default class Timer {
 
   private secondsCounter: number;
 
-  private interval: ReturnType<typeof setInterval>;
-
   constructor() {
     this.secondsCounter = 0;
     this.seconds = 0;
@@ -22,13 +21,11 @@ export default class Timer {
     this.displaySeconds = '0';
     this.displayMinutes = '0';
     this.isRun = false;
-    this.interval = null;
   }
 
   showTimer(container: HTMLElement): void {
     const contain = container;
     this.secondsCounter += 1;
-    console.log(this.secondsCounter);
     contain.innerHTML = this.stopwatch();
   }
 
@@ -57,19 +54,16 @@ export default class Timer {
     this.stopTimer();
 
     this.secondsCounter = 0;
-    this.interval = setInterval(() => {
+    interval = setInterval(() => {
       this.showTimer(container);
     }, SECOND);
-    console.log('startTime Intervar: ', this.interval);
 
     this.isRun = true;
   }
 
   stopTimer(): void {
-    console.log(this.interval);
-    if (!this.interval) return;
-    console.log(this.interval);
-    clearInterval(this.interval);
+    if (!interval) return;
+    clearInterval(interval);
     this.seconds = 0;
     this.minutes = 0;
     this.isRun = false;

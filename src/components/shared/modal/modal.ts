@@ -1,37 +1,71 @@
 import './modal.scss';
 import BaseComponent from '../base-component';
-import Form from '../../registration/form/form';
+import Form, { IDBData } from '../../registration/form/form';
 import Message from '../message';
 import render from '../render';
+import IndexedDB from '../../../services/db/db';
+import { MESSAGE_TIME } from '../../../services/settings/settings';
 
 export default class Modal extends BaseComponent {
-  private modalWindow: HTMLElement;
-
   private mainContent: HTMLElement;
+
+  private db = new IndexedDB();
+
+  sendUserData(data: IDBData): void {
+    this.db.addUser(data);
+    this.db.getUsers();
+    setTimeout(() => {
+      window.location.hash = 'best-score';
+    }, MESSAGE_TIME);
+  }
 
   constructor(readonly heading: string = '', readonly message: string = '') {
     super('div', ['registration__cover']);
-    this.modalWindow = this.createModal();
-    this.element.appendChild(this.modalWindow);
-  }
-
-  createModal(): HTMLElement {
-    const modalBox = document.createElement('div');
-    modalBox.classList.add('modal');
-
-    const modalHeading = document.createElement('h3');
-    modalHeading.classList.add('modal__heading');
-    modalHeading.innerHTML = this.heading;
+    const modalBox = new BaseComponent('div', ['modal']);
+    const modalHeading = new BaseComponent(
+      'h3',
+      ['modal__heading'],
+      this.heading
+    );
 
     if (this.message) {
       this.mainContent = new Message(this.message).element;
     } else {
-      this.mainContent = new Form(this.destroyModal.bind(this)).element;
+      const form = new Form();
+      form.cancelHandler = () => {
+        this.destroyModal();
+      };
+      form.sendUserData = () => {
+        this.sendUserData(form.getUserData());
+      };
+      this.mainContent = form.element;
     }
 
-    render(modalBox, [modalHeading, this.mainContent]);
+    this.db.onOk = () => {
+      const successMessage = new Message(
+        'Successful! New player have been created!'
+      );
+      this.mainContent.innerHTML = '';
+      this.mainContent.appendChild(successMessage.element);
+      setTimeout(() => {
+        successMessage.element.remove();
+      }, MESSAGE_TIME);
+    };
 
-    return modalBox;
+    this.db.onError = () => {
+      const errorMessage = new Message(
+        'Warning! Something went wrong. Try again later!'
+      );
+      this.mainContent.innerHTML = '';
+      this.mainContent.appendChild(errorMessage.element);
+      setTimeout(() => {
+        errorMessage.element.remove();
+      }, MESSAGE_TIME);
+    };
+
+    render(modalBox.element, [modalHeading.element, this.mainContent]);
+
+    this.element.appendChild(modalBox.element);
   }
 
   destroyModal(): void {

@@ -29,6 +29,7 @@ export default class Header extends BaseComponent {
   ) {
     super('header', ['header']);
     this.currentHash = window.location.hash.slice(1) || 'game';
+
     this.buttonsData = {
       game: {
         text: 'Stop game',

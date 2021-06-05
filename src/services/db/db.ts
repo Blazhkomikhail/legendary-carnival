@@ -7,10 +7,11 @@ export default class IndexedDB {
 
   private db: IDBDatabase;
 
-  constructor(
-    private readonly successHandle: EventHandlerNonNull = null,
-    private readonly errorHandle: EventHandlerNonNull = null
-  ) {
+  onOk: (() => void) | null = null;
+
+  onError: (() => void) | null = null;
+
+  constructor() {
     if (!IndexedDB.idbOK) return;
     this.openRequest = indexedDB.open('Blazhkomikhail', 2);
 
@@ -44,8 +45,16 @@ export default class IndexedDB {
     const store = transaction.objectStore('players');
     const request = store.put(data);
 
-    request.onerror = this.errorHandle;
-    request.onsuccess = this.successHandle;
+    request.onerror = () => {
+      if (this.onError) {
+        this.onError();
+      }
+    };
+    request.onsuccess = () => {
+      if (this.onOk) {
+        this.onOk();
+      }
+    };
   }
 
   getUsers(): Promise<Array<IRecord>> {

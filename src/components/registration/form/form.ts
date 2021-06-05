@@ -3,11 +3,9 @@ import Input from '../../shared/input/input';
 import Button from '../../shared/button/button';
 import render from '../../shared/render';
 import { RegExpers } from '../validation/regexps';
-import IndexedDB from '../../../services/db/db';
-import { MESSAGE_TIME } from '../../../services/settings/settings';
 import './form.scss';
 
-interface IDBData {
+export interface IDBData {
   [key: string]: string | number;
 }
 export default class Form extends BaseComponent {
@@ -29,11 +27,14 @@ export default class Form extends BaseComponent {
 
   private readonly avatarImage: HTMLImageElement;
 
-  private readonly DB = new IndexedDB();
+  cancelHandler: (() => void) | null = null;
 
-  constructor(private readonly cancelHandler: EventHandlerNonNull) {
+  sendUserData: (() => void) | null = null;
+
+  constructor() {
     super('form', ['form']);
     this.element.setAttribute('method', '#');
+
     const mainContainer = new BaseComponent('main', ['form__main']);
     const inputsWrapper = new BaseComponent('div', ['form__inputs-wrap']);
     this.firstNameInput = new Input(
@@ -66,7 +67,7 @@ export default class Form extends BaseComponent {
         this.getUserData();
         this.sendUserData();
       } else {
-        this.getInvalidInputs()?.forEach((input) => {
+        this.getInvalidInputs().forEach((input) => {
           input.showTooltip();
           input.addRedBorder();
         });
@@ -92,11 +93,10 @@ export default class Form extends BaseComponent {
 
     const btnsWrapper = new BaseComponent('div', ['form__buttons-wrap']);
 
-    this.cancelButton = new Button(
-      'Cancel',
-      ['form__cancel-btn'],
-      this.cancelHandler
-    );
+    this.cancelButton = new Button('Cancel', ['form__cancel-btn']);
+    this.cancelButton.element.onclick = () => {
+      this.cancelHandler();
+    };
     this.cancelButton.element.setAttribute('type', 'Button');
 
     this.avatarInput.addEventListener('change', () => this.getAvatarImage());
@@ -146,7 +146,7 @@ export default class Form extends BaseComponent {
     return result;
   }
 
-  getUserData(): void {
+  getUserData(): IDBData {
     this.userData = {
       email: '',
       firstName: '',
@@ -160,6 +160,8 @@ export default class Form extends BaseComponent {
     });
     this.userData.score = localStorage.getItem('Score');
     this.userData.avatar = localStorage.getItem('AvatarImage');
+
+    return this.userData;
   }
 
   getAvatarImage(): void {
@@ -182,13 +184,5 @@ export default class Form extends BaseComponent {
   static changeAvatar(file: string, avatarImg: HTMLImageElement): void {
     const avatar = avatarImg;
     avatar.src = file;
-  }
-
-  sendUserData(): void {
-    this.DB.addUser(this.userData);
-    this.DB.getUsers();
-    setTimeout(() => {
-      window.location.hash = 'best-score';
-    }, MESSAGE_TIME);
   }
 }
