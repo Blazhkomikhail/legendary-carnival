@@ -5,7 +5,7 @@ export const rootElement = document.getElementById('root');
 import './style.scss';
 
 window.onload = () => {
-  const app = new App(rootElement);
+  const app = new App(document.body);
   window.addEventListener('popstate', () => app.route());
   app.route();
 }
