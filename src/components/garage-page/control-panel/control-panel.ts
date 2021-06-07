@@ -12,7 +12,7 @@ export default class ControlPanel extends Component {
 
   onGenerate: () => void;
 
-  constructor(parentNode: HTMLElement) {
+  constructor(parentNode: HTMLElement | null = null) {
     super(parentNode, 'div', ['control-panel']);
 
     const createWrapper = new Component(this.element, 'form', ['create-form']);

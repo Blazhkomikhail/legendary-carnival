@@ -1,0 +1,29 @@
+.main {
+  padding: 20px;
+}
+
+.garage {
+  padding-left: 0;
+}
+
+.car-item {
+  margin-bottom: 10px;
+  list-style: none;
+}
+
+.road {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px dotted;
+}
+
+.engine-buttons {
+  margin-right: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.launch-pad {
+  display: flex;
+  align-items: flex-start;
+}

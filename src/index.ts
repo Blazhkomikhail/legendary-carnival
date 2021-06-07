@@ -2,6 +2,7 @@ import Header from './components/header/header';
 import Main from './components/main/main';
 import Component from './components/base-component';
 import ControlPanel from './components/garage-page/control-panel/control-panel';
+import Garage from './components/garage-page/garage/garage';
 import './style.scss';
 
 interface IComponent {
@@ -26,6 +27,7 @@ class App extends Component {
         component: (rootElement: HTMLElement): void => {
           this.clear(rootElement);
           const controlPanel = new ControlPanel(rootElement);
+          const garage = new Garage(rootElement);
         },
       },
       {
