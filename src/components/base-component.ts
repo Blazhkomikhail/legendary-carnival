@@ -10,11 +10,12 @@ export default class Component {
     this.element = document.createElement(tag);
     this.element.classList.add(...styles);
     this.element.innerHTML = innerData;
-    if(parentNode) {
+    if (parentNode) {
       parentNode.appendChild(this.element);
     }
   }
-  destroy() {
+
+  destroy(): void {
     this.element.remove();
   }
 }

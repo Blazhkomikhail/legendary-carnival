@@ -4,7 +4,7 @@ const garage = `${base}/garage`;
 const engine = `${base}/engine`;
 const winners = `${base}/winners`;
 
-export const getCars = async (page: string, limit = 7) => {
+export const getCars = async (page: number, limit = 7) => {
   const response = await fetch(`${garage}?_page=${page}&_limit=${limit}`);
 
   return {
@@ -61,7 +61,7 @@ interface IWinner {
     time: number
 }
 
-export const getWinners = async (page: number, limit = 10, sort: 'id'|'wins'|'time', order: 'ASC'|'DESC') => { 
+export const getWinners = async (page: number, limit = 10, sort: 'id'|'wins'|'time' = 'time', order: 'ASC'|'DESC' = 'ASC') => { 
   const response = await fetch(`${winners}?_page${page}&_limit=${limit}${getSortOrder(sort, order)}`);
   const items = await response.json();
 
@@ -122,4 +122,3 @@ export const saveWinner = async (id: number, time: number): Promise<void> => {
     })
   }
 }
-
