@@ -32,5 +32,5 @@ export const createCarImage = (color: string) => {
     </g>
   </svg>
   
-  `
-}
+  `;
+};

@@ -15,5 +15,5 @@ export default {
   winners,
   winnersCount,
   sortBy: null,
-  sortOrder: null
-}
+  sortOrder: null,
+};

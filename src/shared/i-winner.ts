@@ -1,8 +1,8 @@
-import { ICar } from "./i-car";
+import { ICar } from './i-car';
 
 export interface IWinner {
-  id: number,
-  time: number,
-  wins: number,
-  car: ICar
+  id: number;
+  time: number;
+  wins: number;
+  car: ICar;
 }

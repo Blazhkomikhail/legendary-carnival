@@ -8,7 +8,9 @@ export default class Component {
     innerData = ''
   ) {
     this.element = document.createElement(tag);
-    styles.length ? this.element.classList.add(...styles) : null;
+    if (styles.length) {
+      this.element.classList.add(...styles);
+    }
     this.element.innerHTML = innerData;
     if (parentNode) {
       parentNode.appendChild(this.element);
