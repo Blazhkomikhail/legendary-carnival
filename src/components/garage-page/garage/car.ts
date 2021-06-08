@@ -2,13 +2,14 @@ import Component from '../../base-component';
 import { createCarImage } from './carImage';
 import { ICar } from '../../../shared/i-car';
 
-
 export default class RenderCarField {
   onRemove: () => void;
 
+  onSelect: () => void;
+
   carData: ICar;
 
-  constructor (data: ICar, parentNode: HTMLElement) {
+  constructor(data: ICar, parentNode: HTMLElement) {
     this.carData = data;
     const generalLi = new Component(null, 'li', ['car-item']);
     const generalButtons = new Component(generalLi.element, 'div', [
@@ -21,6 +22,7 @@ export default class RenderCarField {
       'SELECT'
     );
     selectBtn.element.dataset.id = data.id.toString();
+    selectBtn.element.addEventListener('click', () => this.onSelect());
     const removeBtn = new Component(
       generalButtons.element,
       'button',
@@ -46,4 +48,4 @@ export default class RenderCarField {
     new Component(road.element, 'div', ['flag'], 'flag');
     parentNode.appendChild(generalLi.element);
   }
-};
+}

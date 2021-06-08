@@ -4,7 +4,7 @@ export const createCarImage = (color: string) => {
   <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
   <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
   <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-     width="70px" height="60px" viewBox="0 0 490 270" style="enable-background:new 0 0 485.838 485.839; fill: ${color}"
+     width="70px" height="60px" viewBox="0 0 490 270" style="enable-background:new 0 0 485.838 485.839; fill: ${color}; stroke: #fff"
      xml:space="preserve">
     <g>
       <path d="M409.109,211.45c-5.282-0.368-9.842-0.683-12.11-1.326c-15.926-4.521-72.646-7.222-78.714-7.506

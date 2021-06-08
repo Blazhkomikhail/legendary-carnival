@@ -1,8 +1,14 @@
 import Component from '../../base-component';
 
 interface INewCar {
-  name: string,
-  color: string
+  name: string;
+  color: string;
+}
+
+interface IUpdateControls {
+  textInput: HTMLElement;
+  colorInput: HTMLElement;
+  button: HTMLElement;
 }
 export default class ControlPanel extends Component {
   onCreate: () => void;
@@ -22,6 +28,8 @@ export default class ControlPanel extends Component {
   updateCarName: Component;
 
   updateCarColor: Component;
+
+  updateButton: Component;
 
   constructor(parentNode: HTMLElement | null = null) {
     super(parentNode, 'div', ['control-panel']);
@@ -43,16 +51,19 @@ export default class ControlPanel extends Component {
     const updateWrapper = new Component(this.element, 'form', ['update-form']);
     this.updateCarName = new Component(updateWrapper.element, 'input');
     this.updateCarName.element.setAttribute('type', 'text');
+    (this.updateCarName.element as HTMLInputElement).disabled = true;
     this.updateCarColor = new Component(updateWrapper.element, 'input');
     this.updateCarColor.element.setAttribute('type', 'color');
     this.updateCarColor.element.setAttribute('value', '#5d72bb');
-    const updateButton = new Component(
+    (this.updateCarColor.element as HTMLInputElement).disabled = true;
+    this.updateButton = new Component(
       updateWrapper.element,
       'button',
       [],
       'UPDATE'
     );
-    updateButton.element.addEventListener('click', () => this.onUpdate());
+    (this.updateButton.element as HTMLButtonElement).disabled = true;
+    this.updateButton.element.addEventListener('click', () => this.onUpdate());
 
     const buttonsWrapper = new Component(this.element, 'div', [
       'buttons-wrapper',
@@ -80,17 +91,25 @@ export default class ControlPanel extends Component {
     generateButton.element.addEventListener('click', () => this.onGenerate());
   }
 
-  public getNewCarData(): INewCar{
+  public getNewCarData(): INewCar {
     return {
       name: (this.createCarName.element as HTMLInputElement).value,
-      color: (this.createCarColor.element as HTMLInputElement).value
-    }
+      color: (this.createCarColor.element as HTMLInputElement).value,
+    };
   }
 
-  public getUpdateCarData(): INewCar{
+  public getUpdateCarData(): INewCar {
     return {
       name: (this.updateCarName.element as HTMLInputElement).value,
-      color: (this.updateCarColor.element as HTMLInputElement).value
-    }
+      color: (this.updateCarColor.element as HTMLInputElement).value,
+    };
+  }
+
+  public getUpdateControlers(): IUpdateControls {
+    return {
+      textInput: this.updateCarName.element,
+      colorInput: this.updateCarColor.element,
+      button: this.updateButton.element,
+    };
   }
 }
