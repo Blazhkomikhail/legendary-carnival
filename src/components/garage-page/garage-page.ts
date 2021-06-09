@@ -1,8 +1,9 @@
 import Component from '../base-component';
 import ControlPanel from './control-panel/control-panel';
 import Garage from './garage/garage';
-import store from '../../store/store';
 import { createCar, updateCar } from '../../api/api';
+import { generateRandomCars } from '../../utils/utils';
+import store from '../../store/store';
 
 export default class GaragePage extends Component {
   constructor(parentNode: HTMLElement | null = null) {
@@ -23,6 +24,22 @@ export default class GaragePage extends Component {
       const { id } = garage.getSelectedCarData();
       const body = controlPanel.getUpdateCarData();
       await updateCar(id, body);
+    };
+
+    controlPanel.onGenerate = async () => {
+      return Promise.resolve()
+        .then(() => {
+          const cars = generateRandomCars();
+          return cars;
+        })
+        .then((cars) => {
+          const result = cars.map((car) => {
+            return createCar(car);
+          });
+          return Promise.all(result);
+        })
+        .then(() => garage.renderGarage(store.carsPage))
+        .catch(console.log.bind(console));
     };
   }
 }

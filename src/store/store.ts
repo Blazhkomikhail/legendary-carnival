@@ -1,4 +1,4 @@
-import { getCars, getWinners } from '../api/api';
+// import { getCars, getWinners } from '../api/api';
 import { ICar } from '../shared/i-car';
 import { IWinner } from '../shared/i-winner';
 
