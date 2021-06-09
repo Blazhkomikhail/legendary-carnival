@@ -1,6 +1,7 @@
 import Component from '../base-component';
 import ControlPanel from './control-panel/control-panel';
 import Garage from './garage/garage';
+import store from '../../store/store';
 import { createCar, updateCar } from '../../api/api';
 
 export default class GaragePage extends Component {
@@ -10,7 +11,7 @@ export default class GaragePage extends Component {
     const controlPanel = new ControlPanel(this.element);
     const garage = new Garage(this.element);
 
-    garage.getSubscriber(controlPanel);
+    garage.grabSubscriber(controlPanel);
 
     controlPanel.onCreate = async () => {
       const body = controlPanel.getNewCarData();
