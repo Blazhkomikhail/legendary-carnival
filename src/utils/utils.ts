@@ -1,4 +1,5 @@
 import Component from '../components/base-component';
+import store from '../store/store';
 
 export const paginationButtonsDisable = (
   prevBtn: Component,
@@ -60,3 +61,35 @@ export const generateRandomCars = (count = 10) => {
     .fill(null)
     .map(() => ({ name: getRandomName(), color: getRandomColor() }));
 };
+
+const getPositionAtCenter = (element: HTMLElement) => {
+  const { left, top, width, height } = element.getBoundingClientRect();
+  
+  return {
+    x: left + width / 2,
+    y: top + height / 2
+  }
+}
+
+export const calcDistanceStartFinish = (a: HTMLElement, b: HTMLElement) => {
+  const aPosition = getPositionAtCenter(a);
+  const bPosition = getPositionAtCenter(b);
+
+  return Math.hypot(aPosition.x - bPosition.x, aPosition.y - bPosition.y);
+}
+
+export const animation = (car: Component, distance: string, animationTime: number) => {
+ 
+  const carMotion = [
+    { transform: `translateX(0)` },
+    { transform: `translateX(${distance})`}
+  ];
+
+  const motionTiming = {
+    duration: animationTime,
+    fill: 'forwards' as any
+  }
+ 
+  const moveCar = car.element.animate(carMotion, motionTiming);
+  return moveCar;
+}   

@@ -3,8 +3,9 @@ import { getCars, deleteCar } from '../../../api/api';
 import RenderCarField from './car';
 import { ICar } from '../../../shared/i-car';
 import ControlPanel from '../control-panel/control-panel';
-import { paginationButtonsDisable } from '../../../utils/utils';
+import { paginationButtonsDisable, calcDistanceStartFinish, animation } from '../../../utils/utils';
 import store from '../../../store/store';
+import { startEngine, stopEngine, drive } from '../../../api/api';
 
 import '../garage-page.css';
 
@@ -50,6 +51,8 @@ export default class Garage extends Component {
             this.onCarSelect(carField);
             this.notifySubscriber();
           };
+          carField.onStart = () => this.onCarStart(car, carField);
+          carField.onStop = () => this.onCarStop(car, carField);
         });
         const paginationBox = new Component(this.element, 'div', [
           'pagination-box',
@@ -67,6 +70,28 @@ export default class Garage extends Component {
     await deleteCar(carPack.carData.id);
     this.clear();
     this.renderGarage();
+  }
+
+  async onCarStart(carItem: ICar, currentCarField: RenderCarField) {
+    const { id } = carItem;
+    const { velocity, distance } = await startEngine(id);
+    const time = Math.round(distance / velocity);
+    const { car, flag } = currentCarField.getCarFlagElems();
+    const htmlDistance = `${Math.round(calcDistanceStartFinish(car.element, flag.element))}px`;
+    const animatedCar = animation(car, htmlDistance, time);
+    const { success } = await drive(id);
+    if (!success) {
+      animatedCar.pause();
+    } else {
+      // animatedCar.finish();
+    }
+  }
+
+  async onCarStop(carItem: ICar, currentCarField: RenderCarField) {
+    const { id } = carItem;
+    await stopEngine(id);
+
+    if (store.animation[id]) window.cancelAnimationFrame(store.animation[id].id);
   }
 
   onCarSelect(carPack: RenderCarField) {
