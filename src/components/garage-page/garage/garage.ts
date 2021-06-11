@@ -67,7 +67,9 @@ export default class Garage extends Component {
             this.onCarSelect(carField);
             this.notifySubscriber();
           };
+          console.log(carField)
         });
+
         const paginationBox = new Component(this.element, 'div', [
           'pagination-box',
         ]);
@@ -87,6 +89,12 @@ export default class Garage extends Component {
   }
 
   async onCarStart(currentCarField: RenderCarField) {
+    const startBtn = currentCarField.startButton.element;
+    const stopBtn = currentCarField.stopButton.element;
+
+    (startBtn as HTMLButtonElement).disabled = true;
+    (stopBtn as HTMLButtonElement).disabled = false;
+
     const id = currentCarField.carData.id;
     const carItem = currentCarField.carData;
 
@@ -106,8 +114,13 @@ export default class Garage extends Component {
     }
   }
 
-  //TO DO: add stop animation code
   async onCarStop(currentCarField: RenderCarField) {
+    const startBtn = currentCarField.startButton.element;
+    const stopBtn = currentCarField.stopButton.element;
+
+    (startBtn as HTMLButtonElement).disabled = false;
+    (stopBtn as HTMLButtonElement).disabled = true;
+
     const id = currentCarField.carData.id;
     await stopEngine(id).then(() => {
       if(!store.animation[id]) return;

@@ -2,6 +2,16 @@ import Component from '../../base-component';
 import { createCarImage } from './carImage';
 import { ICar } from '../../../shared/i-car';
 
+interface IStartFinishPoints {
+  car:  Component,
+  flag: Component
+}
+
+interface IStartStopBtns {
+  startBtn:  Component,
+  StopBtn: Component
+}
+
 export default class RenderCarField {
   onRemove: () => void;
 
@@ -14,6 +24,10 @@ export default class RenderCarField {
   carData: ICar;
 
   carImage: Component;
+
+  startButton: Component;
+
+  stopButton: Component;
 
   flag: Component;
 
@@ -45,10 +59,12 @@ export default class RenderCarField {
     const engineButtons = new Component(launchPad.element, 'div', [
       'engine-buttons',
     ]);
-    const startBtn = new Component(engineButtons.element, 'button', ['start-button'], 'Start');
-    const StopBtn = new Component(engineButtons.element, 'button', ['stop-button'], 'Stop');
-    startBtn.element.addEventListener('click', () => this.onStart());
-    StopBtn.element.addEventListener('click', () => this.onStop());
+    this.startButton = new Component(engineButtons.element, 'button', ['start-button'], 'Start');
+    this.stopButton = new Component(engineButtons.element, 'button', ['stop-button'], 'Stop');
+    (this.stopButton.element as HTMLButtonElement).disabled = true;
+
+    this.startButton.element.addEventListener('click', () => this.onStart());
+    this.stopButton.element.addEventListener('click', () => this.onStop());
     this.carImage = new Component(
       launchPad.element,
       'div',
@@ -59,11 +75,20 @@ export default class RenderCarField {
     parentNode.appendChild(generalLi.element);
   }
 
-  public getCarFlagElems() {
+  
+
+  public getCarFlagElems(): IStartFinishPoints {
     return { 
       car:  this.carImage,
       flag: this.flag
     }
-  } 
+  }
+
+  public startStopButtons(): IStartStopBtns {
+    return { 
+      startBtn:  this.startButton,
+      StopBtn: this.stopButton
+    }
+  }
 
 }
