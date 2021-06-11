@@ -41,5 +41,22 @@ export default class GaragePage extends Component {
         .then(() => garage.renderGarage(store.carsPage))
         .catch(console.log.bind(console));
     };
+
+    controlPanel.onRace = async () => {
+      const racers = garage.getRacers();
+      racers.forEach((racer) => {
+        garage.onCarStart(racer);
+      })
+    }
+
+    controlPanel.onReset = async () => {
+      const stopedCars = [];
+        const racers = garage.getRacers();
+        if (!racers.length) return;
+        racers.forEach( async (racer) => {
+          await garage.onCarStop(racer);
+        })
+        // await Promise.all(stopedCars);
+    }
   }
 }

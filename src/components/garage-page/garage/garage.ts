@@ -9,6 +9,8 @@ import { startEngine, stopEngine, drive } from '../../../api/api';
 
 import '../garage-page.css';
 
+
+
 export default class Garage extends Component {
   subscriber: ControlPanel;
 
@@ -16,7 +18,13 @@ export default class Garage extends Component {
 
   currentPage: number;
 
+  racers: Array<RenderCarField> = [];
+
   selectedCar: ICar;
+
+  raceDistance: string;
+
+  animationID: AnimationPlaybackEventInit;
 
   constructor(parentNode: HTMLElement) {
     super(parentNode, 'div', ['garage']);
@@ -38,21 +46,27 @@ export default class Garage extends Component {
       return carsData;
     })()
       .then((res) => {
+        this.racers = [];
         this.currentPage = page;
         store.carsPage = page;
+        // this.cars = res.items;
         const pageNumber = `Page #${page.toString()}`;
+
         new Component(this.element, 'h1', [], `Garage (${res.count})`);
         new Component(this.element, 'h2', [], pageNumber);
+
         const carsField = new Component(this.element, 'ul', ['garage']);
+
         res.items.forEach((car: ICar) => {
           const carField = new RenderCarField(car, carsField.element);
+          this.racers.push(carField);
           carField.onRemove = () => this.onCarRemove(carField);
+          carField.onStart = () => this.onCarStart(carField);
+          carField.onStop = () => this.onCarStop(carField);
           carField.onSelect = () => {
             this.onCarSelect(carField);
             this.notifySubscriber();
           };
-          carField.onStart = () => this.onCarStart(car, carField);
-          carField.onStop = () => this.onCarStop(car, carField);
         });
         const paginationBox = new Component(this.element, 'div', [
           'pagination-box',
@@ -72,26 +86,34 @@ export default class Garage extends Component {
     this.renderGarage();
   }
 
-  async onCarStart(carItem: ICar, currentCarField: RenderCarField) {
-    const { id } = carItem;
+  async onCarStart(currentCarField: RenderCarField) {
+    const id = currentCarField.carData.id;
+    const carItem = currentCarField.carData;
+
     const { velocity, distance } = await startEngine(id);
     const time = Math.round(distance / velocity);
+
+    const finisher = Object.assign(carItem, { 'time': time });
+
     const { car, flag } = currentCarField.getCarFlagElems();
     const htmlDistance = `${Math.round(calcDistanceStartFinish(car.element, flag.element))}px`;
-    const animatedCar = animation(car, htmlDistance, time);
+    store.animation[id] = animation(car, htmlDistance, time);
     const { success } = await drive(id);
     if (!success) {
-      animatedCar.pause();
+      (store.animation[id] as Animation).pause();
     } else {
-      // animatedCar.finish();
+      console.log(finisher);
     }
   }
 
-  async onCarStop(carItem: ICar, currentCarField: RenderCarField) {
-    const { id } = carItem;
-    await stopEngine(id);
-
-    if (store.animation[id]) window.cancelAnimationFrame(store.animation[id].id);
+  //TO DO: add stop animation code
+  async onCarStop(currentCarField: RenderCarField) {
+    const id = currentCarField.carData.id;
+    await stopEngine(id).then(() => {
+      if(!store.animation[id]) return;
+      (store.animation[id] as Animation).pause();
+      (store.animation[id] as Animation).cancel();
+    })
   }
 
   onCarSelect(carPack: RenderCarField) {
@@ -108,6 +130,10 @@ export default class Garage extends Component {
     const page = this.currentPage - 1;
     store.carsPage = page;
     this.renderGarage(page);
+  }
+
+  public getRacers(): Array<RenderCarField>{
+    return this.racers;
   }
 
   public getCurrentPage(): number {

@@ -5,11 +5,7 @@ import { IWinner } from '../shared/i-winner';
 
 
 interface IAnimation {
-  [key: number]: IAnimationChild;
-}
-
-interface IAnimationChild {
-  id : number
+  [key: number]: Animation;
 }
 
 let cars: Array<ICar>;

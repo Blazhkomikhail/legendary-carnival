@@ -92,4 +92,4 @@ export const animation = (car: Component, distance: string, animationTime: numbe
  
   const moveCar = car.element.animate(carMotion, motionTiming);
   return moveCar;
-}   
+}
