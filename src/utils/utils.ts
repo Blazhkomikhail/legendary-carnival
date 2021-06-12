@@ -1,5 +1,6 @@
 import Component from '../components/base-component';
-// import store from '../store/store';
+import { getWinners } from '../api/api';
+import store from '../store/store';
 
 export const paginationButtonsDisable = (
   prevBtn: Component,
@@ -96,3 +97,10 @@ export const animation = (
   const moveCar = car.element.animate(carMotion, motionTiming);
   return moveCar;
 };
+
+export const updadeWinnersStore = async () => {
+  const winners = await getWinners(store.winnersPage, store.sortBy, store.sortOrder);
+  store.winnersCount = winners.count;
+  store.winners = winners.items;
+}
+

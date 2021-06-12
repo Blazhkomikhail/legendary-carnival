@@ -7,7 +7,8 @@ import {
   drive,
   createWinner,
   updateWinner,
-  deleteWinner
+  deleteWinner,
+  IWinnerBody
 } from '../../../api/api';
 import RenderCarField from './car';
 import { ICar } from '../../../shared/i-car';
@@ -39,7 +40,7 @@ export default class Garage extends Component {
 
   animationID: AnimationPlaybackEventInit;
 
-  isImFirst = true;
+  amIFirst = true;
 
   constructor(parentNode: HTMLElement) {
     super(parentNode, 'div', ['garage']);
@@ -127,15 +128,28 @@ export default class Garage extends Component {
     if (!success) {
       (store.animation[id] as Animation).pause();
     } else {
-      if (this.isImFirst) {
-        this.isImFirst = false;
+      if (this.amIFirst) {
+        this.amIFirst = false;
         const winner = finisher;
         this.showCongrats(winner);
-        createWinner(winnerBody).catch(async () => {
-          await updateWinner(winnerBody.id, winnerBody);
-        })
+        this.addWinner(winnerBody);
       }
     }
+  }
+
+  private addWinner(body: IWinnerBody) {
+    createWinner(body).catch(async () => {
+      const { id } = body;
+      const compareWinner = store.winners.find((winner) => winner.id = id);
+      if (compareWinner.time > body.time) {
+        body.wins = compareWinner.wins + 1;
+        await updateWinner(body.id, body);
+      } else {
+        body.wins = compareWinner.wins + 1;
+        body.time = compareWinner.time;
+        await updateWinner(body.id, body);
+      }
+    })
   }
 
   private showCongrats(winner: IWinner): void {
@@ -162,11 +176,13 @@ export default class Garage extends Component {
     (stopBtn as HTMLButtonElement).disabled = true;
 
     const { id } = currentCarField.carData;
-    await stopEngine(id).then(() => {
-      if (!store.animation[id]) return;
-      (store.animation[id] as Animation).pause();
-      (store.animation[id] as Animation).cancel();
-    });
+    return new Promise(async (resolve,reject) => {
+      await stopEngine(id).then(() => {
+        if (!store.animation[id]) return;
+        (store.animation[id] as Animation).pause();
+        (store.animation[id] as Animation).cancel();
+      });
+    })
   }
 
   onCarSelect(carPack: RenderCarField) {

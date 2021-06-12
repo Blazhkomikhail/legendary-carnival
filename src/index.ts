@@ -3,6 +3,7 @@ import Main from './components/main/main';
 import Component from './components/base-component';
 import GaragePage from './components/garage-page/garage-page';
 import Winners from './components/winners-page/winners';
+import { updadeWinnersStore } from './utils/utils';
 
 import './style.scss';
 
@@ -62,5 +63,6 @@ class App extends Component {
 window.onload = () => {
   const app = new App(document.body);
   window.addEventListener('popstate', () => app.route());
+  updadeWinnersStore();
   app.route();
 };

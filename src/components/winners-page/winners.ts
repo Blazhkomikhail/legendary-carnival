@@ -21,6 +21,7 @@ export default class Winners extends Component {
     await getWinners().then((result) => {
       const { count, items } = result;
       store.winnersPage = page;
+      store.winners = items;
       const heading = new Component(
         this.element, 
         'h1', 

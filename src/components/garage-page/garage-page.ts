@@ -54,13 +54,13 @@ export default class GaragePage extends Component {
     };
 
     controlPanel.onReset = async () => {
-      garage.isImFirst = true;
       const racers = garage.getRacers();
       if (!racers.length) return;
-      racers.forEach(async (racer) => {
-        await garage.onCarStop(racer);
-      });
-      this.isRacing = false;
-    };
+        racers.forEach((racer) => {
+          garage.onCarStop(racer);
+        })
+        this.isRacing = false;
+        garage.amIFirst = true; 
+    } 
   }
 }

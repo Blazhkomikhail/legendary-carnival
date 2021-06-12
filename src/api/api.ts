@@ -1,3 +1,4 @@
+import { IWinner } from "../shared/i-winner";
 const base = 'http://127.0.0.1:3000';
 
 const garage = `${base}/garage`;
@@ -63,18 +64,23 @@ export const getSortOrder = (sort: string, order: string): string => {
   return '';
 };
 
-interface IWinnerBody {
+export interface IWinnerBody {
   id: number;
   wins: number;
   time: number;
 }
 
+interface IWinnersResponse {
+  count: string,
+  items: Array<IWinner>
+}
+
 export const getWinners = async (
   page = 1,
-  limit = 10,
   sort: 'id' | 'wins' | 'time' = 'time',
   order: 'ASC' | 'DESC' = 'ASC'
-) => {
+): Promise<IWinnersResponse> => {
+  const limit = 10;
   const response = await fetch(
     `${winners}?_page${page}&_limit=${limit}${getSortOrder(sort, order)}`
   );
@@ -90,10 +96,6 @@ export const getWinners = async (
     count: response.headers.get('X-Total-Count'),
   };
 };
-
-interface IWinnerBody {
-  [key: string]: number;
-}
 
 export const getWinner = async (id: number): Promise<IWinnerBody> =>
   (await fetch(`${winners}/${id}`)).json();
@@ -118,7 +120,7 @@ export const createWinner = async (body: IWinnerBody): Promise<IWinnerBody> =>
 export const updateWinner = async (
   id: number,
   body: IWinnerBody
-): Promise<IWinnerBody> =>
+): Promise<IWinner> =>
   (
     await fetch(`${winners}/${id}`, {
       method: 'PUT',
