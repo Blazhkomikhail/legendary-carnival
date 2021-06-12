@@ -19,6 +19,8 @@ import { IWinner } from '../../../shared/i-winner';
 
 import '../garage-page.css';
 
+const SECOND = 1000;
+
 export default class Garage extends Component {
   subscriber: ControlPanel;
 
@@ -137,13 +139,14 @@ export default class Garage extends Component {
     modalCover.element.style.cssText = `position: absolute; top: 0; left: 0; right: 0; 
     width: 100%; height: 100%; display: flex; justify-content: center; align-items: center`;
     const modal = new Component(modalCover.element, 'div');
-    modal.element.style.cssText = `padding: 20px; text-align: center;`
+    modal.element.style.cssText = `padding: 20px; position: fixed; border-radius: 4px; text-align: center; background-color: rgba(255,255,255,0.4)`;
     new Component(modal.element, 'h3', [], 'Congrats!');
     new Component(modal.element, 'p', [], `
       ${winner.car.name} came first!
-      Time: ${winner.time}
+      Time: ${(winner.time / SECOND).toFixed(2)} seconds.
     ` )
     const okButton = new Component(modal.element, 'button', [], 'OK');
+    okButton.element.style.cssText = `border: none; outline-style: none; width: 40px; height: 30px; border-radius: 4px;`
     okButton.element.addEventListener('click', () => modalCover.destroy());
   }
 
