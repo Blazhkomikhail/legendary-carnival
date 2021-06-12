@@ -6,7 +6,8 @@ import {
   stopEngine,
   drive,
   createWinner,
-  updateWinner
+  updateWinner,
+  deleteWinner
 } from '../../../api/api';
 import RenderCarField from './car';
 import { ICar } from '../../../shared/i-car';
@@ -97,6 +98,7 @@ export default class Garage extends Component {
 
   async onCarRemove(carPack: RenderCarField): Promise<void> {
     await deleteCar(carPack.carData.id);
+    await deleteWinner(carPack.carData.id);
     this.clear();
     this.renderGarage();
   }
