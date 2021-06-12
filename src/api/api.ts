@@ -63,7 +63,7 @@ export const getSortOrder = (sort: string, order: string): string => {
   return '';
 };
 
-interface IWinner {
+interface IWinnerBody {
   id: number;
   wins: number;
   time: number;
@@ -91,20 +91,20 @@ export const getWinners = async (
   };
 };
 
-interface IWinner {
+interface IWinnerBody {
   [key: string]: number;
 }
 
-export const getWinner = async (id: number): Promise<IWinner> =>
+export const getWinner = async (id: number): Promise<IWinnerBody> =>
   (await fetch(`${winners}/${id}`)).json();
 
 export const getWinnerStatus = async (id: number): Promise<number> =>
   (await fetch(`${winners}/${id}`)).status;
 
-export const deleteWinner = async (id: number): Promise<IWinner> =>
+export const deleteWinner = async (id: number): Promise<IWinnerBody> =>
   (await fetch(`${winners}/${id}`, { method: 'DELETE' })).json();
 
-export const createWinner = async (body: IWinner): Promise<IWinner> =>
+export const createWinner = async (body: IWinnerBody): Promise<IWinnerBody> =>
   (
     await fetch(winners, {
       method: 'POST',
@@ -117,8 +117,8 @@ export const createWinner = async (body: IWinner): Promise<IWinner> =>
 
 export const updateWinner = async (
   id: number,
-  body: IWinner
-): Promise<IWinner> =>
+  body: IWinnerBody
+): Promise<IWinnerBody> =>
   (
     await fetch(`${winners}/${id}`, {
       method: 'PUT',

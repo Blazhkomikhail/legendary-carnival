@@ -5,6 +5,8 @@ import {
   startEngine,
   stopEngine,
   drive,
+  createWinner,
+  updateWinner
 } from '../../../api/api';
 import RenderCarField from './car';
 import { ICar } from '../../../shared/i-car';
@@ -35,8 +37,6 @@ export default class Garage extends Component {
   raceDistance: string;
 
   animationID: AnimationPlaybackEventInit;
-
-  winner: IWinner;
 
   isImFirst = true;
 
@@ -112,24 +112,26 @@ export default class Garage extends Component {
     const carItem = currentCarField.carData;
 
     const { velocity, distance } = await startEngine(id);
-    const time = Math.round(distance / velocity);
-
-    const finisher = Object.assign({car: carItem}, { time, id, wins : 1 });
+    const time = Number((Math.round(distance / velocity) / SECOND).toFixed(2));
+    const winnerBody = { time, id, wins : 1 };
+    const finisher = Object.assign({car: carItem}, winnerBody);
 
     const { car, flag } = currentCarField.getCarFlagElems();
     const htmlDistance = `${Math.round(
       calcDistanceStartFinish(car.element, flag.element)
     )}px`;
-    store.animation[id] = animation(car, htmlDistance, time);
+    store.animation[id] = animation(car, htmlDistance, time * SECOND);
     const { success } = await drive(id);
-    let isImFirst = true;
     if (!success) {
       (store.animation[id] as Animation).pause();
     } else {
       if (this.isImFirst) {
         this.isImFirst = false;
-        this.winner = finisher;
-        this.showCongrats(this.winner);
+        const winner = finisher;
+        this.showCongrats(winner);
+        createWinner(winnerBody).catch(async () => {
+          await updateWinner(winnerBody.id, winnerBody);
+        })
       }
     }
   }
@@ -143,7 +145,7 @@ export default class Garage extends Component {
     new Component(modal.element, 'h3', [], 'Congrats!');
     new Component(modal.element, 'p', [], `
       ${winner.car.name} came first!
-      Time: ${(winner.time / SECOND).toFixed(2)} seconds.
+      Time: ${(winner.time)} seconds.
     ` )
     const okButton = new Component(modal.element, 'button', [], 'OK');
     okButton.element.style.cssText = `border: none; outline-style: none; width: 40px; height: 30px; border-radius: 4px;`
