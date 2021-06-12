@@ -1,0 +1,17 @@
+.table {
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.theadings {
+  border-bottom: 1px solid #ccc;
+}
+
+.theading {
+  width: 100px;
+}
+
+.table .carImage {
+  width: 40px;
+  height: 40px;
+}

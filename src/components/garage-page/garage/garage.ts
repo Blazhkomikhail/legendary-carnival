@@ -1,15 +1,23 @@
 import Component from '../../base-component';
-import { getCars, deleteCar } from '../../../api/api';
+import {
+  getCars,
+  deleteCar,
+  startEngine,
+  stopEngine,
+  drive,
+} from '../../../api/api';
 import RenderCarField from './car';
 import { ICar } from '../../../shared/i-car';
 import ControlPanel from '../control-panel/control-panel';
-import { paginationButtonsDisable, calcDistanceStartFinish, animation } from '../../../utils/utils';
+import {
+  paginationButtonsDisable,
+  calcDistanceStartFinish,
+  animation,
+} from '../../../utils/utils';
 import store from '../../../store/store';
-import { startEngine, stopEngine, drive } from '../../../api/api';
+import { IWinner } from '../../../shared/i-winner';
 
 import '../garage-page.css';
-
-
 
 export default class Garage extends Component {
   subscriber: ControlPanel;
@@ -25,6 +33,10 @@ export default class Garage extends Component {
   raceDistance: string;
 
   animationID: AnimationPlaybackEventInit;
+
+  winner: IWinner;
+
+  isImFirst = true;
 
   constructor(parentNode: HTMLElement) {
     super(parentNode, 'div', ['garage']);
@@ -67,7 +79,6 @@ export default class Garage extends Component {
             this.onCarSelect(carField);
             this.notifySubscriber();
           };
-          console.log(carField)
         });
 
         const paginationBox = new Component(this.element, 'div', [
@@ -95,23 +106,45 @@ export default class Garage extends Component {
     (startBtn as HTMLButtonElement).disabled = true;
     (stopBtn as HTMLButtonElement).disabled = false;
 
-    const id = currentCarField.carData.id;
+    const { id } = currentCarField.carData;
     const carItem = currentCarField.carData;
 
     const { velocity, distance } = await startEngine(id);
     const time = Math.round(distance / velocity);
 
-    const finisher = Object.assign(carItem, { 'time': time });
+    const finisher = Object.assign({car: carItem}, { time, id, wins : 1 });
 
     const { car, flag } = currentCarField.getCarFlagElems();
-    const htmlDistance = `${Math.round(calcDistanceStartFinish(car.element, flag.element))}px`;
+    const htmlDistance = `${Math.round(
+      calcDistanceStartFinish(car.element, flag.element)
+    )}px`;
     store.animation[id] = animation(car, htmlDistance, time);
     const { success } = await drive(id);
+    let isImFirst = true;
     if (!success) {
       (store.animation[id] as Animation).pause();
     } else {
-      console.log(finisher);
+      if (this.isImFirst) {
+        this.isImFirst = false;
+        this.winner = finisher;
+        this.showCongrats(this.winner);
+      }
     }
+  }
+
+  private showCongrats(winner: IWinner): void {
+    const modalCover = new Component(this.element, 'div');
+    modalCover.element.style.cssText = `position: absolute; top: 0; left: 0; right: 0; 
+    width: 100%; height: 100%; display: flex; justify-content: center; align-items: center`;
+    const modal = new Component(modalCover.element, 'div');
+    modal.element.style.cssText = `padding: 20px; text-align: center;`
+    new Component(modal.element, 'h3', [], 'Congrats!');
+    new Component(modal.element, 'p', [], `
+      ${winner.car.name} came first!
+      Time: ${winner.time}
+    ` )
+    const okButton = new Component(modal.element, 'button', [], 'OK');
+    okButton.element.addEventListener('click', () => modalCover.destroy());
   }
 
   async onCarStop(currentCarField: RenderCarField) {
@@ -121,12 +154,12 @@ export default class Garage extends Component {
     (startBtn as HTMLButtonElement).disabled = false;
     (stopBtn as HTMLButtonElement).disabled = true;
 
-    const id = currentCarField.carData.id;
+    const { id } = currentCarField.carData;
     await stopEngine(id).then(() => {
-      if(!store.animation[id]) return;
+      if (!store.animation[id]) return;
       (store.animation[id] as Animation).pause();
       (store.animation[id] as Animation).cancel();
-    })
+    });
   }
 
   onCarSelect(carPack: RenderCarField) {
@@ -145,7 +178,7 @@ export default class Garage extends Component {
     this.renderGarage(page);
   }
 
-  public getRacers(): Array<RenderCarField>{
+  public getRacers(): Array<RenderCarField> {
     return this.racers;
   }
 

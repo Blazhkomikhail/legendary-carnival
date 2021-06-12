@@ -2,6 +2,7 @@ import Header from './components/header/header';
 import Main from './components/main/main';
 import Component from './components/base-component';
 import GaragePage from './components/garage-page/garage-page';
+import Winners from './components/winners-page/winners';
 
 import './style.scss';
 
@@ -32,8 +33,8 @@ class App extends Component {
       {
         name: 'winners',
         component: (rootElement: HTMLElement): void => {
-          const contentBox = rootElement;
-          contentBox.innerHTML = 'winners';
+          this.clear(rootElement);
+          new Winners(rootElement);
         },
       },
     ];
