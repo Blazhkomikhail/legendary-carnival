@@ -78,7 +78,7 @@ interface IWinnersResponse {
 }
 
 export const getWinners = async (
-  page: number,
+  page: number = 1,
   sort: 'id' | 'wins' | 'time' = 'time', //'id' | 'wins' | 'time'
   order: 'ASC' | 'DESC' = 'ASC' //'ASC' | 'DESC'
 ): Promise<IWinnersResponse> => {

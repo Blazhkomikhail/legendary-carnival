@@ -98,8 +98,12 @@ export const animation = (
   return movedCar;
 };
 
-export const updadeWinnersStore = async () => {
-  const winners = await getWinners(store.winnersPage, store.sortBy, store.sortOrder);
+export const updadeWinnersStore = async (
+  page: number = store.winnersPage, 
+  sortBy: 'id' | 'wins' | 'time' = 'time',
+  sortOrder: 'ASC' | 'DESC' = 'ASC'
+  ) => {
+  const winners = await getWinners(page, sortBy, sortOrder);
   store.winnersCount = winners.count;
   store.winners = winners.items;
 }
