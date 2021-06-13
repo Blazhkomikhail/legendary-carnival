@@ -1,4 +1,6 @@
 import { IWinner } from "../shared/i-winner";
+import store from "../store/store";
+
 const base = 'http://127.0.0.1:3000';
 
 const garage = `${base}/garage`;
@@ -77,10 +79,12 @@ interface IWinnersResponse {
 
 export const getWinners = async (
   page: number,
-  sort: 'id' | 'wins' | 'time' = 'time',
-  order: 'ASC' | 'DESC' = 'ASC'
+  sort: string = 'time', //'id' | 'wins' | 'time'
+  order: string = 'ASC' //'ASC' | 'DESC'
 ): Promise<IWinnersResponse> => {
   const limit = 10;
+  store.sortBy = sort;
+  store.sortOrder = order;
   const response = await fetch(
     `${winners}?_page=${page}&_limit=${limit}${getSortOrder(sort, order)}`
   );

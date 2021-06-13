@@ -15,10 +15,13 @@ export default class Winners extends Component {
     this.renderWinners();
   }
 
-  public async renderWinners(page = 1): Promise<void> {
+  public async renderWinners(
+    page = 1, 
+    sortBy: string | null = null,
+    sortOrder: string | null = null
+    ): Promise<void> {
     this.clear();
-    console.log( page);
-    await getWinners(page).then((result) => {
+    await getWinners(page, sortBy, sortOrder).then((result) => {
       const { count, items } = result;
       this.currentPage = page;
       store.winnersPage = page;
@@ -44,8 +47,8 @@ export default class Winners extends Component {
             <th class="theading">Number</th>
             <th class="theading">Car</th>
             <th class="theading">Name</th>
-            <th class="theading">Wins</th>
-            <th class="theading">Best Time (seconds)</th>
+            <th class="theading theading-wins">Wins</th>
+            <th class="theading theading-bestTime">Best Time (seconds)</th>
           </thead>
           <tbody>
               ${ items.map((winner: IWinner, idx) => `
@@ -60,6 +63,11 @@ export default class Winners extends Component {
           </tbody>
         </table>
       `);
+      const wins = this.element.querySelector('.theading-wins');
+      const bestTime = this.element.querySelector('.theading-bestTime');
+
+      wins.addEventListener('click', () => this.onWinsClick());
+      bestTime.addEventListener('click', () => this.onBestTimeClick());
 
       constructPaginationBtns(
         this.element, 
@@ -87,4 +95,37 @@ export default class Winners extends Component {
     store.carsPage = page;
     this.renderWinners(page);
   }
+
+  onWinsClick(): void {
+    if (store.sortOrder === 'ASC') {
+      this.renderWinners(
+        store.winnersPage,
+        'wins',
+        'DESC'
+      )
+    } else {
+      this.renderWinners(
+        store.winnersPage,
+        'wins',
+        'ASC'
+      )
+    }
+  }
+
+  onBestTimeClick(): void {
+    if (store.sortOrder === 'ASC') {
+      this.renderWinners(
+        store.winnersPage,
+        'time',
+        'DESC'
+      )
+    } else {
+      this.renderWinners(
+        store.winnersPage,
+        'time',
+        'ASC'
+      )
+    }
+  }
+
 }

@@ -15,3 +15,8 @@
   width: 40px;
   height: 40px;
 }
+
+.theading-wins:hover,
+.theading-bestTime:hover {
+  cursor: pointer;
+}
