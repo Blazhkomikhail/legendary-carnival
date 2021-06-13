@@ -14,9 +14,9 @@ import RenderCarField from './car';
 import { ICar } from '../../../shared/i-car';
 import ControlPanel from '../control-panel/control-panel';
 import {
-  paginationButtonsDisable,
   calcDistanceStartFinish,
   constructPaginationBtns,
+  updadeWinnersStore,
   animation,
 } from '../../../utils/utils';
 import store from '../../../store/store';
@@ -134,6 +134,7 @@ export default class Garage extends Component {
         const winner = finisher;
         this.showCongrats(winner);
         this.addWinner(winnerBody);
+        updadeWinnersStore();
       }
     }
   }

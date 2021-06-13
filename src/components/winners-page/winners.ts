@@ -17,8 +17,8 @@ export default class Winners extends Component {
 
   public async renderWinners(
     page = 1, 
-    sortBy: string | null = null,
-    sortOrder: string | null = null
+    sortBy: 'id' | 'wins' | 'time' = 'time',
+    sortOrder: 'ASC' | 'DESC' = 'ASC'
     ): Promise<void> {
     this.clear();
     await getWinners(page, sortBy, sortOrder).then((result) => {
@@ -127,5 +127,4 @@ export default class Winners extends Component {
       )
     }
   }
-
 }

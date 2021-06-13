@@ -79,8 +79,8 @@ interface IWinnersResponse {
 
 export const getWinners = async (
   page: number,
-  sort: string = 'time', //'id' | 'wins' | 'time'
-  order: string = 'ASC' //'ASC' | 'DESC'
+  sort: 'id' | 'wins' | 'time' = 'time', //'id' | 'wins' | 'time'
+  order: 'ASC' | 'DESC' = 'ASC' //'ASC' | 'DESC'
 ): Promise<IWinnersResponse> => {
   const limit = 10;
   store.sortBy = sort;
