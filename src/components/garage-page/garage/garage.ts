@@ -197,8 +197,7 @@ export default class Garage extends Component {
   }
 
   onCarSelect(carPack: RenderCarField) {
-    store.updateData.id = carPack.carData.id;
-    store.updateData.color = carPack.carData.color;
+    store.updateData = carPack.carData;
     this.selectedCar = carPack.carData;
   }
 
