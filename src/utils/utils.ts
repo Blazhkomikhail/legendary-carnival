@@ -94,8 +94,8 @@ export const animation = (
     fill: 'forwards' as any,
   };
 
-  const moveCar = car.element.animate(carMotion, motionTiming);
-  return moveCar;
+  const movedCar = car.element.animate(carMotion, motionTiming);
+  return movedCar;
 };
 
 export const updadeWinnersStore = async () => {

@@ -42,6 +42,8 @@ export default class Garage extends Component {
 
   amIFirst = true;
 
+  isRacing = false;
+
   constructor(parentNode: HTMLElement) {
     super(parentNode, 'div', ['garage']);
     this.renderGarage();
@@ -128,7 +130,7 @@ export default class Garage extends Component {
     if (!success) {
       (store.animation[id] as Animation).pause();
     } else {
-      if (this.amIFirst) {
+      if (this.amIFirst && this.isRacing) {
         this.amIFirst = false;
         const winner = finisher;
         this.showCongrats(winner);

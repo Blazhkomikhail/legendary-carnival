@@ -6,7 +6,6 @@ import { generateRandomCars } from '../../utils/utils';
 import store from '../../store/store';
 
 export default class GaragePage extends Component {
-  isRacing = false;
 
   constructor(parentNode: HTMLElement | null = null) {
     super(parentNode, 'div', ['garage-page']);
@@ -45,12 +44,12 @@ export default class GaragePage extends Component {
     };
 
     controlPanel.onRace = async () => {
-      if (this.isRacing) return;
+      if (garage.isRacing) return;
       const racers = garage.getRacers();
       racers.forEach((racer) => {
         garage.onCarStart(racer);
       });
-      this.isRacing = true;
+      garage.isRacing = true;
     };
 
     controlPanel.onReset = async () => {
@@ -59,7 +58,7 @@ export default class GaragePage extends Component {
         racers.forEach((racer) => {
           garage.onCarStop(racer);
         })
-        this.isRacing = false;
+        garage.isRacing = false;
         garage.amIFirst = true; 
     } 
   }
