@@ -3,14 +3,12 @@ import { getWinners } from '../../api/api';
 import { createCarImage } from '../garage-page/garage/carImage';
 import { IWinner } from '../../shared/i-winner';
 import store from '../../store/store';
+import { constructPaginationBtns } from '../../utils/utils';
 import './winners.css';
 
-// interface IWinners {
-//   count: string,
-//   items: Array<IWinner>
-// }
-
 export default class Winners extends Component {
+
+  currentPage: number;
 
   constructor(parentNode: HTMLElement | null = null) {
     super(parentNode, 'div', ['winners-page']);
@@ -18,23 +16,29 @@ export default class Winners extends Component {
   }
 
   public async renderWinners(page = 1): Promise<void> {
-    await getWinners().then((result) => {
+    this.clear();
+    console.log( page);
+    await getWinners(page).then((result) => {
       const { count, items } = result;
+      this.currentPage = page;
       store.winnersPage = page;
       store.winners = items;
-      const heading = new Component(
+
+      new Component(
         this.element, 
         'h1', 
         ['winners-heading'], 
         `Winners(${count})`
         );
-      const preHeading = new Component(
+      
+      new Component(
         this.element, 
         'h3', 
         ['winners-preheading'], 
         `Page #(${page.toString()})`
         );
-      const table = new Component(null, 'div', ['winners-table'], `
+      
+      new Component(this.element, 'div', ['winners-table'], `
         <table class="table" cellspacing="0" paddingspacing="0">
           <thead class="theadings">
             <th class="theading">Number</th>
@@ -56,9 +60,31 @@ export default class Winners extends Component {
           </tbody>
         </table>
       `);
-      this.element.appendChild(heading.element);
-      this.element.appendChild(preHeading.element);
-      this.element.appendChild(table.element);
+
+      constructPaginationBtns(
+        this.element, 
+        this.onPrevPage,
+        this.onNextPage,
+        count,
+        this.currentPage,
+        this
+      )
     });
+  }
+
+  clear(): void {
+    this.element.innerHTML = '';
+  }
+
+  onNextPage(): void {
+    const page = this.currentPage + 1;
+    store.carsPage = page;
+    this.renderWinners(page);
+  }
+
+  onPrevPage(): void {
+    const page = this.currentPage - 1;
+    store.carsPage = page;
+    this.renderWinners(page);
   }
 }

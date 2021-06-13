@@ -76,13 +76,13 @@ interface IWinnersResponse {
 }
 
 export const getWinners = async (
-  page = 1,
+  page: number,
   sort: 'id' | 'wins' | 'time' = 'time',
   order: 'ASC' | 'DESC' = 'ASC'
 ): Promise<IWinnersResponse> => {
   const limit = 10;
   const response = await fetch(
-    `${winners}?_page${page}&_limit=${limit}${getSortOrder(sort, order)}`
+    `${winners}?_page=${page}&_limit=${limit}${getSortOrder(sort, order)}`
   );
   const items = await response.json();
 

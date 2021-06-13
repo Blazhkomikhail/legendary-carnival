@@ -104,3 +104,23 @@ export const updadeWinnersStore = async () => {
   store.winners = winners.items;
 }
 
+export const constructPaginationBtns = (
+  parent: HTMLElement, 
+  prevHandle: ()=>void, 
+  nextHandle: ()=>void,
+  itemsCount: string,
+  currentPage: number,
+  context: Component
+  ) => {
+  const self = context;
+  const paginationBox = new Component(parent, 'div', [
+    'pagination-box',
+  ]);
+  const prev = new Component(paginationBox.element, 'button', [], 'Prev');
+  const next = new Component(paginationBox.element, 'button', [], 'Next');
+  prev.element.addEventListener('click', () => prevHandle.call(self));
+  next.element.addEventListener('click', () => nextHandle.call(self));
+  paginationButtonsDisable(prev, next, itemsCount, currentPage);
+}
+
+

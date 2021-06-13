@@ -16,6 +16,7 @@ import ControlPanel from '../control-panel/control-panel';
 import {
   paginationButtonsDisable,
   calcDistanceStartFinish,
+  constructPaginationBtns,
   animation,
 } from '../../../utils/utils';
 import store from '../../../store/store';
@@ -67,7 +68,6 @@ export default class Garage extends Component {
         this.racers = [];
         this.currentPage = page;
         store.carsPage = page;
-        // this.cars = res.items;
         const pageNumber = `Page #${page.toString()}`;
 
         new Component(this.element, 'h1', [], `Garage (${res.count})`);
@@ -86,22 +86,21 @@ export default class Garage extends Component {
             this.notifySubscriber();
           };
         });
-
-        const paginationBox = new Component(this.element, 'div', [
-          'pagination-box',
-        ]);
-        const prev = new Component(paginationBox.element, 'button', [], 'Prev');
-        const next = new Component(paginationBox.element, 'button', [], 'Next');
-        prev.element.addEventListener('click', () => this.onPrevPage());
-        next.element.addEventListener('click', () => this.onNextPage());
-        paginationButtonsDisable(prev, next, res.count, this.currentPage);
+        constructPaginationBtns(
+          this.element, 
+          this.onPrevPage, 
+          this.onNextPage, 
+          res.count, 
+          store.carsPage,
+          this
+          );
       })
       .catch(console.log.bind(console));
   }
 
   async onCarRemove(carPack: RenderCarField): Promise<void> {
     await deleteCar(carPack.carData.id);
-    await deleteWinner(carPack.carData.id);
+    await deleteWinner(carPack.carData.id).catch();
     this.clear();
     this.renderGarage();
   }
