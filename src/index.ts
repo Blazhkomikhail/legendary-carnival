@@ -3,7 +3,7 @@ import Main from './components/main/main';
 import Component from './components/base-component';
 import GaragePage from './components/garage-page/garage-page';
 import Winners from './components/winners-page/winners';
-import { updadeWinnersStore } from './utils/utils';
+import { updateWinnersStore, updateGarageStore } from './utils/utils';
 
 import './style.scss';
 
@@ -27,21 +27,21 @@ class App extends Component {
       {
         name: 'garage',
         component: (rootElement: HTMLElement): void => {
-          this.clear(rootElement);
+          App.clear(rootElement);
           new GaragePage(rootElement);
         },
       },
       {
         name: 'winners',
         component: (rootElement: HTMLElement): void => {
-          this.clear(rootElement);
+          App.clear(rootElement);
           new Winners(rootElement);
         },
       },
     ];
   }
 
-  private clear(element: HTMLElement): void {
+  static clear(element: HTMLElement): void {
     const container = element;
     container.innerHTML = '';
   }
@@ -63,6 +63,7 @@ class App extends Component {
 window.onload = () => {
   const app = new App(document.body);
   window.addEventListener('popstate', () => app.route());
-  updadeWinnersStore();
+  updateWinnersStore();
+  updateGarageStore();
   app.route();
 };

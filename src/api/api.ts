@@ -1,5 +1,5 @@
-import { IWinner } from "../shared/i-winner";
-import store from "../store/store";
+import { IWinner } from '../shared/i-winner';
+import store from '../store/store';
 
 const base = 'http://127.0.0.1:3000';
 
@@ -73,14 +73,14 @@ export interface IWinnerBody {
 }
 
 interface IWinnersResponse {
-  count: string,
-  items: Array<IWinner>
+  count: string;
+  items: Array<IWinner>;
 }
 
 export const getWinners = async (
-  page: number = 1,
-  sort: 'id' | 'wins' | 'time' = 'time', //'id' | 'wins' | 'time'
-  order: 'ASC' | 'DESC' = 'ASC' //'ASC' | 'DESC'
+  page = 1,
+  sort: 'id' | 'wins' | 'time' = 'time',
+  order: 'ASC' | 'DESC' = 'ASC'
 ): Promise<IWinnersResponse> => {
   const limit = 10;
   store.sortBy = sort;

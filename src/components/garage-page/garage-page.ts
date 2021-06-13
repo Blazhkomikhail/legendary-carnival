@@ -2,11 +2,10 @@ import Component from '../base-component';
 import ControlPanel from './control-panel/control-panel';
 import Garage from './garage/garage';
 import { createCar, updateCar } from '../../api/api';
-import { generateRandomCars } from '../../utils/utils';
+import { generateRandomCars, updateGarageStore } from '../../utils/utils';
 import store from '../../store/store';
 
 export default class GaragePage extends Component {
-
   constructor(parentNode: HTMLElement | null = null) {
     super(parentNode, 'div', ['garage-page']);
 
@@ -16,15 +15,21 @@ export default class GaragePage extends Component {
     garage.grabSubscriber(controlPanel);
 
     controlPanel.onCreate = async () => {
-      const body = controlPanel.getNewCarData();
+      const body = controlPanel.getCreateCarData();
       if (body.name.length === 0) return;
+      store.createData.name = '';
+      (controlPanel.createCarName.element as HTMLInputElement).value = '';
       await createCar(body);
     };
 
     controlPanel.onUpdate = async () => {
-      const { id } = garage.getSelectedCarData();
+      const id = store.updateData.id;
       const body = controlPanel.getUpdateCarData();
-      await updateCar(id, body);
+      store.updateData.name = '';
+      (controlPanel.updateCarName.element as HTMLInputElement).value = '';
+      await updateCar(id, body).then(() => {
+        updateGarageStore(store.carsPage);
+      })
     };
 
     controlPanel.onGenerate = async () => {
@@ -39,7 +44,12 @@ export default class GaragePage extends Component {
           });
           return Promise.all(result);
         })
-        .then(() => garage.renderGarage(store.carsPage))
+        .then(async () => {
+          await updateGarageStore(store.carsPage)
+            .then(
+              () => garage.renderGarage(store.carsPage)
+            )
+        })
         .catch(console.log.bind(console));
     };
 
@@ -55,11 +65,11 @@ export default class GaragePage extends Component {
     controlPanel.onReset = async () => {
       const racers = garage.getRacers();
       if (!racers.length) return;
-        racers.forEach((racer) => {
-          garage.onCarStop(racer);
-        })
-        garage.isRacing = false;
-        garage.amIFirst = true; 
-    } 
+      racers.forEach((racer) => {
+        garage.onCarStop(racer);
+      });
+      garage.isRacing = false;
+      garage.amIFirst = true;
+    };
   }
 }

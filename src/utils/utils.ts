@@ -1,26 +1,6 @@
 import Component from '../components/base-component';
-import { getWinners } from '../api/api';
+import { getWinners, getCars } from '../api/api';
 import store from '../store/store';
-
-export const paginationButtonsDisable = (
-  prevBtn: Component,
-  nextBtn: Component,
-  carsCount: string,
-  currentPage: number
-) => {
-  const pageCarsLimit = 7;
-  const lastPageNum = Math.ceil(Number(carsCount) / pageCarsLimit);
-  const next = nextBtn;
-  const prev = prevBtn;
-  if (Number(carsCount) <= pageCarsLimit) {
-    (prev.element as HTMLButtonElement).disabled = true;
-    (next.element as HTMLButtonElement).disabled = true;
-  } else if (currentPage < 2) {
-    (prev.element as HTMLButtonElement).disabled = true;
-  } else if (lastPageNum === currentPage) {
-    (next.element as HTMLButtonElement).disabled = true;
-  }
-};
 
 export const getRandomName = () => {
   const models = [
@@ -35,7 +15,7 @@ export const getRandomName = () => {
     'Fiat',
   ];
   const names = [
-    'C-klass',
+    'C-class',
     '3-series',
     'Corolla',
     'Swift',
@@ -98,33 +78,58 @@ export const animation = (
   return movedCar;
 };
 
-export const updadeWinnersStore = async (
-  page: number = store.winnersPage, 
+export const updateWinnersStore = async (
+  page: number = store.winnersPage,
   sortBy: 'id' | 'wins' | 'time' = 'time',
   sortOrder: 'ASC' | 'DESC' = 'ASC'
-  ) => {
+) => {
   const winners = await getWinners(page, sortBy, sortOrder);
   store.winnersCount = winners.count;
   store.winners = winners.items;
-}
+};
+
+export const updateGarageStore = async (
+  page: number = store.carsPage
+) => {
+  const cars = await getCars(page);
+  store.carsCount = cars.count;
+  store.cars = cars.items;
+};
+
+export const paginationButtonsDisable = (
+  prevBtn: Component,
+  nextBtn: Component,
+  carsCount: string,
+  currentPage: number,
+  pageItemsLimit: number
+) => {
+  const lastPageNum = Math.ceil(Number(carsCount) / pageItemsLimit);
+  const next = nextBtn;
+  const prev = prevBtn;
+  if (Number(carsCount) <= pageItemsLimit) {
+    (prev.element as HTMLButtonElement).disabled = true;
+    (next.element as HTMLButtonElement).disabled = true;
+  } else if (currentPage < 2) {
+    (prev.element as HTMLButtonElement).disabled = true;
+  } else if (lastPageNum === currentPage) {
+    (next.element as HTMLButtonElement).disabled = true;
+  }
+};
 
 export const constructPaginationBtns = (
-  parent: HTMLElement, 
-  prevHandle: ()=>void, 
-  nextHandle: ()=>void,
+  parent: HTMLElement,
+  prevHandle: () => void,
+  nextHandle: () => void,
   itemsCount: string,
   currentPage: number,
-  context: Component
-  ) => {
+  context: Component,
+  itemsLimit: number
+) => {
   const self = context;
-  const paginationBox = new Component(parent, 'div', [
-    'pagination-box',
-  ]);
+  const paginationBox = new Component(parent, 'div', ['pagination-box']);
   const prev = new Component(paginationBox.element, 'button', [], 'Prev');
   const next = new Component(paginationBox.element, 'button', [], 'Next');
   prev.element.addEventListener('click', () => prevHandle.call(self));
   next.element.addEventListener('click', () => nextHandle.call(self));
-  paginationButtonsDisable(prev, next, itemsCount, currentPage);
-}
-
-
+  paginationButtonsDisable(prev, next, itemsCount, currentPage, itemsLimit);
+};

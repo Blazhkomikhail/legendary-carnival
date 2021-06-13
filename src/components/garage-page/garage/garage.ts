@@ -8,7 +8,7 @@ import {
   createWinner,
   updateWinner,
   deleteWinner,
-  IWinnerBody
+  IWinnerBody,
 } from '../../../api/api';
 import RenderCarField from './car';
 import { ICar } from '../../../shared/i-car';
@@ -16,7 +16,8 @@ import ControlPanel from '../control-panel/control-panel';
 import {
   calcDistanceStartFinish,
   constructPaginationBtns,
-  updadeWinnersStore,
+  updateWinnersStore,
+  updateGarageStore,
   animation,
 } from '../../../utils/utils';
 import store from '../../../store/store';
@@ -25,6 +26,7 @@ import { IWinner } from '../../../shared/i-winner';
 import '../garage-page.css';
 
 const SECOND = 1000;
+const CARS_PAGE_LIMIT = 7;
 
 export default class Garage extends Component {
   subscriber: ControlPanel;
@@ -47,7 +49,10 @@ export default class Garage extends Component {
 
   constructor(parentNode: HTMLElement) {
     super(parentNode, 'div', ['garage']);
-    this.renderGarage();
+    (async () => {
+      await updateGarageStore(store.carsPage)
+      .then(() => this.renderGarage(store.carsPage))
+    })();
   }
 
   public grabSubscriber(subscriber: ControlPanel): void {
@@ -58,51 +63,51 @@ export default class Garage extends Component {
     this.element.innerHTML = '';
   }
 
-  renderGarage(page = 1): void {
+  renderGarage(page: number): void {
     this.clear();
-    (async () => {
-      const carsData = await getCars(page);
-      return carsData;
-    })()
-      .then((res) => {
-        this.racers = [];
-        this.currentPage = page;
-        store.carsPage = page;
-        const pageNumber = `Page #${page.toString()}`;
+    const carsCount = store.carsCount;
+    const carsItems = store.cars;
+    this.racers = [];
+    this.currentPage = page;
+    store.carsPage = page;
+    const pageNumber = `Page #${page.toString()}`;
 
-        new Component(this.element, 'h1', [], `Garage (${res.count})`);
-        new Component(this.element, 'h2', [], pageNumber);
+    new Component(this.element, 'h1', [], `Garage (${carsCount})`);
+    new Component(this.element, 'h2', [], pageNumber);
 
-        const carsField = new Component(this.element, 'ul', ['garage']);
+    const carsField = new Component(this.element, 'ul', ['garage']);
 
-        res.items.forEach((car: ICar) => {
-          const carField = new RenderCarField(car, carsField.element);
-          this.racers.push(carField);
-          carField.onRemove = () => this.onCarRemove(carField);
-          carField.onStart = () => this.onCarStart(carField);
-          carField.onStop = () => this.onCarStop(carField);
-          carField.onSelect = () => {
-            this.onCarSelect(carField);
-            this.notifySubscriber();
-          };
-        });
-        constructPaginationBtns(
-          this.element, 
-          this.onPrevPage, 
-          this.onNextPage, 
-          res.count, 
-          store.carsPage,
-          this
-          );
-      })
-      .catch(console.log.bind(console));
+    carsItems.forEach((car: ICar) => {
+      const carField = new RenderCarField(car, carsField.element);
+      this.racers.push(carField);
+      carField.onRemove = () => this.onCarRemove(carField);
+      carField.onStart = () => this.onCarStart(carField);
+      carField.onStop = () => this.onCarStop(carField);
+      carField.onSelect = () => {
+        this.onCarSelect(carField);
+        this.notifySubscriber();
+      };
+    });
+
+    const self = this;
+
+    constructPaginationBtns(
+      this.element,
+      this.onPrevPage,
+      this.onNextPage,
+      carsCount,
+      store.carsPage,
+      self,
+      CARS_PAGE_LIMIT
+    );
   }
 
   async onCarRemove(carPack: RenderCarField): Promise<void> {
     await deleteCar(carPack.carData.id);
     await deleteWinner(carPack.carData.id).catch();
-    this.clear();
-    this.renderGarage();
+    await updateGarageStore(
+      store.carsPage
+    ).then(() => this.renderGarage(store.carsPage));
   }
 
   async onCarStart(currentCarField: RenderCarField) {
@@ -117,8 +122,8 @@ export default class Garage extends Component {
 
     const { velocity, distance } = await startEngine(id);
     const time = Number((Math.round(distance / velocity) / SECOND).toFixed(2));
-    const winnerBody = { time, id, wins : 1 };
-    const finisher = Object.assign({car: carItem}, winnerBody);
+    const winnerBody = { time, id, wins: 1 };
+    const finisher = { car: carItem, ...winnerBody };
 
     const { car, flag } = currentCarField.getCarFlagElems();
     const htmlDistance = `${Math.round(
@@ -128,21 +133,20 @@ export default class Garage extends Component {
     const { success } = await drive(id);
     if (!success) {
       (store.animation[id] as Animation).pause();
-    } else {
-      if (this.amIFirst && this.isRacing) {
-        this.amIFirst = false;
-        const winner = finisher;
-        this.showCongrats(winner);
-        this.addWinner(winnerBody);
-        updadeWinnersStore();
-      }
+    } else if (this.amIFirst && this.isRacing) {
+      this.amIFirst = false;
+      const winner = finisher;
+      this.showCongrats(winner);
+      Garage.addWinner(winnerBody);
+      updateWinnersStore();
     }
   }
 
-  private addWinner(body: IWinnerBody) {
+  static addWinner(winnBody: IWinnerBody) {
+    const body = winnBody;
     createWinner(body).catch(async () => {
       const { id } = body;
-      const compareWinner = store.winners.find((winner) => winner.id = id);
+      const compareWinner = store.winners.find((winner) => winner.id === id);
       if (compareWinner.time > body.time) {
         body.wins = compareWinner.wins + 1;
         await updateWinner(body.id, body);
@@ -151,7 +155,7 @@ export default class Garage extends Component {
         body.time = compareWinner.time;
         await updateWinner(body.id, body);
       }
-    })
+    });
   }
 
   private showCongrats(winner: IWinner): void {
@@ -161,16 +165,21 @@ export default class Garage extends Component {
     const modal = new Component(modalCover.element, 'div');
     modal.element.style.cssText = `padding: 20px; position: fixed; border-radius: 4px; text-align: center; background-color: rgba(255,255,255,0.4)`;
     new Component(modal.element, 'h3', [], 'Congrats!');
-    new Component(modal.element, 'p', [], `
+    new Component(
+      modal.element,
+      'p',
+      [],
+      `
       ${winner.car.name} came first!
-      Time: ${(winner.time)} seconds.
-    ` )
+      Time: ${winner.time} seconds.
+    `
+    );
     const okButton = new Component(modal.element, 'button', [], 'OK');
-    okButton.element.style.cssText = `border: none; outline-style: none; width: 40px; height: 30px; border-radius: 4px;`
+    okButton.element.style.cssText = `border: none; outline-style: none; width: 40px; height: 30px; border-radius: 4px;`;
     okButton.element.addEventListener('click', () => modalCover.destroy());
   }
 
-  async onCarStop(currentCarField: RenderCarField) {
+  public onCarStop(currentCarField: RenderCarField) {
     const startBtn = currentCarField.startButton.element;
     const stopBtn = currentCarField.stopButton.element;
 
@@ -178,29 +187,39 @@ export default class Garage extends Component {
     (stopBtn as HTMLButtonElement).disabled = true;
 
     const { id } = currentCarField.carData;
-    return new Promise(async (resolve,reject) => {
+    (async () => {
       await stopEngine(id).then(() => {
         if (!store.animation[id]) return;
         (store.animation[id] as Animation).pause();
         (store.animation[id] as Animation).cancel();
       });
-    })
+    })();
   }
 
   onCarSelect(carPack: RenderCarField) {
+    store.updateData.id = carPack.carData.id;
+    store.updateData.color = carPack.carData.color;
     this.selectedCar = carPack.carData;
   }
 
   onNextPage(): void {
     const page = this.currentPage + 1;
     store.carsPage = page;
-    this.renderGarage(page);
+    (async () => {
+      await updateGarageStore(
+        store.carsPage
+      ).then(() => this.renderGarage(page));
+    })();
   }
 
   onPrevPage(): void {
     const page = this.currentPage - 1;
     store.carsPage = page;
-    this.renderGarage(page);
+    (async () => {
+      await updateGarageStore(
+        store.carsPage
+      ).then(() => this.renderGarage(page));
+    })();
   }
 
   public getRacers(): Array<RenderCarField> {
