@@ -12,6 +12,7 @@ let carsCount: string;
 let winners: Array<IWinner>;
 let winnersCount: string;
 const animation: IAnimation = {};
+const DEF_INP_COLOR = '#5d72bb';
 const createData = {
   name: '',
   color: '#e1d0d0'
@@ -33,5 +34,6 @@ export default {
   sortBy: null,
   sortOrder: null,
   createData,
-  updateData
+  updateData,
+  DEF_INP_COLOR
 };

@@ -38,6 +38,7 @@ export default class ControlPanel extends Component {
     const createWrapper = new Component(this.element, 'form', ['create-form']);
     this.createCarName = new Component(createWrapper.element, 'input');
     this.createCarName.element.setAttribute('type', 'text');
+    this.createCarName.element.setAttribute('maxlength', '25');
     (this.createCarName.element as HTMLInputElement).value = `${store.createData.name}`;
     this.createCarName.element.addEventListener('input', () => {
       store.createData.name = (this.createCarName.element as HTMLInputElement).value;
@@ -53,22 +54,22 @@ export default class ControlPanel extends Component {
     const createButton = new Component(
       createWrapper.element,
       'button',
-      [],
+      ['create-btn', 'form-btn'],
       'CREATE'
     );
     createButton.element.addEventListener('click', () => this.onCreate());
 
     const updateWrapper = new Component(this.element, 'form', ['update-form']);
-    this.updateCarName = new Component(updateWrapper.element, 'input');
+    this.updateCarName = new Component(updateWrapper.element, 'input', ['update-input-text']);
     this.updateCarName.element.setAttribute('type', 'text');
+    this.updateCarName.element.setAttribute('maxlength', '25');
     (this.updateCarName.element as HTMLInputElement).value = `${store.updateData.name}`;
     this.updateCarName.element.addEventListener('input', () => {
       store.updateData.name = (this.updateCarName.element as HTMLInputElement).value;
     })
 
-    this.updateCarColor = new Component(updateWrapper.element, 'input');
+    this.updateCarColor = new Component(updateWrapper.element, 'input', ['update-input-color']);
     this.updateCarColor.element.setAttribute('type', 'color');
-    this.updateCarColor.element.setAttribute('value', `${store.updateData.color}`);
     this.updateCarColor.element.addEventListener('input', () => {
       store.updateData.color = (this.updateCarColor.element as HTMLInputElement).value;
     })
@@ -76,7 +77,7 @@ export default class ControlPanel extends Component {
     this.updateButton = new Component(
       updateWrapper.element,
       'button',
-      [],
+      ['update-btn', 'form-btn'],
       'UPDATE'
     );
 
@@ -88,6 +89,13 @@ export default class ControlPanel extends Component {
       (this.updateButton.element as HTMLButtonElement).disabled = true;
     }
 
+    const isUpdateCarNameActive = (this.updateCarName.element as HTMLInputElement).disabled === false;
+    if (isUpdateCarNameActive) {
+      this.updateCarColor.element.setAttribute('value', `${store.updateData.color}`);
+    } else {
+      this.updateCarColor.element.setAttribute('value', `${store.DEF_INP_COLOR}`);
+    }
+
     this.updateButton.element.addEventListener('click', () => this.onUpdate());
 
     const buttonsWrapper = new Component(this.element, 'div', [
@@ -96,21 +104,23 @@ export default class ControlPanel extends Component {
     const raceButton = new Component(
       buttonsWrapper.element,
       'button',
-      [],
+      ['race-btn', 'form-btn'],
       'Race'
     );
     raceButton.element.addEventListener('click', () => this.onRace());
+
     const resetButton = new Component(
       buttonsWrapper.element,
       'button',
-      [],
+      ['reset-btn', 'form-btn'],
       'RESET'
     );
     resetButton.element.addEventListener('click', () => this.onReset());
+
     const generateButton = new Component(
       buttonsWrapper.element,
       'button',
-      [],
+      ['generate-btn', 'form-btn'],
       'GENERATE CARS'
     );
     generateButton.element.addEventListener('click', () => this.onGenerate());
@@ -126,7 +136,7 @@ export default class ControlPanel extends Component {
   public getUpdateCarData(): INewCar {
     return {
       name: (this.updateCarName.element as HTMLInputElement).value,
-      color: (this.updateCarColor.element as HTMLInputElement).value,
+      color: (this.updateCarColor.element as HTMLInputElement).value
     };
   }
 

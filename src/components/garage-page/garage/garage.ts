@@ -197,8 +197,8 @@ export default class Garage extends Component {
   }
 
   onCarSelect(carPack: RenderCarField) {
-    store.updateData = carPack.carData;
     this.selectedCar = carPack.carData;
+    store.updateData = carPack.carData;
   }
 
   onNextPage(): void {
