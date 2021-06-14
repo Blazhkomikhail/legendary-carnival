@@ -74,15 +74,13 @@ export default class Winners extends Component {
     wins.addEventListener('click', () => this.onWinsClick());
     bestTime.addEventListener('click', () => this.onBestTimeClick());
 
-    const self = this;
-
     constructPaginationBtns(
       this.element,
       this.onPrevPage,
       this.onNextPage,
       count,
       this.currentPage,
-      self,
+      this,
       WINNERS_PAGE_LIMIT
     );
   }

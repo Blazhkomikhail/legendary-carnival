@@ -39,18 +39,24 @@ export default class ControlPanel extends Component {
     this.createCarName = new Component(createWrapper.element, 'input');
     this.createCarName.element.setAttribute('type', 'text');
     this.createCarName.element.setAttribute('maxlength', '25');
-    (this.createCarName.element as HTMLInputElement).value = `${store.createData.name}`;
+    (
+      this.createCarName.element as HTMLInputElement
+    ).value = `${store.createData.name}`;
     this.createCarName.element.addEventListener('input', () => {
-      store.createData.name = (this.createCarName.element as HTMLInputElement).value;
-    })
+      store.createData.name = (
+        this.createCarName.element as HTMLInputElement
+      ).value;
+    });
 
     this.createCarColor = new Component(createWrapper.element, 'input');
     this.createCarColor.element.setAttribute('type', 'color');
     this.createCarColor.element.setAttribute('value', `${store.DEF_INP_COLOR}`);
     this.createCarColor.element.addEventListener('input', () => {
-      store.createData.color = (this.createCarColor.element as HTMLInputElement).value;
-    })
-    
+      store.createData.color = (
+        this.createCarColor.element as HTMLInputElement
+      ).value;
+    });
+
     const createButton = new Component(
       createWrapper.element,
       'button',
@@ -60,19 +66,29 @@ export default class ControlPanel extends Component {
     createButton.element.addEventListener('click', () => this.onCreate());
 
     const updateWrapper = new Component(this.element, 'form', ['update-form']);
-    this.updateCarName = new Component(updateWrapper.element, 'input', ['update-input-text']);
+    this.updateCarName = new Component(updateWrapper.element, 'input', [
+      'update-input-text',
+    ]);
     this.updateCarName.element.setAttribute('type', 'text');
     this.updateCarName.element.setAttribute('maxlength', '25');
-    (this.updateCarName.element as HTMLInputElement).value = `${store.updateData.name}`;
+    (
+      this.updateCarName.element as HTMLInputElement
+    ).value = `${store.updateData.name}`;
     this.updateCarName.element.addEventListener('input', () => {
-      store.updateData.name = (this.updateCarName.element as HTMLInputElement).value;
-    })
+      store.updateData.name = (
+        this.updateCarName.element as HTMLInputElement
+      ).value;
+    });
 
-    this.updateCarColor = new Component(updateWrapper.element, 'input', ['update-input-color']);
+    this.updateCarColor = new Component(updateWrapper.element, 'input', [
+      'update-input-color',
+    ]);
     this.updateCarColor.element.setAttribute('type', 'color');
     this.updateCarColor.element.addEventListener('input', () => {
-      store.updateData.color = (this.updateCarColor.element as HTMLInputElement).value;
-    })
+      store.updateData.color = (
+        this.updateCarColor.element as HTMLInputElement
+      ).value;
+    });
 
     this.updateButton = new Component(
       updateWrapper.element,
@@ -81,7 +97,8 @@ export default class ControlPanel extends Component {
       'UPDATE'
     );
 
-    const updateCarNameValue = (this.updateCarName.element as HTMLInputElement).value;
+    const updateCarNameValue = (this.updateCarName.element as HTMLInputElement)
+      .value;
 
     if (updateCarNameValue === '') {
       (this.updateCarName.element as HTMLInputElement).disabled = true;
@@ -89,11 +106,18 @@ export default class ControlPanel extends Component {
       (this.updateButton.element as HTMLButtonElement).disabled = true;
     }
 
-    const isUpdateCarNameActive = (this.updateCarName.element as HTMLInputElement).disabled === false;
+    const isUpdateCarNameActive =
+      (this.updateCarName.element as HTMLInputElement).disabled === false;
     if (isUpdateCarNameActive) {
-      this.updateCarColor.element.setAttribute('value', `${store.updateData.color}`);
+      this.updateCarColor.element.setAttribute(
+        'value',
+        `${store.updateData.color}`
+      );
     } else {
-      this.updateCarColor.element.setAttribute('value', `${store.DEF_INP_COLOR}`);
+      this.updateCarColor.element.setAttribute(
+        'value',
+        `${store.DEF_INP_COLOR}`
+      );
     }
 
     this.updateButton.element.addEventListener('click', () => this.onUpdate());
@@ -136,7 +160,7 @@ export default class ControlPanel extends Component {
   public getUpdateCarData(): INewCar {
     return {
       name: (this.updateCarName.element as HTMLInputElement).value,
-      color: (this.updateCarColor.element as HTMLInputElement).value
+      color: (this.updateCarColor.element as HTMLInputElement).value,
     };
   }
 

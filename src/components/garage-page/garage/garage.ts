@@ -1,6 +1,5 @@
 import Component from '../../base-component';
 import {
-  getCars,
   deleteCar,
   startEngine,
   stopEngine,
@@ -50,8 +49,9 @@ export default class Garage extends Component {
   constructor(parentNode: HTMLElement) {
     super(parentNode, 'div', ['garage']);
     (async () => {
-      await updateGarageStore(store.carsPage)
-      .then(() => this.renderGarage(store.carsPage))
+      await updateGarageStore(store.carsPage).then(() =>
+        this.renderGarage(store.carsPage)
+      );
     })();
   }
 
@@ -65,7 +65,7 @@ export default class Garage extends Component {
 
   renderGarage(page: number): void {
     this.clear();
-    const carsCount = store.carsCount;
+    const { carsCount } = store;
     const carsItems = store.cars;
     this.racers = [];
     this.currentPage = page;
@@ -89,15 +89,13 @@ export default class Garage extends Component {
       };
     });
 
-    const self = this;
-
     constructPaginationBtns(
       this.element,
       this.onPrevPage,
       this.onNextPage,
       carsCount,
       store.carsPage,
-      self,
+      this,
       CARS_PAGE_LIMIT
     );
   }
@@ -105,12 +103,12 @@ export default class Garage extends Component {
   async onCarRemove(carPack: RenderCarField): Promise<void> {
     await deleteCar(carPack.carData.id);
     await deleteWinner(carPack.carData.id).catch();
-    await updateGarageStore(
-      store.carsPage
-    ).then(() => this.renderGarage(store.carsPage));
+    await updateGarageStore(store.carsPage).then(() =>
+      this.renderGarage(store.carsPage)
+    );
   }
 
-  async onCarStart(currentCarField: RenderCarField) {
+  async onCarStart(currentCarField: RenderCarField): Promise<void> {
     const startBtn = currentCarField.startButton.element;
     const stopBtn = currentCarField.stopButton.element;
 
@@ -142,7 +140,7 @@ export default class Garage extends Component {
     }
   }
 
-  static addWinner(winnBody: IWinnerBody) {
+  static addWinner(winnBody: IWinnerBody): void {
     const body = winnBody;
     createWinner(body).catch(async () => {
       const { id } = body;
@@ -179,7 +177,7 @@ export default class Garage extends Component {
     okButton.element.addEventListener('click', () => modalCover.destroy());
   }
 
-  public onCarStop(currentCarField: RenderCarField) {
+  public onCarStop(currentCarField: RenderCarField): void {
     const startBtn = currentCarField.startButton.element;
     const stopBtn = currentCarField.stopButton.element;
 
@@ -196,7 +194,7 @@ export default class Garage extends Component {
     })();
   }
 
-  onCarSelect(carPack: RenderCarField) {
+  onCarSelect(carPack: RenderCarField): void {
     this.selectedCar = carPack.carData;
     store.updateData = carPack.carData;
   }
@@ -205,9 +203,9 @@ export default class Garage extends Component {
     const page = this.currentPage + 1;
     store.carsPage = page;
     (async () => {
-      await updateGarageStore(
-        store.carsPage
-      ).then(() => this.renderGarage(page));
+      await updateGarageStore(store.carsPage).then(() =>
+        this.renderGarage(page)
+      );
     })();
   }
 
@@ -215,9 +213,9 @@ export default class Garage extends Component {
     const page = this.currentPage - 1;
     store.carsPage = page;
     (async () => {
-      await updateGarageStore(
-        store.carsPage
-      ).then(() => this.renderGarage(page));
+      await updateGarageStore(store.carsPage).then(() =>
+        this.renderGarage(page)
+      );
     })();
   }
 

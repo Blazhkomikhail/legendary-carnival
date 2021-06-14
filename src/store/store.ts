@@ -6,7 +6,6 @@ interface IAnimation {
   [key: number]: Animation;
 }
 
-
 let cars: Array<ICar>;
 let carsCount: string;
 let winners: Array<IWinner>;
@@ -15,12 +14,12 @@ const animation: IAnimation = {};
 const DEF_INP_COLOR = '#5d72bb';
 const createData = {
   name: '',
-  color: '#5d72bb'
+  color: '#5d72bb',
 };
 const updateData = {
   name: '',
   color: '#5d72bb',
-  id: 0
+  id: 0,
 };
 
 export default {
@@ -35,5 +34,5 @@ export default {
   sortOrder: null,
   createData,
   updateData,
-  DEF_INP_COLOR
+  DEF_INP_COLOR,
 };

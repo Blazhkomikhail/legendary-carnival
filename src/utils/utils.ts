@@ -1,8 +1,9 @@
 import Component from '../components/base-component';
-import { getWinners, getCars } from '../api/api';
+import { getWinners, getCars, IBody } from '../api/api';
 import store from '../store/store';
+import { ICar } from '../shared/i-car';
 
-export const getRandomName = () => {
+export const getRandomName = (): string => {
   const models = [
     'Mercedes',
     'Audi',
@@ -28,7 +29,7 @@ export const getRandomName = () => {
   return `${model} ${name}`;
 };
 
-export const getRandomColor = () => {
+export const getRandomColor = (): string => {
   const letters = 'abcdef0123456789';
   let color = '#';
   for (let i = 0; i < 6; i += 1) {
@@ -37,13 +38,18 @@ export const getRandomColor = () => {
   return color;
 };
 
-export const generateRandomCars = (count = 100) => {
+export const generateRandomCars = (count = 100): Array<IBody> => {
   return new Array(count)
     .fill(null)
     .map(() => ({ name: getRandomName(), color: getRandomColor() }));
 };
 
-const getPositionAtCenter = (element: HTMLElement) => {
+interface ICoordinates {
+  x: number;
+  y: number;
+}
+
+const getPositionAtCenter = (element: HTMLElement): ICoordinates => {
   const { left, top, width, height } = element.getBoundingClientRect();
 
   return {
@@ -52,7 +58,10 @@ const getPositionAtCenter = (element: HTMLElement) => {
   };
 };
 
-export const calcDistanceStartFinish = (a: HTMLElement, b: HTMLElement) => {
+export const calcDistanceStartFinish = (
+  a: HTMLElement,
+  b: HTMLElement
+): number => {
   const aPosition = getPositionAtCenter(a);
   const bPosition = getPositionAtCenter(b);
 
@@ -63,7 +72,7 @@ export const animation = (
   car: Component,
   distance: string,
   animationTime: number
-) => {
+): Animation => {
   const carMotion = [
     { transform: `translateX(0)` },
     { transform: `translateX(${distance})` },
@@ -71,7 +80,7 @@ export const animation = (
 
   const motionTiming = {
     duration: animationTime,
-    fill: 'forwards' as any,
+    fill: 'forwards' as any, // it's seems like TS bug, I couldn't specify parameters form MDN Animation API
   };
 
   const movedCar = car.element.animate(carMotion, motionTiming);
@@ -82,7 +91,7 @@ export const updateWinnersStore = async (
   page: number = store.winnersPage,
   sortBy: 'id' | 'wins' | 'time' = 'time',
   sortOrder: 'ASC' | 'DESC' = 'ASC'
-) => {
+): Promise<void> => {
   const winners = await getWinners(page, sortBy, sortOrder);
   store.winnersCount = winners.count;
   store.winners = winners.items;
@@ -90,7 +99,7 @@ export const updateWinnersStore = async (
 
 export const updateGarageStore = async (
   page: number = store.carsPage
-) => {
+): Promise<void> => {
   const cars = await getCars(page);
   store.carsCount = cars.count;
   store.cars = cars.items;
@@ -102,7 +111,7 @@ export const paginationButtonsDisable = (
   carsCount: string,
   currentPage: number,
   pageItemsLimit: number
-) => {
+): void => {
   const lastPageNum = Math.ceil(Number(carsCount) / pageItemsLimit);
   const next = nextBtn;
   const prev = prevBtn;
@@ -124,7 +133,7 @@ export const constructPaginationBtns = (
   currentPage: number,
   context: Component,
   itemsLimit: number
-) => {
+): void => {
   const self = context;
   const paginationBox = new Component(parent, 'div', ['pagination-box']);
   const prev = new Component(paginationBox.element, 'button', [], 'Prev');

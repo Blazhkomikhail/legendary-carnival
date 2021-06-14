@@ -24,14 +24,14 @@ export default class GaragePage extends Component {
     };
 
     controlPanel.onUpdate = async () => {
-      const id = store.updateData.id;
+      const { id } = store.updateData;
       const body = controlPanel.getUpdateCarData();
       store.updateData.name = '';
       (controlPanel.updateCarName.element as HTMLInputElement).value = '';
       await updateCar(id, body).then(() => {
         updateGarageStore(store.carsPage);
-        garage.renderGarage(store.carsPage);
-      })
+        // garage.renderGarage(store.carsPage);
+      });
     };
 
     controlPanel.onGenerate = async () => {
@@ -47,12 +47,11 @@ export default class GaragePage extends Component {
           return Promise.all(result);
         })
         .then(async () => {
-          await updateGarageStore(store.carsPage)
-            .then(
-              () => garage.renderGarage(store.carsPage)
-            )
+          await updateGarageStore(store.carsPage).then(() =>
+            garage.renderGarage(store.carsPage)
+          );
         })
-        .catch(console.log.bind(console));
+        .catch(console.error.bind(Error));
     };
 
     controlPanel.onRace = async () => {
@@ -75,30 +74,36 @@ export default class GaragePage extends Component {
     };
 
     window.addEventListener('click', (e) => {
-      const target = e.target;
+      const { target } = e;
       const forbidenTargetClassNames = [
-        'update-input-text', 
-        'update-input-color', 
-        'update-btn', 
+        'update-input-text',
+        'update-input-color',
+        'update-btn',
         'select-button',
-        'winners-btn', 
-        'garage-btn'
+        'winners-btn',
+        'garage-btn',
       ];
 
-      const isInputTextActive = (controlPanel.updateCarName.element as HTMLInputElement).disabled === false;
-      const isTargetForbiden = forbidenTargetClassNames.some(
-        (className) => (target as HTMLElement).classList.contains(className) 
+      const isInputTextActive =
+        (controlPanel.updateCarName.element as HTMLInputElement).disabled ===
+        false;
+      const isTargetForbiden = forbidenTargetClassNames.some((className) =>
+        (target as HTMLElement).classList.contains(className)
       );
-            
+
       if (isInputTextActive && !isTargetForbiden) {
         (controlPanel.updateCarName.element as HTMLInputElement).value = '';
-        (controlPanel.updateCarColor.element as HTMLInputElement).value = store.DEF_INP_COLOR;
-        (controlPanel.updateCarName.element as HTMLInputElement).disabled = true;
-        (controlPanel.updateCarColor.element as HTMLInputElement).disabled = true;
-        (controlPanel.updateButton.element as HTMLButtonElement).disabled = true;
+        (controlPanel.updateCarColor.element as HTMLInputElement).value =
+          store.DEF_INP_COLOR;
+        (controlPanel.updateCarName.element as HTMLInputElement).disabled =
+          true;
+        (controlPanel.updateCarColor.element as HTMLInputElement).disabled =
+          true;
+        (controlPanel.updateButton.element as HTMLButtonElement).disabled =
+          true;
         store.updateData.color = store.DEF_INP_COLOR;
         store.updateData.name = '';
       }
-    })
+    });
   }
 }
