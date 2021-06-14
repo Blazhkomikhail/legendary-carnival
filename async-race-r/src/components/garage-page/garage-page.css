@@ -1,0 +1,98 @@
+.main {
+  padding: 20px;
+}
+
+.garage {
+  padding-left: 0;
+}
+
+.control-panel {
+  width: 320px;
+}
+
+.create-form,
+.update-form {
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.form-btn {
+  border-radius: 3px;
+  border: none;
+  outline-style: none;
+  transition: all 0.5s;
+}
+
+.form-btn:hover:not(.update-btn[disabled])  {
+  cursor: pointer;
+  background-color: #ccc;
+}
+
+.race-btn,
+.reset-btn {
+  width: 60px;
+  text-transform: uppercase;
+}
+
+.create-form [type="text"],
+.update-form [type="text"]  {
+  flex-grow: 1;
+}
+
+.buttons-wrapper {
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.select-button, 
+.remove-button {
+  border-radius: 3px;
+  border: none;
+  height: 22px;
+  margin-right: 5px;
+}
+
+.car-item {
+  margin-bottom: 10px;
+  list-style: none;
+}
+
+.car-image {
+  display: flex;
+}
+
+.road {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px dotted;
+}
+
+.engine-buttons {
+  margin-top: 7px;
+  margin-right: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.start-button,
+.stop-button {
+  border-radius: 3px;
+  border: none;
+  height: 20px;
+  outline-style: none;
+}
+
+.start-button {
+  margin-bottom: 7px;
+  color: green;
+}
+
+.stop-button {
+  color: #6d0c1d;
+}
+
+.launch-pad {
+  display: flex;
+  align-items: flex-start;
+}
