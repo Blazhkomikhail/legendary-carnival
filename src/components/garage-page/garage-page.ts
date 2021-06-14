@@ -75,27 +75,28 @@ export default class GaragePage extends Component {
 
     window.addEventListener('click', (e) => {
       const target = e.target;
-      const isItUpdateInputText = (target as HTMLElement).classList.contains('update-input-text');
-      const isItUpdateInputColor = (target as HTMLElement).classList.contains('update-input-color');
-      const isItUpdateButton = (target as HTMLElement).classList.contains('update-btn');
-      const isItSelectButton = (target as HTMLElement).classList.contains('select-button');
-      const isItWinnersButton = (target as HTMLElement).classList.contains('winners-btn');
-      const isItGarageButton = (target as HTMLElement).classList.contains('garage-btn');
+      const forbidenTargetClassNames = [
+        'update-input-text', 
+        'update-input-color', 
+        'update-btn', 
+        'select-button',
+        'winners-btn', 
+        'garage-btn'
+      ];
+
       const isInputTextActive = (controlPanel.updateCarName.element as HTMLInputElement).disabled === false;
-      if (
-         isInputTextActive &&
-        !isItUpdateInputText &&
-        !isItUpdateInputColor &&
-        !isItWinnersButton &&
-        !isItGarageButton &&
-        !isItUpdateButton &&
-        !isItSelectButton
-        ) {
+      const isTargetForbiden = forbidenTargetClassNames.some(
+        (className) => (target as HTMLElement).classList.contains(className) 
+      );
+            
+      if (isInputTextActive && !isTargetForbiden) {
         (controlPanel.updateCarName.element as HTMLInputElement).value = '';
         (controlPanel.updateCarColor.element as HTMLInputElement).value = store.DEF_INP_COLOR;
         (controlPanel.updateCarName.element as HTMLInputElement).disabled = true;
         (controlPanel.updateCarColor.element as HTMLInputElement).disabled = true;
         (controlPanel.updateButton.element as HTMLButtonElement).disabled = true;
+        store.updateData.color = store.DEF_INP_COLOR;
+        store.updateData.name = '';
       }
     })
   }
