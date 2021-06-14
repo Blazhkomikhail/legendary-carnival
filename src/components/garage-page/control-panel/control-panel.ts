@@ -46,7 +46,7 @@ export default class ControlPanel extends Component {
 
     this.createCarColor = new Component(createWrapper.element, 'input');
     this.createCarColor.element.setAttribute('type', 'color');
-    this.createCarColor.element.setAttribute('value', `${store.createData.color}`);
+    this.createCarColor.element.setAttribute('value', `${store.DEF_INP_COLOR}`);
     this.createCarColor.element.addEventListener('input', () => {
       store.createData.color = (this.createCarColor.element as HTMLInputElement).value;
     })

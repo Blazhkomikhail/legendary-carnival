@@ -15,7 +15,7 @@ const animation: IAnimation = {};
 const DEF_INP_COLOR = '#5d72bb';
 const createData = {
   name: '',
-  color: '#e1d0d0'
+  color: '#5d72bb'
 };
 const updateData = {
   name: '',

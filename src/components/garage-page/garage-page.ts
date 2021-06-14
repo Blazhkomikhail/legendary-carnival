@@ -18,6 +18,7 @@ export default class GaragePage extends Component {
       const body = controlPanel.getCreateCarData();
       if (body.name.length === 0) return;
       store.createData.name = '';
+      store.createData.color = store.DEF_INP_COLOR;
       (controlPanel.createCarName.element as HTMLInputElement).value = '';
       await createCar(body);
     };
