@@ -1,7 +1,6 @@
 import Component from '../components/base-component';
 import { getWinners, getCars, IBody } from '../api/api';
 import store from '../store/store';
-import { ICar } from '../shared/i-car';
 
 export const getRandomName = (): string => {
   const models = [

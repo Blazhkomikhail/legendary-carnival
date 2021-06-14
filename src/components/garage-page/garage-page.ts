@@ -51,7 +51,7 @@ export default class GaragePage extends Component {
             garage.renderGarage(store.carsPage)
           );
         })
-        .catch(console.error.bind(Error));
+        .catch();
     };
 
     controlPanel.onRace = async () => {
@@ -67,7 +67,7 @@ export default class GaragePage extends Component {
       const racers = garage.getRacers();
       if (!racers.length) return;
       racers.forEach((racer) => {
-        garage.onCarStop(racer);
+        Garage.onCarStop(racer);
       });
       garage.isRacing = false;
       garage.amIFirst = true;

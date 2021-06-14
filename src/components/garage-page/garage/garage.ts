@@ -82,7 +82,7 @@ export default class Garage extends Component {
       this.racers.push(carField);
       carField.onRemove = () => this.onCarRemove(carField);
       carField.onStart = () => this.onCarStart(carField);
-      carField.onStop = () => this.onCarStop(carField);
+      carField.onStop = () => Garage.onCarStop(carField);
       carField.onSelect = () => {
         this.onCarSelect(carField);
         this.notifySubscriber();
@@ -177,7 +177,7 @@ export default class Garage extends Component {
     okButton.element.addEventListener('click', () => modalCover.destroy());
   }
 
-  public onCarStop(currentCarField: RenderCarField): void {
+  static onCarStop(currentCarField: RenderCarField): void {
     const startBtn = currentCarField.startButton.element;
     const stopBtn = currentCarField.stopButton.element;
 
