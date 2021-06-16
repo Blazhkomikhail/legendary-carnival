@@ -7,9 +7,7 @@ export default class IndexedDB {
 
   private db: IDBDatabase;
 
-  onOk: (() => void) | null = null;
-
-  onError: (() => void) | null = null;
+  showMessage: ((message: string) => void) | null = null;
 
   constructor() {
     if (!IndexedDB.idbOK) return;
@@ -46,13 +44,13 @@ export default class IndexedDB {
     const request = store.put(data);
 
     request.onerror = () => {
-      if (this.onError) {
-        this.onError();
+      if (this.showMessage) {
+        this.showMessage('Warning! Something went wrong. Try again later!');
       }
     };
     request.onsuccess = () => {
-      if (this.onOk) {
-        this.onOk();
+      if (this.showMessage) {
+        this.showMessage('Successful! New player have been created!');
       }
     };
   }

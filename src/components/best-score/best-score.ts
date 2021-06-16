@@ -21,7 +21,7 @@ export default class BestScore extends BaseComponent {
       this.setData(resData);
     });
 
-    render(this.element, [this.contentWrap.element]);
+    this.element.appendChild(this.contentWrap.element);
   }
 
   setData(data: IRecord[]): void {
@@ -35,7 +35,8 @@ export default class BestScore extends BaseComponent {
     } else {
       data.sort((a, b) => Number(b.score) - Number(a.score));
       data.forEach((user, idx) => {
-        if (idx > 9) return;
+        const maxPlayerCount = 9;
+        if (idx > maxPlayerCount) return;
         this.userLines.push(BestScore.createScoreLine(user));
       });
       render(this.contentWrap.element, [...this.userLines]);

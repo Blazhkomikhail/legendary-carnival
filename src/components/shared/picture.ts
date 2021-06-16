@@ -8,7 +8,6 @@ export default class Picture extends BaseComponent {
   ) {
     super('img', [...styles]);
     this.element.setAttribute('alt', alt);
-    this.element.classList.add(...styles);
     this.element.setAttribute('src', path);
   }
 }

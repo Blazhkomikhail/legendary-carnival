@@ -33,20 +33,22 @@ export default class Input {
     if (this.regexp) {
       this.inputElement.addEventListener('input', () => {
         if (this.regexp.test(this.inputElement.value)) {
-          this.addGreenBorder();
+          this.success();
         } else {
-          this.addRedBorder();
+          this.error();
         }
       });
     }
   }
 
-  addRedBorder(): void {
-    this.inputElement.style.border = '2px solid red';
+  error(): void {
+    this.inputElement.classList.remove('input_success');
+    this.inputElement.classList.add('input_error');
   }
 
-  addGreenBorder(): void {
-    this.inputElement.style.border = '2px solid green';
+  success(): void {
+    this.inputElement.classList.remove('input_error');
+    this.inputElement.classList.add('input_success');
   }
 
   showTooltip(): void {

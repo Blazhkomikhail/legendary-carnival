@@ -4,64 +4,57 @@ import { gameSettings } from '../../services/settings/settings';
 import './game-settings.scss';
 
 export default class GameSettings extends BaseComponent {
-  static selectOption(select: HTMLSelectElement, fieldName: string): void {
-    const cardsName = gameSettings[fieldName];
-    const selectOptions = select.options;
-    const list = select.options;
-    [].forEach.call(list, (option: HTMLOptionElement) => {
-      if (option.value === cardsName) {
-        selectOptions.selectedIndex = option.index;
-      }
-    });
-  }
 
   constructor() {
     super('main', ['settings']);
     const contentWrapper = document.createElement('div');
     contentWrapper.classList.add('settings__container');
 
-    const cardsSelectWrap = document.createElement('div');
-    cardsSelectWrap.classList.add('settings__cards-container');
-    const cardsLabel = document.createElement('label');
-    cardsLabel.classList.add('settings__cards-label');
-    cardsLabel.innerHTML = 'Game cards';
-    const cardsSelect = document.createElement('select');
-    cardsSelect.classList.add('settings__select');
-    cardsSelect.innerHTML = `
-      <option value='animals'>Animals</option>
-      <option value='dogs'>Dogs</option>
-    `;
+    const cadsSelect = GameSettings.createSelect(
+      'cards', 
+      'Game cards',
+      ` <option value='animals'>Animals</option>
+        <option value='dogs'>Dogs</option>
+      `
+      );
 
-    GameSettings.selectOption(cardsSelect, 'cards');
+    const levelSelect = GameSettings.createSelect(
+      'level', 
+      'Difficulty',
+      ` <option value='low'>Low</option>
+        <option value='middle'>Middle</option>
+        <option value='high'>High</option>
+      `);
 
-    cardsSelect.addEventListener('change', () => {
-      gameSettings.cards = cardsSelect.value;
-    });
-
-    const levelSelectWrap = document.createElement('div');
-    levelSelectWrap.classList.add('settings__level-container');
-    const levelLabel = document.createElement('label');
-    levelLabel.classList.add('settings__cards-label');
-    levelLabel.innerHTML = 'Difficulty';
-    const levelSelect = document.createElement('select');
-    levelSelect.classList.add('settings__select');
-    levelSelect.innerHTML = `
-      <option value='low'>Low</option>
-      <option value='middle'>Middle</option>
-      <option value='high'>High</option>
-    `;
-    GameSettings.selectOption(levelSelect, 'level');
-
-    levelSelect.addEventListener('change', () => {
-      gameSettings.level = levelSelect.value;
-    });
-
-    render(cardsSelectWrap, [cardsLabel, cardsSelect]);
-
-    render(levelSelectWrap, [levelLabel, levelSelect]);
-
-    render(contentWrapper, [cardsSelectWrap, levelSelectWrap]);
-
+    render(contentWrapper, [cadsSelect, levelSelect]);
     render(this.element, [contentWrapper]);
+  }
+
+  static selectOption(select: HTMLSelectElement, fieldName: string): void {
+    const cardsName = gameSettings[fieldName];
+    const selectOptions = select.options;
+    [].forEach.call(selectOptions, (option: HTMLOptionElement) => {
+      if (option.value === cardsName) {
+        selectOptions.selectedIndex = option.index;
+      }
+    });
+  }
+
+  static createSelect(className: string, selectName: string, options: string): HTMLElement {
+    const selectWrap = document.createElement('div');
+    selectWrap.classList.add(`settings__${className}-container`);
+    const label = document.createElement('label');
+    label.classList.add('settings__cards-label');
+    label.innerHTML = selectName;
+    const select = document.createElement('select');
+    select.classList.add('settings__select');
+    select.innerHTML = options;
+    render(selectWrap, [label, select]);
+    GameSettings.selectOption(select, className);
+
+    select.addEventListener('change', () => {
+      gameSettings[className] = select.value;
+    });
+    return selectWrap;
   }
 }

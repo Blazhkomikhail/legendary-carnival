@@ -13,7 +13,6 @@ export default class Modal extends BaseComponent {
 
   sendUserData(data: IDBData): void {
     this.db.addUser(data);
-    this.db.getUsers();
     setTimeout(() => {
       window.location.hash = 'best-score';
     }, MESSAGE_TIME);
@@ -41,25 +40,12 @@ export default class Modal extends BaseComponent {
       this.mainContent = form.element;
     }
 
-    this.db.onOk = () => {
-      const successMessage = new Message(
-        'Successful! New player have been created!'
-      );
+    this.db.showMessage = (message: string) => {
+      const successMessage = new Message(message);
       this.mainContent.innerHTML = '';
       this.mainContent.appendChild(successMessage.element);
       setTimeout(() => {
         successMessage.element.remove();
-      }, MESSAGE_TIME);
-    };
-
-    this.db.onError = () => {
-      const errorMessage = new Message(
-        'Warning! Something went wrong. Try again later!'
-      );
-      this.mainContent.innerHTML = '';
-      this.mainContent.appendChild(errorMessage.element);
-      setTimeout(() => {
-        errorMessage.element.remove();
       }, MESSAGE_TIME);
     };
 

@@ -143,25 +143,25 @@ export default class Game extends BaseComponent {
       return;
     }
     if (this.activeCard.image !== card.image) {
-      this.activeCard.element.classList.add('card__front_red');
-      card.element.classList.add('card__front_red');
+      this.activeCard.element.classList.add('card__front_error');
+      card.element.classList.add('card__front_error');
 
       await delay(FLIP_CARDS_DELAY);
       await Promise.all([
         this.activeCard.flipeToBack(),
         card.flipeToBack(),
-        this.activeCard.element.classList.remove('card__front_red'),
-        card.element.classList.remove('card__front_red'),
+        this.activeCard.element.classList.remove('card__front_error'),
+        card.element.classList.remove('card__front_error'),
       ]);
     } else {
-      this.activeCard.element.classList.add('card__front_green');
-      card.element.classList.add('card__front_green');
+      this.activeCard.element.classList.add('card__front_success');
+      card.element.classList.add('card__front_success');
       this.matchCount += 1;
       this.scoreCount();
       this.updatePageScore();
       localStorage.setItem('Score', `${this.score}`);
     }
-    this.activeCard = undefined;
+    this.activeCard = null;
     this.isAnimation = false;
     if (this.matchesNum === this.matchCount) {
       this.timer.stopTimer();
