@@ -22,8 +22,6 @@ import {
 import store from '../../../store/store';
 import { IWinner } from '../../../shared/i-winner';
 
-import '../garage-page.css';
-
 const SECOND = 1000;
 const CARS_PAGE_LIMIT = 7;
 
@@ -123,9 +121,10 @@ export default class Garage extends Component {
     const winnerBody = { time, id, wins: 1 };
     const finisher = { car: carItem, ...winnerBody };
 
+    const brackingDistanse = 50;
     const { car, flag } = currentCarField.getCarFlagElems();
     const htmlDistance = `${Math.round(
-      calcDistanceStartFinish(car.element, flag.element)
+      calcDistanceStartFinish(car.element, flag.element) + brackingDistanse
     )}px`;
     store.animation[id] = animation(car, htmlDistance, time * SECOND);
     const { success } = await drive(id);

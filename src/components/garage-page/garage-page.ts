@@ -4,6 +4,7 @@ import Garage from './garage/garage';
 import { createCar, updateCar } from '../../api/api';
 import { generateRandomCars, updateGarageStore } from '../../utils/utils';
 import store from '../../store/store';
+import './garage-page.css';
 
 export default class GaragePage extends Component {
   constructor(parentNode: HTMLElement | null = null) {
@@ -30,7 +31,6 @@ export default class GaragePage extends Component {
       (controlPanel.updateCarName.element as HTMLInputElement).value = '';
       await updateCar(id, body).then(() => {
         updateGarageStore(store.carsPage);
-        // garage.renderGarage(store.carsPage);
       });
     };
 

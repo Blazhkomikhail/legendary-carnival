@@ -24,6 +24,7 @@
   ],
 
   "rules" : {
+    "react/sort-comp" : 0,
     "import/prefer-default-export": "off",
     "no-control-regex": 0,
     "no-new": 0,

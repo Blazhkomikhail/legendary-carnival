@@ -81,7 +81,7 @@ export default class RenderCarField {
       ['car-image'],
       createCarImage(data.color)
     );
-    this.flag = new Component(road.element, 'div', ['flag'], 'flag');
+    this.flag = new Component(road.element, 'div', ['flag']);
     parentNode.appendChild(generalLi.element);
   }
 
