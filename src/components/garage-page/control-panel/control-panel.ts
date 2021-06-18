@@ -2,14 +2,14 @@ import Component from '../../base-component';
 import store from '../../../store/store';
 
 interface INewCar {
-  name: string;
-  color: string;
+  name: string,
+  color: string
 }
 
 interface IUpdateControls {
-  textInput: HTMLElement;
-  colorInput: HTMLElement;
-  button: HTMLElement;
+  textInput: HTMLElement,
+  colorInput: HTMLElement,
+  button: HTMLElement
 }
 export default class ControlPanel extends Component {
   onCreate: () => void;
@@ -71,29 +71,25 @@ export default class ControlPanel extends Component {
     const buttonsWrapper = new Component(this.element, 'div', [
       'buttons-wrapper',
     ]);
-    const raceButton = new Component(
-      buttonsWrapper.element,
-      'button',
-      ['race-btn', 'form-btn'],
-      'race'
-    );
-    raceButton.element.addEventListener('click', () => this.onRace());
+    
+    const buttonNames = ['race', 'reset', 'generate'];
 
-    const resetButton = new Component(
-      buttonsWrapper.element,
-      'button',
-      ['reset-btn', 'form-btn'],
-      'reset'
-    );
-    resetButton.element.addEventListener('click', () => this.onReset());
+    const buttons: Array<Component> = [];
+    
+    buttonNames.forEach((btnName) => {
+      const button = new Component(
+        buttonsWrapper.element,
+        'button',
+        [`${btnName}-btn`, 'form-btn'],
+        btnName
+      );
+      buttons.push(button);
+    })
 
-    const generateButton = new Component(
-      buttonsWrapper.element,
-      'button',
-      ['generate-btn', 'form-btn'],
-      'generate cars'
-    );
-    generateButton.element.addEventListener('click', () => this.onGenerate());
+    buttons[0].element.addEventListener('click', () => this.onRace());
+    buttons[1].element.addEventListener('click', () => this.onReset());
+    buttons[2].element.addEventListener('click', () => this.onGenerate());
+
   }
 
   public getInpCarData(): INewCar {
