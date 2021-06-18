@@ -1,4 +1,3 @@
-// import { getCars, getWinners } from '../api/api';
 import { ICar } from '../shared/i-car';
 import { IWinner } from '../shared/i-winner';
 
@@ -12,15 +11,12 @@ let winners: Array<IWinner>;
 let winnersCount: string;
 const animation: IAnimation = {};
 const DEF_INP_COLOR = '#5d72bb';
-const createData = {
+const inputData = {
   name: '',
   color: '#5d72bb',
+  id: 0
 };
-const updateData = {
-  name: '',
-  color: '#5d72bb',
-  id: 0,
-};
+const garageInputType = 'create';
 
 export default {
   carsPage: 1,
@@ -32,7 +28,7 @@ export default {
   animation,
   sortBy: null,
   sortOrder: null,
-  createData,
-  updateData,
+  inputData,
   DEF_INP_COLOR,
+  garageInputType
 };

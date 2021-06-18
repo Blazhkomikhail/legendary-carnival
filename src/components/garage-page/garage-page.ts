@@ -7,34 +7,25 @@ import store from '../../store/store';
 import './garage-page.css';
 
 export default class GaragePage extends Component {
+  private controlPanel: ControlPanel;
+
   constructor(parentNode: HTMLElement | null = null) {
     super(parentNode, 'div', ['garage-page']);
 
-    const controlPanel = new ControlPanel(this.element);
+    this.controlPanel = new ControlPanel(this.element);
     const garage = new Garage(this.element);
 
-    garage.grabSubscriber(controlPanel);
+    garage.grabSubscriber(this.controlPanel);
 
-    controlPanel.onCreate = async () => {
-      const body = controlPanel.getCreateCarData();
-      if (body.name.length === 0) return;
-      store.createData.name = '';
-      store.createData.color = store.DEF_INP_COLOR;
-      (controlPanel.createCarName.element as HTMLInputElement).value = '';
-      await createCar(body);
-    };
-
-    controlPanel.onUpdate = async () => {
-      const { id } = store.updateData;
-      const body = controlPanel.getUpdateCarData();
-      store.updateData.name = '';
-      (controlPanel.updateCarName.element as HTMLInputElement).value = '';
-      await updateCar(id, body).then(() => {
-        updateGarageStore(store.carsPage);
-      });
-    };
-
-    controlPanel.onGenerate = async () => {
+    this.controlPanel.onDataSend = async () => {
+      if(store.garageInputType === 'create') {
+        this.onCreate();
+      } else {
+        this.onUpdate();
+      }
+    }
+    
+    this.controlPanel.onGenerate = async () => {
       return Promise.resolve()
         .then(() => {
           const cars = generateRandomCars();
@@ -54,7 +45,7 @@ export default class GaragePage extends Component {
         .catch();
     };
 
-    controlPanel.onRace = async () => {
+    this.controlPanel.onRace = async () => {
       if (garage.isRacing) return;
       const racers = garage.getRacers();
       racers.forEach((racer) => {
@@ -63,7 +54,7 @@ export default class GaragePage extends Component {
       garage.isRacing = true;
     };
 
-    controlPanel.onReset = async () => {
+    this.controlPanel.onReset = async () => {
       const racers = garage.getRacers();
       if (!racers.length) return;
       racers.forEach((racer) => {
@@ -84,26 +75,38 @@ export default class GaragePage extends Component {
         'garage-btn',
       ];
 
-      const isInputTextActive =
-        (controlPanel.updateCarName.element as HTMLInputElement).disabled ===
-        false;
+      const isInputEmpty =
+      (this.controlPanel.nameInp.element as HTMLInputElement).value === '';
+      
       const isTargetForbiden = forbidenTargetClassNames.some((className) =>
         (target as HTMLElement).classList.contains(className)
       );
 
-      if (isInputTextActive && !isTargetForbiden) {
-        (controlPanel.updateCarName.element as HTMLInputElement).value = '';
-        (controlPanel.updateCarColor.element as HTMLInputElement).value =
+      if (!isInputEmpty && !isTargetForbiden) {
+        (this.controlPanel.nameInp.element as HTMLInputElement).value = '';
+        (this.controlPanel.colorInp.element as HTMLInputElement).value =
           store.DEF_INP_COLOR;
-        (controlPanel.updateCarName.element as HTMLInputElement).disabled =
-          true;
-        (controlPanel.updateCarColor.element as HTMLInputElement).disabled =
-          true;
-        (controlPanel.updateButton.element as HTMLButtonElement).disabled =
-          true;
-        store.updateData.color = store.DEF_INP_COLOR;
-        store.updateData.name = '';
+        store.inputData.color = store.DEF_INP_COLOR;
+        store.inputData.name = '';
       }
     });
   }
+
+  onCreate = async () => {
+    const body = this.controlPanel.getInpCarData();
+    if (body.name.length === 0) return;
+    store.inputData.name = '';
+    store.inputData.color = store.DEF_INP_COLOR;
+    (this.controlPanel.nameInp.element as HTMLInputElement).value = '';
+    await createCar(body);
+  };
+
+  onUpdate = () => {
+    const { id } = store.inputData;
+    const body = this.controlPanel.getInpCarData();
+    store.inputData.name = '';
+    store.inputData.color = store.DEF_INP_COLOR;
+    updateCar(id, body);
+    store.garageInputType = 'create';
+  };
 }

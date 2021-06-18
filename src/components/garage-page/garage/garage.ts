@@ -195,7 +195,7 @@ export default class Garage extends Component {
 
   onCarSelect(carPack: RenderCarField): void {
     this.selectedCar = carPack.carData;
-    store.updateData = carPack.carData;
+    store.inputData = carPack.carData;
   }
 
   onNextPage(): void {
@@ -231,14 +231,12 @@ export default class Garage extends Component {
   }
 
   notifySubscriber(): void {
-    const controls = this.subscriber.getUpdateControlers();
-    (controls.colorInput as HTMLInputElement).disabled = false;
-    (controls.textInput as HTMLInputElement).disabled = false;
-    (controls.button as HTMLButtonElement).disabled = false;
-
+    const controls = this.subscriber.getInputControllers();
     const selectedName = this.selectedCar.name;
     const selectedColor = this.selectedCar.color;
     (controls.textInput as HTMLInputElement).value = selectedName;
     (controls.colorInput as HTMLInputElement).value = selectedColor;
+    (controls.button as HTMLButtonElement).innerHTML = 'update';
+    store.garageInputType = 'update';
   }
 }

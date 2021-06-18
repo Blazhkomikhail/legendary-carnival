@@ -22,106 +22,51 @@ export default class ControlPanel extends Component {
 
   onGenerate: () => void;
 
-  createCarName: Component;
+  onDataSend: () => void;
 
-  createCarColor: Component;
+  nameInp: Component;
 
-  updateCarName: Component;
+  colorInp: Component;
 
-  updateCarColor: Component;
-
-  updateButton: Component;
+  sendDataButton: Component;
 
   constructor(parentNode: HTMLElement | null = null) {
     super(parentNode, 'div', ['control-panel']);
 
-    const createWrapper = new Component(this.element, 'form', ['create-form']);
+    const inputsWrapper = new Component(this.element, 'form', ['create-form']);
     
-    this.createCarName = new Component(createWrapper.element, 'input');
-    this.createCarName.element.setAttribute('type', 'text');
-    this.createCarName.element.setAttribute('maxlength', '25');
-    (
-      this.createCarName.element as HTMLInputElement
-    ).value = `${store.createData.name}`;
-    this.createCarName.element.addEventListener('input', () => {
-      store.createData.name = (
-        this.createCarName.element as HTMLInputElement
-      ).value;
+    this.nameInp = new Component(inputsWrapper.element, 'input');
+    this.nameInp.element.setAttribute('type', 'text');
+    this.nameInp.element.setAttribute('maxlength', '25');
+    const type = store.garageInputType;
+
+    (this.nameInp.element as HTMLInputElement).value = store.inputData.name;
+    
+    this.nameInp.element.addEventListener('input', () => {
+      store.inputData.name = (this.nameInp.element as HTMLInputElement).value;
     });
 
-    this.createCarColor = new Component(createWrapper.element, 'input');
-    this.createCarColor.element.setAttribute('type', 'color');
-    this.createCarColor.element.setAttribute('value', `${store.DEF_INP_COLOR}`);
-    this.createCarColor.element.addEventListener('input', () => {
-      store.createData.color = (
-        this.createCarColor.element as HTMLInputElement
-      ).value;
-    });
-
-    const createButton = new Component(
-      createWrapper.element,
-      'button',
-      ['create-btn', 'form-btn'],
-      'create'
-    );
-    createButton.element.addEventListener('click', () => this.onCreate());
-
-    const updateWrapper = new Component(this.element, 'form', ['update-form']);
-    this.updateCarName = new Component(updateWrapper.element, 'input', [
-      'update-input-text',
-    ]);
-    this.updateCarName.element.setAttribute('type', 'text');
-    this.updateCarName.element.setAttribute('maxlength', '25');
-    (
-      this.updateCarName.element as HTMLInputElement
-    ).value = `${store.updateData.name}`;
-    this.updateCarName.element.addEventListener('input', () => {
-      store.updateData.name = (
-        this.updateCarName.element as HTMLInputElement
-      ).value;
-    });
-
-    this.updateCarColor = new Component(updateWrapper.element, 'input', [
-      'update-input-color',
-    ]);
-    this.updateCarColor.element.setAttribute('type', 'color');
-    this.updateCarColor.element.addEventListener('input', () => {
-      store.updateData.color = (
-        this.updateCarColor.element as HTMLInputElement
-      ).value;
-    });
-
-    this.updateButton = new Component(
-      updateWrapper.element,
-      'button',
-      ['update-btn', 'form-btn'],
-      'update'
-    );
-
-    const updateCarNameValue = (this.updateCarName.element as HTMLInputElement)
-      .value;
-
-    if (updateCarNameValue === '') {
-      (this.updateCarName.element as HTMLInputElement).disabled = true;
-      (this.updateCarColor.element as HTMLInputElement).disabled = true;
-      (this.updateButton.element as HTMLButtonElement).disabled = true;
-    }
-
-    const isUpdateCarNameActive =
-      (this.updateCarName.element as HTMLInputElement).disabled === false;
-    if (isUpdateCarNameActive) {
-      this.updateCarColor.element.setAttribute(
-        'value',
-        `${store.updateData.color}`
-      );
+    this.colorInp = new Component(inputsWrapper.element, 'input');
+    this.colorInp.element.setAttribute('type', 'color');
+    const colorChanged = store.inputData.color !== store.DEF_INP_COLOR;
+    if (!colorChanged) {
+      this.colorInp.element.setAttribute('value', `${store.DEF_INP_COLOR}`);
     } else {
-      this.updateCarColor.element.setAttribute(
-        'value',
-        `${store.DEF_INP_COLOR}`
-      );
+      this.colorInp.element.setAttribute('value', `${store.inputData.color}`);
     }
+      
+    this.colorInp.element.addEventListener('input', () => {
+      store.inputData.color = (this.colorInp.element as HTMLInputElement)
+        .value;
+    });
 
-    this.updateButton.element.addEventListener('click', () => this.onUpdate());
+    this.sendDataButton = new Component(
+      inputsWrapper.element,
+      'button',
+      ['send-btn', 'form-btn'],
+      `create`
+    );
+    this.sendDataButton.element.addEventListener('click', () => this.onDataSend());
 
     const buttonsWrapper = new Component(this.element, 'div', [
       'buttons-wrapper',
@@ -151,25 +96,18 @@ export default class ControlPanel extends Component {
     generateButton.element.addEventListener('click', () => this.onGenerate());
   }
 
-  public getCreateCarData(): INewCar {
+  public getInpCarData(): INewCar {
     return {
-      name: (this.createCarName.element as HTMLInputElement).value,
-      color: (this.createCarColor.element as HTMLInputElement).value,
+      name: (this.nameInp.element as HTMLInputElement).value,
+      color: (this.colorInp.element as HTMLInputElement).value,
     };
   }
 
-  public getUpdateCarData(): INewCar {
+  public getInputControllers(): IUpdateControls {
     return {
-      name: (this.updateCarName.element as HTMLInputElement).value,
-      color: (this.updateCarColor.element as HTMLInputElement).value,
-    };
-  }
-
-  public getUpdateControlers(): IUpdateControls {
-    return {
-      textInput: this.updateCarName.element,
-      colorInput: this.updateCarColor.element,
-      button: this.updateButton.element,
+      textInput: this.nameInp.element,
+      colorInput: this.colorInp.element,
+      button: this.sendDataButton.element,
     };
   }
 }
