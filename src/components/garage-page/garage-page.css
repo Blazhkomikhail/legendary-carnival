@@ -21,6 +21,7 @@
   border: none;
   outline-style: none;
   transition: all 0.5s;
+  text-transform: uppercase;
 }
 
 .form-btn:hover:not(.update-btn[disabled])  {

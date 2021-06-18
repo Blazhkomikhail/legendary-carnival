@@ -11,7 +11,7 @@ import {
 } from '../../../api/api';
 import RenderCarField from './car';
 import { ICar } from '../../../shared/i-car';
-import ControlPanel from '../control-panel/control-panel';
+import type ControlPanel from '../control-panel/control-panel';
 import {
   calcDistanceStartFinish,
   constructPaginationBtns,

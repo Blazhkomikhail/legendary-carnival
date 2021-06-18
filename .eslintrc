@@ -10,7 +10,7 @@
 
   "extends": [
     "airbnb-typescript/base",
-    "airbnb-typescript-prettier"
+    "plugin:prettier/recommended"
   ],
 
   "parser":"@typescript-eslint/parser",
@@ -20,11 +20,11 @@
   },
 
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "prettier"
   ],
 
   "rules" : {
-    "react/sort-comp" : 0,
     "import/prefer-default-export": "off",
     "no-control-regex": 0,
     "no-new": 0,

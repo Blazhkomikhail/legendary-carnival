@@ -36,6 +36,7 @@ export default class ControlPanel extends Component {
     super(parentNode, 'div', ['control-panel']);
 
     const createWrapper = new Component(this.element, 'form', ['create-form']);
+    
     this.createCarName = new Component(createWrapper.element, 'input');
     this.createCarName.element.setAttribute('type', 'text');
     this.createCarName.element.setAttribute('maxlength', '25');
@@ -61,7 +62,7 @@ export default class ControlPanel extends Component {
       createWrapper.element,
       'button',
       ['create-btn', 'form-btn'],
-      'CREATE'
+      'create'
     );
     createButton.element.addEventListener('click', () => this.onCreate());
 
@@ -94,7 +95,7 @@ export default class ControlPanel extends Component {
       updateWrapper.element,
       'button',
       ['update-btn', 'form-btn'],
-      'UPDATE'
+      'update'
     );
 
     const updateCarNameValue = (this.updateCarName.element as HTMLInputElement)
@@ -129,7 +130,7 @@ export default class ControlPanel extends Component {
       buttonsWrapper.element,
       'button',
       ['race-btn', 'form-btn'],
-      'Race'
+      'race'
     );
     raceButton.element.addEventListener('click', () => this.onRace());
 
@@ -137,7 +138,7 @@ export default class ControlPanel extends Component {
       buttonsWrapper.element,
       'button',
       ['reset-btn', 'form-btn'],
-      'RESET'
+      'reset'
     );
     resetButton.element.addEventListener('click', () => this.onReset());
 
@@ -145,7 +146,7 @@ export default class ControlPanel extends Component {
       buttonsWrapper.element,
       'button',
       ['generate-btn', 'form-btn'],
-      'GENERATE CARS'
+      'generate cars'
     );
     generateButton.element.addEventListener('click', () => this.onGenerate());
   }
