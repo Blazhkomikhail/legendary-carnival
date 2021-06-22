@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npx webpack",
-    "dev": "webpack serve --env develop",
+    "start": "webpack serve --env develop",
     "lint": "eslint ./src"
   },
   "devDependencies": {

@@ -1,10 +1,10 @@
-import Component from '../../base-component';
+import Component from '../../baseComponent';
 import { createCarImage } from './carImage';
 import { ICar } from '../../../shared/i-car';
 
 interface IStartFinishPoints {
   car: Component;
-  flag: Component;
+  finish: Component;
 }
 
 interface IStartStopBtns {
@@ -12,7 +12,7 @@ interface IStartStopBtns {
   StopBtn: Component;
 }
 
-export default class RenderCarField {
+export default class CarField {
   onRemove: () => void;
 
   onSelect: () => void;
@@ -29,7 +29,7 @@ export default class RenderCarField {
 
   stopButton: Component;
 
-  flag: Component;
+  finish: Component;
 
   constructor(data: ICar, parentNode: HTMLElement) {
     this.carData = data;
@@ -81,14 +81,14 @@ export default class RenderCarField {
       ['car-image'],
       createCarImage(data.color)
     );
-    this.flag = new Component(road.element, 'div', ['flag']);
+    this.finish = new Component(road.element, 'div', ['finish']);
     parentNode.appendChild(generalLi.element);
   }
 
-  public getCarFlagElems(): IStartFinishPoints {
+  public getCarFinishElems(): IStartFinishPoints {
     return {
       car: this.carImage,
-      flag: this.flag,
+      finish: this.finish,
     };
   }
 

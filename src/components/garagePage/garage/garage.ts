@@ -1,4 +1,4 @@
-import Component from '../../base-component';
+import Component from '../../baseComponent';
 import {
   deleteCar,
   startEngine,
@@ -9,9 +9,9 @@ import {
   deleteWinner,
   IWinnerBody,
 } from '../../../api/api';
-import RenderCarField from './car';
+import RenderCarField from './carField';
 import { ICar } from '../../../shared/i-car';
-import type ControlPanel from '../control-panel/control-panel';
+import type ControlPanel from '../controlPanel/controlPanel';
 import {
   calcDistanceStartFinish,
   constructPaginationBtns,
@@ -30,15 +30,15 @@ export default class Garage extends Component {
 
   onSelectClick: (id: number) => number;
 
-  currentPage: number;
+  // currentPage: number;
 
   racers: Array<RenderCarField> = [];
 
   selectedCar: ICar;
 
-  raceDistance: string;
+  // raceDistance: string;
 
-  animationID: AnimationPlaybackEventInit;
+  // animationID: AnimationPlaybackEventInit;
 
   amIFirst = true;
 
@@ -63,10 +63,9 @@ export default class Garage extends Component {
 
   renderGarage(page: number): void {
     this.clear();
-    const { carsCount } = store;
-    const carsItems = store.cars;
+    const { cars, carsCount } = store;
+    // this.currentPage = page;
     this.racers = [];
-    this.currentPage = page;
     store.carsPage = page;
     const pageNumber = `Page #${page.toString()}`;
 
@@ -75,7 +74,7 @@ export default class Garage extends Component {
 
     const carsField = new Component(this.element, 'ul', ['garage']);
 
-    carsItems.forEach((car: ICar) => {
+    cars.forEach((car: ICar) => {
       const carField = new RenderCarField(car, carsField.element);
       this.racers.push(carField);
       carField.onRemove = () => this.onCarRemove(carField);
@@ -122,9 +121,9 @@ export default class Garage extends Component {
     const finisher = { car: carItem, ...winnerBody };
 
     const brackingDistanse = 50;
-    const { car, flag } = currentCarField.getCarFlagElems();
+    const { car, finish } = currentCarField.getCarFinishElems();
     const htmlDistance = `${Math.round(
-      calcDistanceStartFinish(car.element, flag.element) + brackingDistanse
+      calcDistanceStartFinish(car.element, finish.element) + brackingDistanse
     )}px`;
     store.animation[id] = animation(car, htmlDistance, time * SECOND);
     const { success } = await drive(id);
@@ -199,8 +198,8 @@ export default class Garage extends Component {
   }
 
   onNextPage(): void {
-    const page = this.currentPage + 1;
-    store.carsPage = page;
+    const page = store.carsPage + 1;
+    store.carsPage += 1;
     (async () => {
       await updateGarageStore(store.carsPage).then(() =>
         this.renderGarage(page)
@@ -209,8 +208,8 @@ export default class Garage extends Component {
   }
 
   onPrevPage(): void {
-    const page = this.currentPage - 1;
-    store.carsPage = page;
+    const page = store.carsPage - 1;
+    store.carsPage -= 1;
     (async () => {
       await updateGarageStore(store.carsPage).then(() =>
         this.renderGarage(page)
@@ -222,9 +221,9 @@ export default class Garage extends Component {
     return this.racers;
   }
 
-  public getCurrentPage(): number {
-    return this.currentPage;
-  }
+  // public getCurrentPage(): number {
+  //   return this.currentPage;
+  // }
 
   public getSelectedCarData(): ICar {
     return this.selectedCar;

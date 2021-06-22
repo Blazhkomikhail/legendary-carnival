@@ -1,4 +1,4 @@
-import Component from '../components/base-component';
+import Component from '../components/baseComponent';
 import { getWinners, getCars, IBody } from '../api/api';
 import store from '../store/store';
 
@@ -104,6 +104,11 @@ export const updateGarageStore = async (
   store.cars = cars.items;
 };
 
+export const updatePagesByDefault = () => {
+  updateGarageStore();
+  updateWinnersStore();
+}
+
 export const paginationButtonsDisable = (
   prevBtn: Component,
   nextBtn: Component,
@@ -118,6 +123,7 @@ export const paginationButtonsDisable = (
     (prev.element as HTMLButtonElement).disabled = true;
     (next.element as HTMLButtonElement).disabled = true;
   } else if (currentPage < 2) {
+
     (prev.element as HTMLButtonElement).disabled = true;
   } else if (lastPageNum === currentPage) {
     (next.element as HTMLButtonElement).disabled = true;

@@ -1,4 +1,4 @@
-import Component from '../base-component';
+import Component from '../baseComponent';
 import './header.css';
 
 export default class Header extends Component {

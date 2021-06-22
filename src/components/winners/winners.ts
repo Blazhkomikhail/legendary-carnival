@@ -1,5 +1,5 @@
-import Component from '../base-component';
-import { createCarImage } from '../garage-page/garage/carImage';
+import Component from '../baseComponent';
+import { createCarImage } from '../garagePage/garage/carImage';
 import { IWinner } from '../../shared/i-winner';
 import store from '../../store/store';
 import { constructPaginationBtns, updateWinnersStore } from '../../utils/utils';

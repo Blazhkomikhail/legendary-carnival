@@ -1,10 +1,10 @@
-import Component from '../base-component';
-import ControlPanel from './control-panel/control-panel';
+import Component from '../baseComponent';
+import ControlPanel from './controlPanel/controlPanel';
 import Garage from './garage/garage';
 import { createCar, updateCar } from '../../api/api';
 import { generateRandomCars, updateGarageStore } from '../../utils/utils';
 import store from '../../store/store';
-import './garage-page.css';
+import './garagePage.css';
 
 export default class GaragePage extends Component {
   private controlPanel: ControlPanel;
@@ -18,7 +18,7 @@ export default class GaragePage extends Component {
     garage.grabSubscriber(this.controlPanel);
 
     this.controlPanel.onDataSend = async () => {
-      if(store.garageInputType === 'create') {
+      if (store.garageInputType === 'create') {
         this.onCreate();
       } else {
         this.onUpdate();
@@ -67,8 +67,8 @@ export default class GaragePage extends Component {
     window.addEventListener('click', (e) => {
       const { target } = e;
       const forbidenTargetClassNames = [
-        'update-input-text',
-        'update-input-color',
+        'input-text',
+        'input-color',
         'update-btn',
         'select-button',
         'winners-btn',

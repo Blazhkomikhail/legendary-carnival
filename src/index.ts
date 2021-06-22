@@ -1,9 +1,9 @@
 import Header from './components/header/header';
 import Main from './components/main/main';
-import Component from './components/base-component';
-import GaragePage from './components/garage-page/garage-page';
-import Winners from './components/winners-page/winners';
-import { updateWinnersStore, updateGarageStore } from './utils/utils';
+import Component from './components/baseComponent';
+import GaragePage from './components/garagePage/garagePage';
+import Winners from './components/winners/winners';
+import { updatePagesByDefault } from './utils/utils';
 
 import './style.scss';
 
@@ -63,7 +63,6 @@ class App extends Component {
 window.onload = () => {
   const app = new App(document.body);
   window.addEventListener('popstate', () => app.route());
-  updateWinnersStore();
-  updateGarageStore();
+  updatePagesByDefault();
   app.route();
 };

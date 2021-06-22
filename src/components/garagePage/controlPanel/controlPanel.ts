@@ -1,4 +1,4 @@
-import Component from '../../base-component';
+import Component from '../../baseComponent';
 import store from '../../../store/store';
 
 interface INewCar {
@@ -35,7 +35,7 @@ export default class ControlPanel extends Component {
 
     const inputsWrapper = new Component(this.element, 'form', ['create-form']);
     
-    this.nameInp = new Component(inputsWrapper.element, 'input');
+    this.nameInp = new Component(inputsWrapper.element, 'input', ['input-text']);
     this.nameInp.element.setAttribute('type', 'text');
     this.nameInp.element.setAttribute('maxlength', '25');
     const type = store.garageInputType;
@@ -46,7 +46,7 @@ export default class ControlPanel extends Component {
       store.inputData.name = (this.nameInp.element as HTMLInputElement).value;
     });
 
-    this.colorInp = new Component(inputsWrapper.element, 'input');
+    this.colorInp = new Component(inputsWrapper.element, 'input', ['input-color']);
     this.colorInp.element.setAttribute('type', 'color');
     const colorChanged = store.inputData.color !== store.DEF_INP_COLOR;
     if (!colorChanged) {
@@ -71,7 +71,7 @@ export default class ControlPanel extends Component {
     const buttonsWrapper = new Component(this.element, 'div', [
       'buttons-wrapper',
     ]);
-    
+     
     const buttonNames = ['race', 'reset', 'generate'];
 
     const buttons: Array<Component> = [];
