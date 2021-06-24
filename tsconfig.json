@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "jsx": "react",
+    "noEmitOnError": true,
+    "noUnusedLocals": true,
+    "removeComments": true,
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "CommonJS",
+    "allowJs": true,
+    "sourceMap": true,
+  },
+  "files": [
+    "./declarations.d.ts"
+  ],
+  "paths": {
+    "App": ["src/App"],
+    "Pages/*": ["src/Pages/*"],
+  },
+
+  "exclude": [
+    "node_modules"
+  ]
+
+}
