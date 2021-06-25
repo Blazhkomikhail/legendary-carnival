@@ -1,34 +1,43 @@
-import React, { ReactElement }  from 'react';
+import React, { useState, useEffect }  from 'react';
 import CategoryCard from './CategoryCard';
-import { cards, categoryNames } from '../../assets/cards';
+import { cardSets, categoryData } from '../../assets/cards';
+import './Main.scss';
+import { Link } from "react-router-dom";
 
-export default class Main extends React.Component {
+const Main = () => {
+  
+  useEffect(() => {
+    getData();
+  }, []);
 
-  categories: Array<ReactElement>;
+  const [categories, setCategories] = useState([]);
+  const [item, setItem] = useState([]);
 
-  constructor(props: string) {
-    super(props);
-    const names = categoryNames;
-    const cardsData = cards;
-    this.categories = names.map((name, idx) => {
-      const imageSrc = cardsData[idx][0].image;
-      return (
-        <div className="category" key={idx} >
-          <CategoryCard name={name} image={imageSrc} />
-        </div>
-      )
-    })
+  const getData = () => {
+    const namesData = categoryData;
+    const cardsData = cardSets;
+    setCategories(namesData);
+    setItem(cardsData);
   }
 
-  render() {
+  const categoryComponents = categories.map(({name, id}, idx) => {
+    const imageSrc = item[idx].items[0].image;
     return (
+      <Link to={'/' + id} className="category" key={categoryData[idx].id} >
+        <CategoryCard name={name} image={imageSrc} />
+      </Link>
+    )
+  })
+
+  return (
       <div className="main">
         <div className="main__buttons">
-          <div className="main__categories-wrap">
-            {this.categories}
+          <div className="main__categories-wrap">        
+            {categoryComponents}       
           </div>
         </div>
       </div>
-    )
-  }
+  )
 }
+
+export default Main;

@@ -1,12 +1,23 @@
 import React from "react";
-import Main from '../Pages/main/main';
+import Main from '../Pages/Main/Main';
+import Train from '../Pages/Train/Train';
+import { 
+  BrowserRouter as Router, 
+  Switch, 
+  Route 
+} from "react-router-dom";
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <div className="container">
-        <Main />
-      </div>
-    )
-  }
+const App = () => {
+  return (
+    <Router>
+    <div className="container">
+      <Switch>
+        <Route path="/" exact component={Main} />
+        <Route path="/:id" component={Train} />
+      </Switch>
+    </div>
+    </Router>
+  )
 }
+
+export default App;

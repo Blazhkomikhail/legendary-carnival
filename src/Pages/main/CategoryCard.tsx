@@ -5,13 +5,14 @@ type MyProps = {
   image: string;
 };
 
-export default class CategoryCard extends React.Component<MyProps> {
-  render() {
+const CategoryCard = (props: MyProps) => {
+    const { image, name } = props;
     return (
       <div className="category-card">
-        <img src={this.props.image} className="category-card__image"></img> 
-        <div className="category-card__name">{this.props.name}</div> 
+        <img src = { image } className="category-card__image" alt=""/> 
+        <div className="category-card__name">{ name }</div> 
       </div>
     )
-  }
-}
+};
+
+export default CategoryCard;

@@ -13,16 +13,23 @@
     "allowJs": true,
     "sourceMap": true,
   },
+
   "files": [
     "./declarations.d.ts"
   ],
+
   "paths": {
     "App": ["src/App"],
     "Pages/*": ["src/Pages/*"],
   },
 
+  "include": [
+    "./src/Client.tsx",
+  ],
+
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "./src/assets/cards.js"
   ]
 
 }
