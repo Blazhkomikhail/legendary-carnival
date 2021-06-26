@@ -18,8 +18,17 @@ const Train = ( { match }: RouteComponentProps<MatchId> ) => {
     setItems(cardsItems.items);
   }
 
+  const handleCardClick = (sound: string) => {
+    const audio = new Audio(sound);
+    audio.play();
+  }
+
   const cardsComponents = items.map(item => {
-    return <Card key={item.id} word={item.word} sound={item.audioSrc} image={item.image} />
+    return <Card key={item.id} 
+    word={item.word} 
+    image={item.image}
+    onClick={() => handleCardClick(item.audioSrc)} 
+    />
   })
  
   return (
