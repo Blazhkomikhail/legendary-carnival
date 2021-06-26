@@ -9,9 +9,7 @@ type MatchId = {
 
 const Train = ( { match }: RouteComponentProps<MatchId> ) => {
 
-  useEffect(() => {
-    getItems();
-  }, []);
+  useEffect(() => getItems(), []);
 
   const [items, setItems] = useState([]);
 
@@ -21,7 +19,7 @@ const Train = ( { match }: RouteComponentProps<MatchId> ) => {
   }
 
   const cardsComponents = items.map(item => {
-    return <Card key={item.id} word={item.word} image={item.image} />
+    return <Card key={item.id} word={item.word} sound={item.audioSrc} image={item.image} />
   })
  
   return (
