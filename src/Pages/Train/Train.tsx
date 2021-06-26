@@ -23,17 +23,12 @@ const Train = ( { match }: RouteComponentProps<MatchId> ) => {
     audio.play();
   }
 
-  const handleFlipCardClick = () => {
-    console.log('flip');
-  }
-
   const cardsComponents = items.map(item => {
     return <Card key={item.id}
     word={item.word} 
     image={item.image}
     translation={item.translation}
     onCardClick={() => handleCardClick(item.audioSrc)} 
-    onFlipClick={() => handleFlipCardClick()} 
     />
   })
  
