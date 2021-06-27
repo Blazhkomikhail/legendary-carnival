@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import Card from '../../components/Card/Card';
 import { cardSets } from '../../assets/cards';
 import { RouteComponentProps } from 'react-router';
+import { useSelector } from 'react-redux';
+
 
 type MatchId = {
   id: string 
 }
 
 const Train = ( { match }: RouteComponentProps<MatchId> ) => {
-
-  useEffect(() => getItems(), []);
+  const mode = useSelector(state => state);
+  useEffect(() => getItems(),[]);
 
   const [items, setItems] = useState([]);
 
@@ -34,7 +36,7 @@ const Train = ( { match }: RouteComponentProps<MatchId> ) => {
   })
  
   return (
-    <div className="train">
+    <div className={ mode === 'TRAIN' ? 'train': 'game' }>
       {cardsComponents}
     </div>
   )

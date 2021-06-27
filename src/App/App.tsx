@@ -1,5 +1,6 @@
 import React from "react";
-import Main from '../Pages/Main/Main';
+import Header from '../components/Header/Header';
+import Categories from '../Pages/Categories/Categories';
 import Train from '../Pages/Train/Train';
 import {
   HashRouter,
@@ -12,8 +13,9 @@ const App = () => {
   return (
     <HashRouter>
     <div className="container">
+      <Header />
       <Switch>
-        <Route path="/" exact component={Main} />
+        <Route path="/" exact component={Categories} />
         <Route path="/:id" component={Train} />
       </Switch>
     </div>

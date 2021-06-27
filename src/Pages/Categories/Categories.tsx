@@ -1,10 +1,10 @@
 import React, { useState, useEffect }  from 'react';
 import CategoryCard from './CategoryCard';
 import { cardSets, categoryData } from '../../assets/cards';
-import './Main.scss';
+import './categories.scss';
 import { Link } from "react-router-dom";
 
-const Main = () => {
+const Categories = () => {
   
   useEffect(() => {
     getData();
@@ -31,13 +31,11 @@ const Main = () => {
 
   return (
       <div className="main">
-        <div className="main__buttons">
           <div className="main__categories-wrap">        
-            {categoryComponents}       
-          </div>
+            {categoryComponents}
         </div>
       </div>
   )
 }
 
-export default Main;
+export default Categories;
