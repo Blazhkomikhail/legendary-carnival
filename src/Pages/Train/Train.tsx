@@ -15,6 +15,7 @@ const Train = ( { match }: RouteComponentProps<MatchId> ) => {
 
   const getItems = () => {
     const cardsItems = cardSets.find(set => set.id.toString() === match.params.id);
+    if (!cardsItems) return;
     setItems(cardsItems.items);
   }
 

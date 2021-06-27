@@ -1,8 +1,8 @@
 import React from "react";
 import Main from '../Pages/Main/Main';
 import Train from '../Pages/Train/Train';
-import { 
-  BrowserRouter as Router, 
+import {
+  HashRouter,
   Switch, 
   Route 
 } from "react-router-dom";
@@ -10,14 +10,14 @@ import './app.scss';
 
 const App = () => {
   return (
-    <Router>
+    <HashRouter>
     <div className="container">
       <Switch>
         <Route path="/" exact component={Main} />
         <Route path="/:id" component={Train} />
       </Switch>
     </div>
-    </Router>
+    </HashRouter>
   )
 }
 
