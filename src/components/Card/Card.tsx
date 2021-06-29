@@ -16,7 +16,6 @@ const Card = (props: MyProps) => {
     const { word, image, translation, audioSrc, gameItem, matchHandler } = props;
     const [isFlipped, setFlip] = useState(false);
     const [isActive, setActive] = useState(true);
-    console.log('word from card: ', gameItem)
     const handleFlip = (event: React.MouseEvent) => {
       event.stopPropagation();
       setFlip(current => !current);

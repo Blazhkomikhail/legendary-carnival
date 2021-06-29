@@ -52,7 +52,6 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
   const handleCardMatch = () => {
     setGuessItems(currentState => currentState.filter(item => item.name !== currentWord));
     handlePlay();
-    console.log(guessItems, currentWord);
   }
 
   const cardsComponents = items.map(item => {
