@@ -14,7 +14,7 @@ type MatchId = {
 //   sound: string
 // }
 
-const Train = ( { match }: RouteComponentProps<MatchId> ) => {
+const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
   const mode = useSelector(state => state);
   useEffect(() => getItems(),[]);
 
@@ -22,7 +22,6 @@ const Train = ( { match }: RouteComponentProps<MatchId> ) => {
   const [guessItems, setGuessItems] = useState([]);
   const [currentWord, setCurrentWord] = useState('');
   // let gameItems: Array<GameItems> = [];
-
 
   const getItems = () => {
     const cardsItems = cardSets.find(set => set.id.toString() === match.params.id);
@@ -38,7 +37,7 @@ const Train = ( { match }: RouteComponentProps<MatchId> ) => {
   }
 
   const handlePlay = () => {
-    if (!guessItems.length) { 
+    if (!guessItems.length) {
       console.log('Game over');
       return;
     }
@@ -53,7 +52,7 @@ const Train = ( { match }: RouteComponentProps<MatchId> ) => {
   const handleCardMatch = () => {
     setGuessItems(currentState => currentState.filter(item => item.name !== currentWord));
     handlePlay();
-    console.log(guessItems, currentWord)
+    console.log(guessItems, currentWord);
   }
 
   const cardsComponents = items.map(item => {
@@ -68,8 +67,9 @@ const Train = ( { match }: RouteComponentProps<MatchId> ) => {
   });
 
   return (
-    <main className="main">
-      <div className={ mode === 'TRAIN' ? 'train': 'game' }>
+    <main className="main-field">
+      <div className="main-field__stars-wrapper"></div>
+      <div className="main-field__cards-wrapper">
         { cardsComponents }
       </div>
       { mode === 'GAME' ? 
@@ -80,4 +80,4 @@ const Train = ( { match }: RouteComponentProps<MatchId> ) => {
   )
 }
 
-export default Train;
+export default MainField;

@@ -31,8 +31,8 @@ const Categories = () => {
 
   return (
       <div className="main">
-          <div className="main__categories-wrap">        
-            {categoryComponents}
+        <div className="main__categories-wrap">        
+          {categoryComponents}
         </div>
       </div>
   )

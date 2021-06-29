@@ -1,7 +1,7 @@
 import React from "react";
 import Header from '../components/Header/Header';
 import Categories from '../Pages/Categories/Categories';
-import Train from '../Pages/Train/Train';
+import MainField from '../Pages/MainField/MainField';
 import {
   HashRouter,
   Switch, 
@@ -16,7 +16,7 @@ const App = () => {
       <Header />
       <Switch>
         <Route path="/" exact component={Categories} />
-        <Route path="/:id" component={Train} />
+        <Route path="/:id" component={MainField} />
       </Switch>
     </div>
     </HashRouter>

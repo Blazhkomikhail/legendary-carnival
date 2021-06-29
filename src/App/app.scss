@@ -5,10 +5,10 @@ body {
 }
 
 
-.train,
-.game {
+.main-field__cards-wrapper {
   margin: 0 auto;
   max-width: 90vw;
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
 }

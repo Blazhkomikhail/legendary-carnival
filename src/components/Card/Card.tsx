@@ -15,8 +15,8 @@ const Card = (props: MyProps) => {
     const mode = useSelector(state => state);
     const { word, image, translation, audioSrc, gameItem, matchHandler } = props;
     const [isFlipped, setFlip] = useState(false);
-    // const [isActive] = useState(true);
-
+    const [isActive, setActive] = useState(true);
+    console.log('word from card: ', gameItem)
     const handleFlip = (event: React.MouseEvent) => {
       event.stopPropagation();
       setFlip(current => !current);
@@ -34,19 +34,25 @@ const Card = (props: MyProps) => {
 
     const handleGameCardClick = (event: Event) => {
       if (word === gameItem) {
+        setActive(currentState => !currentState);
         matchHandler();
       }
     }
 
     return (
-      <div className={"card__wrap"  + (isFlipped ? ' flipped' : '')}>
+      <div className={
+        "card__wrap"  + 
+        (isFlipped ? ' flipped' : '') + 
+        (isActive ? ' card__wrap_hover' : '') 
+        }>
         <div className="card">
           <div className="card__front">
-            <div className={`card__image ${mode === 'GAME' ? 'card__image_game' : ''}`} 
-              data-name={ word } onClick={
-              () => (mode === 'TRAIN' ? handleTrainCardClick() : handleGameCardClick(event))}
+            {/* { !isActive ? <div className="card__front_frontground"></div> : null } */}
+            <div className={"card__image" + (mode === 'GAME' ? ' card__image_game' : '')} 
+              onClick={
+                () => mode === 'TRAIN' ? handleTrainCardClick() : handleGameCardClick(event)
+              }
               style={{ backgroundImage: `url(${ image })` }}>
-
             </div>
             { mode === 'TRAIN' ?
             (<div className="card__bottom-wrap">
