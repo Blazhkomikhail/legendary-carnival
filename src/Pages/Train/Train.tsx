@@ -42,6 +42,7 @@ const Train = ( { match }: RouteComponentProps<MatchId> ) => {
       console.log('Game over');
       return;
     }
+
     const randomIdx = Math.floor(Math.random() * guessItems.length);
     setCurrentWord(guessItems[randomIdx].name);
     const soundSrc = guessItems[randomIdx].sound;
@@ -50,7 +51,7 @@ const Train = ( { match }: RouteComponentProps<MatchId> ) => {
   }
 
   const handleCardMatch = () => {
-    setGuessItems(guessItems.filter(item => item.name !== currentWord));
+    setGuessItems(currentState => currentState.filter(item => item.name !== currentWord));
     handlePlay();
     console.log(guessItems, currentWord)
   }

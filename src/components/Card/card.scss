@@ -50,6 +50,11 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    transition: ease all 0.3s;
+
+    &_game {
+      height: 100%;
+    }
   }
 
   &__back {

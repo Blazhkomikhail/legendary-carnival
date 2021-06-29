@@ -42,13 +42,18 @@ const Card = (props: MyProps) => {
       <div className={"card__wrap"  + (isFlipped ? ' flipped' : '')}>
         <div className="card">
           <div className="card__front">
-            <div className="card__image" data-name={ word } onClick={
+            <div className={`card__image ${mode === 'GAME' ? 'card__image_game' : ''}`} 
+              data-name={ word } onClick={
               () => (mode === 'TRAIN' ? handleTrainCardClick() : handleGameCardClick(event))}
-              style={{ backgroundImage: `url(${ image })` }}></div>
-            <div className="card__bottom-wrap">
+              style={{ backgroundImage: `url(${ image })` }}>
+
+            </div>
+            { mode === 'TRAIN' ?
+            (<div className="card__bottom-wrap">
               <div className="card__name">{ word }</div>
               <div className="card__flip-button" onClick={handleFlip}>flip</div>
-            </div>
+            </div>) : null
+            }
           </div>
           <div className="card__back" onMouseLeave={() => handleCardMouseleave()}>
             <span className="card__translation">{ translation }</span>
