@@ -3,6 +3,7 @@ import Card from '../../components/Card/Card';
 import { cardSets } from '../../assets/cards';
 import { RouteComponentProps } from 'react-router';
 import { useSelector } from 'react-redux';
+import './mainField.scss';
 
 
 type MatchId = {
@@ -17,6 +18,7 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
   const [guessItems, setGuessItems] = useState([]);
   const [currentWord, setCurrentWord] = useState('');
   const [isGameStartded, setIsGameStarted] = useState(false);
+  const [stars, setStars] = useState([]);
 
   const getItems = () => {
     const cardsItems = cardSets.find(set => set.id.toString() === match.params.id);
@@ -46,12 +48,31 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
     audio.play();
   }
 
+  const succesStar = (
+    <div className="main-field__success-star" key={stars.length}
+      style={{ backgroundImage: `url('img/star-win.svg')` }}
+    > </div>
+  );
+  const errorStar = (
+    <div className="main-field__error-star" key={stars.length}
+      style={{ backgroundImage: `url('img/star.svg')` }}
+    > </div>
+  );
+
   const handleCardMatch = () => {
     setGuessItems(currentState => currentState.filter(item => item.name !== currentWord));
+    setStars(stars.concat(succesStar));
+  }
+
+  const handleCardNotMatch = () => {
+    if (isGameStartded) {
+      setStars(stars.concat(errorStar));
+    }
+    
   }
 
   useEffect(() => {
-    if(isGameStartded) {
+    if (isGameStartded) {
       handlePlay();
     }
   }, [guessItems]);
@@ -63,13 +84,16 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
       translation={item.translation}
       audioSrc={item.audioSrc}
       gameItem={currentWord}
-      matchHandler={handleCardMatch}
+      successMatchHandler={handleCardMatch}
+      errorMatchHandler={handleCardNotMatch}
     />
   });
 
   return (
     <main className="main-field">
-      <div className="main-field__stars-wrapper"></div>
+      <div className="main-field__stars-wrapper">
+        { stars }
+      </div>
       <div className="main-field__cards-wrapper">
         { cardsComponents }
       </div>

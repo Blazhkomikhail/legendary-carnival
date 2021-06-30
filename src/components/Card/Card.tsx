@@ -8,12 +8,13 @@ type MyProps = {
   translation: string;
   audioSrc: string;
   gameItem: string;
-  matchHandler: () => void;
+  successMatchHandler: () => void;
+  errorMatchHandler: () => void;
 };
 
 const Card = (props: MyProps) => {
     const mode = useSelector(state => state);
-    const { word, image, translation, audioSrc, gameItem, matchHandler } = props;
+    const { word, image, translation, audioSrc, gameItem, successMatchHandler, errorMatchHandler } = props;
     const [isFlipped, setFlip] = useState(false);
     const [isActive, setActive] = useState(true);
     const handleFlip = (event: React.MouseEvent) => {
@@ -34,7 +35,9 @@ const Card = (props: MyProps) => {
     const handleGameCardClick = (event: Event) => {
       if (word === gameItem) {
         setActive(currentState => !currentState);
-        matchHandler();
+        successMatchHandler();
+      } else {
+        errorMatchHandler();
       }
     }
 
