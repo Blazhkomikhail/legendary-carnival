@@ -46,7 +46,7 @@ const Card = (props: MyProps) => {
         }>
         <div className="card">
           <div className="card__front">
-            {/* { !isActive ? <div className="card__front_frontground"></div> : null } */}
+            { !isActive ? <div className="card__front_frontground"></div> : null }
             <div className={"card__image" + (mode === 'GAME' ? ' card__image_game' : '')} 
               onClick={
                 () => mode === 'TRAIN' ? handleTrainCardClick() : handleGameCardClick(event)

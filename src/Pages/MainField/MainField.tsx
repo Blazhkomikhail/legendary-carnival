@@ -9,11 +9,6 @@ type MatchId = {
   id: string 
 }
 
-// type GameItems = {
-//   name: string,
-//   sound: string
-// }
-
 const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
   const mode = useSelector(state => state);
   useEffect(() => getItems(),[]);
@@ -21,7 +16,7 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
   const [items, setItems] = useState([]);
   const [guessItems, setGuessItems] = useState([]);
   const [currentWord, setCurrentWord] = useState('');
-  // let gameItems: Array<GameItems> = [];
+  const [isGameStartded, setIsGameStarted] = useState(false);
 
   const getItems = () => {
     const cardsItems = cardSets.find(set => set.id.toString() === match.params.id);
@@ -42,6 +37,8 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
       return;
     }
 
+    setIsGameStarted(true);
+
     const randomIdx = Math.floor(Math.random() * guessItems.length);
     setCurrentWord(guessItems[randomIdx].name);
     const soundSrc = guessItems[randomIdx].sound;
@@ -51,8 +48,13 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
 
   const handleCardMatch = () => {
     setGuessItems(currentState => currentState.filter(item => item.name !== currentWord));
-    handlePlay();
   }
+
+  useEffect(() => {
+    if(isGameStartded) {
+      handlePlay();
+    }
+  }, [guessItems]);
 
   const cardsComponents = items.map(item => {
     return <Card key={item.id}
