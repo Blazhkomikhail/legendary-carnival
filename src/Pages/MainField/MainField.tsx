@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Card from '../../components/Card/Card';
 import { cardSets } from '../../assets/cards';
 import { RouteComponentProps } from 'react-router';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { game } from '../../actions/modeActions';
+import SuccessGame from './SuccessGame/SuccessGame';
+import FailureGame from './FailureGame/FailureGame';
 import './mainField.scss';
 
 
@@ -12,6 +15,7 @@ type MatchId = {
 
 const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
   const mode = useSelector(state => state);
+  const dispatch = useDispatch();
   useEffect(() => getItems(),[]);
 
   const [items, setItems] = useState([]);
@@ -19,6 +23,8 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
   const [currentWord, setCurrentWord] = useState('');
   const [isGameStartded, setIsGameStarted] = useState(false);
   const [stars, setStars] = useState([]);
+  const [isGameOver, setGameOver] = useState(false);
+  const [errors, setErrors] = useState(0);
 
   const getItems = () => {
     const cardsItems = cardSets.find(set => set.id.toString() === match.params.id);
@@ -35,7 +41,8 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
 
   const handlePlay = () => {
     if (!guessItems.length) {
-      console.log('Game over');
+      setGameOver(true);
+      dispatch(game());
       return;
     }
 
@@ -51,12 +58,13 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
   const succesStar = (
     <div className="main-field__success-star" key={stars.length}
       style={{ backgroundImage: `url('img/star-win.svg')` }}
-    > </div>
+    />
   );
+
   const errorStar = (
     <div className="main-field__error-star" key={stars.length}
       style={{ backgroundImage: `url('img/star.svg')` }}
-    > </div>
+    />
   );
 
   const handleCardMatch = () => {
@@ -67,8 +75,8 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
   const handleCardNotMatch = () => {
     if (isGameStartded) {
       setStars(stars.concat(errorStar));
+      setErrors(errors => errors += 1);
     }
-    
   }
 
   useEffect(() => {
@@ -95,7 +103,13 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
         { stars }
       </div>
       <div className="main-field__cards-wrapper">
-        { cardsComponents }
+        { !isGameOver ? 
+          cardsComponents : ( 
+            errors ? 
+              <FailureGame errors={errors}/> : 
+              <SuccessGame/>
+          ) 
+        }
       </div>
       { mode === 'GAME' ? 
         <button className="game__play-button" onClick={handlePlay}>Play</button> 

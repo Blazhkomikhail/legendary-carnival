@@ -15,12 +15,19 @@
     background-size: cover;
     background-repeat: no-repeat;
   }
+}
 
-  // .success-star {
-  //   background-image: url('./img/star-success.svg');
-  // }
+.success-game,
+.failure-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-  // .success-star {
-  //   background-image: url('./img/star-error.svg');
-  // }
+  &__heading {
+    color: brown;
+  }
+
+  &__image {
+    width: 45vw;
+  }
 }

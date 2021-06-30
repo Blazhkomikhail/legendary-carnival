@@ -59,7 +59,9 @@ const Card = (props: MyProps) => {
             { mode === 'TRAIN' ?
             (<div className="card__bottom-wrap">
               <div className="card__name">{ word }</div>
-              <div className="card__flip-button" onClick={handleFlip}>flip</div>
+              <div className="card__flip-button" onClick={handleFlip} 
+                style={{ backgroundImage: `url('img/rotate.svg')` }}
+              />
             </div>) : null
             }
           </div>
