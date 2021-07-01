@@ -8,7 +8,6 @@ import SuccessGame from './SuccessGame/SuccessGame';
 import FailureGame from './FailureGame/FailureGame';
 import './mainField.scss';
 
-
 type MatchId = {
   id: string 
 }
@@ -25,9 +24,10 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
   const [stars, setStars] = useState([]);
   const [isGameOver, setGameOver] = useState(false);
   const [errors, setErrors] = useState(0);
-
+  const [currentSetId] = useState(match.params.id);
+    
   const getItems = () => {
-    const cardsItems = cardSets.find(set => set.id.toString() === match.params.id);
+    const cardsItems = cardSets.find(set => set.id.toString() === currentSetId);
     if (!cardsItems) return;
 
     const gameItems = cardsItems.items.map(item => {
@@ -106,7 +106,8 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
       </div>
       <div className="main-field__cards-wrapper">
         { !isGameOver ? 
-          cardsComponents : ( 
+          cardsComponents : 
+          ( 
             errors ? 
               <FailureGame errors={errors}/> : 
               <SuccessGame/>

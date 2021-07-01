@@ -6,7 +6,7 @@ import SideMenu from '../components/SideMenu/SideMenu';
 import {
   BrowserRouter as Router,
   Switch, 
-  Route 
+  Route
 } from "react-router-dom";
 import './app.scss';
 
