@@ -28,13 +28,15 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
 
   const getItems = () => {
     const cardsItems = cardSets.find(set => set.id.toString() === match.params.id);
+    if (!cardsItems) return;
+
     const gameItems = cardsItems.items.map(item => {
       return {
         name: item.word,
         sound: item.audioSrc
       }
     });
-    if (!cardsItems) return;
+    
     setItems(cardsItems.items);
     setGuessItems(gameItems);
   }

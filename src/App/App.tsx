@@ -2,8 +2,9 @@ import React from "react";
 import Header from '../components/Header/Header';
 import Categories from '../Pages/Categories/Categories';
 import MainField from '../Pages/MainField/MainField';
+import SideMenu from '../components/SideMenu/SideMenu';
 import {
-  HashRouter,
+  BrowserRouter as Router,
   Switch, 
   Route 
 } from "react-router-dom";
@@ -11,7 +12,8 @@ import './app.scss';
 
 const App = () => {
   return (
-    <HashRouter>
+    <Router>
+    < SideMenu />
     <div className="container">
       <Header />
       <Switch>
@@ -19,7 +21,7 @@ const App = () => {
         <Route path="/:id" component={MainField} />
       </Switch>
     </div>
-    </HashRouter>
+    </Router>
   )
 }
 
