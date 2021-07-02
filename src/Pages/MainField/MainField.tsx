@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Card from '../../components/Card/Card';
 import { cardSets } from '../../assets/cards';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { game } from '../../actions/modeActions';
 import SuccessGame from './SuccessGame/SuccessGame';
@@ -15,19 +15,20 @@ type MatchId = {
 const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
   const mode = useSelector(state => state);
   const dispatch = useDispatch();
-  useEffect(() => getItems(),[]);
+  const history = useHistory();
+
+  useEffect(() => getItems(),[match.params.id]);
 
   const [items, setItems] = useState([]);
   const [guessItems, setGuessItems] = useState([]);
   const [currentWord, setCurrentWord] = useState('');
   const [isGameStartded, setIsGameStarted] = useState(false);
-  const [stars, setStars] = useState([]);
   const [isGameOver, setGameOver] = useState(false);
+  const [stars, setStars] = useState([]);
   const [errors, setErrors] = useState(0);
-  const [currentSetId] = useState(match.params.id);
     
   const getItems = () => {
-    const cardsItems = cardSets.find(set => set.id.toString() === currentSetId);
+    const cardsItems = cardSets.find(set => set.id.toString() === match.params.id);
     if (!cardsItems) return;
 
     const gameItems = cardsItems.items.map(item => {
@@ -45,6 +46,11 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
     if (!guessItems.length) {
       setGameOver(true);
       dispatch(game());
+      const REDIRECTION_TIME = 4000;
+      setTimeout(() => {
+        history.push('/');
+        location.reload();
+      }, REDIRECTION_TIME);
       return;
     }
 
@@ -115,7 +121,13 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
         }
       </div>
       { mode === 'GAME' ? 
-        <button className="game__play-button" onClick={handlePlay}>Play</button> 
+        <button
+          disabled={!!isGameStartded}
+          className="game__play-button" 
+          onClick={handlePlay} 
+        >
+            Play
+        </button> 
         : null
       }
     </main>
