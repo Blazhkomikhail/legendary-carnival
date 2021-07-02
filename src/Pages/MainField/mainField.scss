@@ -7,12 +7,14 @@
   
   &__stars-wrapper {
     display: flex;
-    padding-left: 50px;
+    align-self: flex-end;
+    overflow-x: hidden;
     height: 50px;
   }
 
   &__success-star,
   &__error-star {
+    display: inline-block;
     padding: 3px;
     width: 40px;
     height: 40px;
