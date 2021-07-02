@@ -22,21 +22,29 @@ const Card = (props: MyProps) => {
       setFlip(current => !current);
     }
 
+    const sound = (audioSrc: string) => {
+      const audio = new Audio(audioSrc);
+      audio.play();
+    }
+
     const handleCardMouseleave = () => {
       if (!isFlipped) return;
       setFlip(current => !current);
     }
 
     const handleTrainCardClick = () => {
-      const audio = new Audio(audioSrc);
-      audio.play();
+      sound(audioSrc);
     }
 
     const handleGameCardClick = (event: Event) => {
       if (word === gameItem) {
+        const correctSoundSrc = 'audio/correct.mp3';
+        sound(correctSoundSrc);
         setActive(currentState => !currentState);
         successMatchHandler();
       } else {
+        const errorSoundSrc = 'audio/error.mp3';
+        sound(errorSoundSrc);
         errorMatchHandler();
       }
     }

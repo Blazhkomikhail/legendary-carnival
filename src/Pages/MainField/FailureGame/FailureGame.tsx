@@ -6,6 +6,9 @@ interface errorCount {
 
 const FailureGame = (props: errorCount) => {
   const { errors } = props;
+  const audio = new Audio('audio/failure.mp3');
+  audio.play();
+
   return (
     <div className="failure-game">
       <h2 className="failure-game__heading">What a pity. You did { errors } errors. </h2>

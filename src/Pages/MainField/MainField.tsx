@@ -46,11 +46,11 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
     if (!guessItems.length) {
       setGameOver(true);
       dispatch(game());
-      const REDIRECTION_TIME = 4000;
+      const REDIRECTION_TIME_DELAY = 4000;
       setTimeout(() => {
         history.push('/');
         location.reload();
-      }, REDIRECTION_TIME);
+      }, REDIRECTION_TIME_DELAY);
       return;
     }
 

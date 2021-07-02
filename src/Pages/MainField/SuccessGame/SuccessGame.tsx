@@ -1,6 +1,9 @@
 import React from "react";
 
 const SuccessGame = () => {
+  const audio = new Audio('audio/success.mp3');
+  audio.play();
+
   return (
     <div className="success-game">
       <h2 className="success-game__heading">Congrats! You are so witty.</h2>
