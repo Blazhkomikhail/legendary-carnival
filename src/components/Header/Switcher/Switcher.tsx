@@ -1,10 +1,11 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { train, game } from '../../../actions/modeActions';
+import { train, game } from '../../../actions/modeActions'; 
 import './switcher.scss';
 
 const Switcher = () => {
   const mode = useSelector(state => state);
+
   const dispatch = useDispatch();
   return (
     <div className="switch-button"

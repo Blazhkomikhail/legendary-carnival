@@ -6,6 +6,8 @@
   height: 190px;
   perspective: 40rem;
   min-height: 240px;
+  font-size: 1.2em;
+  font-weight: 500;
   
   &_hover {
     &:hover > .card {
@@ -43,6 +45,7 @@
   &__front {
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
 
     &_frontground {
       position: absolute;
@@ -81,8 +84,10 @@
   &__bottom-wrap {
     display: flex;
     flex-grow: 1;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+    width: 50%;
+    padding-right: 14px;
   }
 
   &__flip-button {

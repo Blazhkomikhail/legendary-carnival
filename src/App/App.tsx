@@ -13,7 +13,7 @@ import './app.scss';
 const App = () => {
   return (
     <Router>
-    < SideMenu />
+    <SideMenu />
     <div className="container">
       <Header />
       <Switch>

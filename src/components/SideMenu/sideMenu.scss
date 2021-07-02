@@ -1,8 +1,18 @@
-/* Position and sizing of burger button */
+.side-menu__category {
+  padding: 5px;
+  color: rgb(236, 228, 228);
+  font-weight: 500;
+  text-decoration: none;
+
+  &:hover {
+    color:rgb(211, 18, 92)
+  }
+}
+
 .bm-burger-button {
   position: absolute;
-  width: 36px;
-  height: 30px;
+  width: 30px;
+  height: 24px;
   left: 36px;
   top: 24px;
 }
@@ -39,7 +49,12 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 /* General sidebar styles */
 .bm-menu {
-  background: #373a47;
+  background: rgb(108, 69, 202);
+  background: -moz-linear-gradient(73deg, rgb(108, 69, 202) 20%, rgb(230, 76, 200) 90%);
+  background: -webkit-linear-gradient(73deg, rgb(108, 69, 202) 20%, rgb(230, 76, 200) 90%);
+  background: -o-linear-gradient(73deg, rgb(108, 69, 202) 20%, rgb(230, 76, 200) 90%);
+  background: -ms-linear-gradient(73deg, rgb(108, 69, 202) 20%, rgb(230, 76, 200) 90%);
+  background: linear-gradient(163deg, rgb(108, 69, 202) 20%, rgb(230, 76, 200) 90%);
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
   overflow-y: hidden !important;
