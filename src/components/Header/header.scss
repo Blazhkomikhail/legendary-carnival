@@ -1,8 +1,14 @@
 .header {
+  margin-bottom: 30px;
   padding-left: 40px;
   padding-right: 40px;
   height: 80px;
-  background-color: rgba(39, 236, 115, 0.808);
+  background: rgb(108, 69, 202);
+  background: -moz-linear-gradient(359deg, rgb(108, 69, 202) 20%, rgb(230, 76, 200) 90%);
+  background: -webkit-linear-gradient(359deg, rgb(108, 69, 202) 20%, rgb(230, 76, 200) 90%);
+  background: -o-linear-gradient(359deg, rgb(108, 69, 202) 20%, rgb(230, 76, 200) 90%);
+  background: -ms-linear-gradient(359deg, rgb(108, 69, 202) 20%, rgb(230, 76, 200) 90%);
+  background: linear-gradient(89deg, rgb(108, 69, 202) 20%, rgb(230, 76, 200) 90%);
   color: #fff;
   display: flex;
 

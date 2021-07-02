@@ -19,7 +19,7 @@ const SideMenu = () => {
 
   const categoryComponents = categories.map(({name, id}, idx) => {
     return (
-      <Link to={'/' + id} className="side-menu__category" key={categoryData[idx].id}>
+      <Link to={'/' + id} className="side-menu__category side-menu__category" key={categoryData[idx].id}>
         { name }
       </Link>
     )
@@ -27,6 +27,7 @@ const SideMenu = () => {
 
   return (
       <Menu>
+        <Link to={'/'} className="side-menu__category side-menu__category_main" key={123}>Main Page</Link>
         {categoryComponents}
       </Menu>
   )

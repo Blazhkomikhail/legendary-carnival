@@ -1,5 +1,5 @@
 import React, { useState, useEffect }  from 'react';
-import CategoryCard from './CategoryCard';
+import CategoryCard from './CategoryCard/CategoryCard';
 import { cardSets, categoryData } from '../../assets/cards';
 import './categories.scss';
 import { Link } from "react-router-dom";
@@ -30,11 +30,9 @@ const Categories = () => {
   })
 
   return (
-      <div className="main">
-        <div className="main__categories-wrap">        
-          {categoryComponents}
-        </div>
-      </div>
+    <div className="categories">        
+      {categoryComponents}
+    </div>
   )
 }
 
