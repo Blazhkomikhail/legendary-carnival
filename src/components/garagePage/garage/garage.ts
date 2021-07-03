@@ -30,15 +30,9 @@ export default class Garage extends Component {
 
   onSelectClick: (id: number) => number;
 
-  // currentPage: number;
-
   racers: Array<RenderCarField> = [];
 
   selectedCar: ICar;
-
-  // raceDistance: string;
-
-  // animationID: AnimationPlaybackEventInit;
 
   amIFirst = true;
 
@@ -131,8 +125,7 @@ export default class Garage extends Component {
       (store.animation[id] as Animation).pause();
     } else if (this.amIFirst && this.isRacing) {
       this.amIFirst = false;
-      const winner = finisher;
-      this.showCongrats(winner);
+      this.showCongrats(finisher);
       Garage.addWinner(winnerBody);
       updateWinnersStore();
     }
@@ -143,14 +136,12 @@ export default class Garage extends Component {
     createWinner(body).catch(async () => {
       const { id } = body;
       const compareWinner = store.winners.find((winner) => winner.id === id);
-      if (compareWinner.time > body.time) {
-        body.wins = compareWinner.wins + 1;
-        await updateWinner(body.id, body);
-      } else {
-        body.wins = compareWinner.wins + 1;
+
+      if (compareWinner.time <= body.time) {
         body.time = compareWinner.time;
-        await updateWinner(body.id, body);
       }
+      body.wins = compareWinner.wins + 1;
+      await updateWinner(body.id, body);
     });
   }
 
@@ -221,20 +212,14 @@ export default class Garage extends Component {
     return this.racers;
   }
 
-  // public getCurrentPage(): number {
-  //   return this.currentPage;
-  // }
-
   public getSelectedCarData(): ICar {
     return this.selectedCar;
   }
 
   notifySubscriber(): void {
     const controls = this.subscriber.getInputControllers();
-    const selectedName = this.selectedCar.name;
-    const selectedColor = this.selectedCar.color;
-    (controls.textInput as HTMLInputElement).value = selectedName;
-    (controls.colorInput as HTMLInputElement).value = selectedColor;
+    (controls.textInput as HTMLInputElement).value = this.selectedCar.name;
+    (controls.colorInput as HTMLInputElement).value = this.selectedCar.color;
     (controls.button as HTMLButtonElement).innerHTML = 'update';
     store.garageInputType = 'update';
   }

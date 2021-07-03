@@ -23,29 +23,17 @@ export default class GaragePage extends Component {
       } else {
         this.onUpdate();
       }
-    }
-    
-    this.controlPanel.onGenerate = async () => {
-      return Promise.resolve()
-        .then(() => {
-          const cars = generateRandomCars();
-          return cars;
-        })
-        .then((cars) => {
-          const result = cars.map((car) => {
-            return createCar(car);
-          });
-          return Promise.all(result);
-        })
-        .then(async () => {
-          await updateGarageStore(store.carsPage).then(() =>
-            garage.renderGarage(store.carsPage)
-          );
-        })
-        .catch();
     };
 
-    this.controlPanel.onRace = async () => {
+    this.controlPanel.onGenerate = () => {
+      const cars = generateRandomCars();
+      const result = cars.map((car) => createCar(car));
+      Promise.all(result)
+        .then(() => updateGarageStore(store.carsPage))
+        .then(() => garage.renderGarage(store.carsPage));
+    };
+
+    this.controlPanel.onRace = () => {
       if (garage.isRacing) return;
       const racers = garage.getRacers();
       racers.forEach((racer) => {
@@ -54,7 +42,7 @@ export default class GaragePage extends Component {
       garage.isRacing = true;
     };
 
-    this.controlPanel.onReset = async () => {
+    this.controlPanel.onReset = () => {
       const racers = garage.getRacers();
       if (!racers.length) return;
       racers.forEach((racer) => {
@@ -76,8 +64,8 @@ export default class GaragePage extends Component {
       ];
 
       const isInputEmpty =
-      (this.controlPanel.nameInp.element as HTMLInputElement).value === '';
-      
+        (this.controlPanel.nameInp.element as HTMLInputElement).value === '';
+
       const isTargetForbiden = forbidenTargetClassNames.some((className) =>
         (target as HTMLElement).classList.contains(className)
       );

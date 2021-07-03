@@ -107,7 +107,7 @@ export const updateGarageStore = async (
 export const updatePagesByDefault = () => {
   updateGarageStore();
   updateWinnersStore();
-}
+};
 
 export const paginationButtonsDisable = (
   prevBtn: Component,
@@ -123,7 +123,6 @@ export const paginationButtonsDisable = (
     (prev.element as HTMLButtonElement).disabled = true;
     (next.element as HTMLButtonElement).disabled = true;
   } else if (currentPage < 2) {
-
     (prev.element as HTMLButtonElement).disabled = true;
   } else if (lastPageNum === currentPage) {
     (next.element as HTMLButtonElement).disabled = true;

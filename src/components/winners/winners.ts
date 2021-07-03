@@ -23,9 +23,7 @@ export default class Winners extends Component {
 
   public async renderWinners(): Promise<void> {
     this.clear();
-    const count = store.winnersCount;
-    const items = store.winners;
-    const page = store.winnersPage;
+    const { winnersCount: count, winners: items, winnersPage: page } = store;
     this.currentPage = page;
 
     new Component(this.element, 'h1', ['winners-heading'], `Winners(${count})`);
@@ -34,7 +32,7 @@ export default class Winners extends Component {
       this.element,
       'h3',
       ['winners-preheading'],
-      `Page #(${page.toString()})`
+      `Page #(${page})`
     );
 
     new Component(

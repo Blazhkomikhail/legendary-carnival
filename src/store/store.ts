@@ -14,7 +14,7 @@ const DEF_INP_COLOR = '#5d72bb';
 const inputData = {
   name: '',
   color: '#5d72bb',
-  id: 0
+  id: 0,
 };
 const garageInputType = 'create';
 
@@ -30,5 +30,5 @@ export default {
   sortOrder: null,
   inputData,
   DEF_INP_COLOR,
-  garageInputType
+  garageInputType,
 };

@@ -78,8 +78,7 @@ export const drive = async (id: number): Promise<ISuccesFalse> => {
 };
 
 export const getSortOrder = (sort: string, order: string): string => {
-  if (sort && order) return `&_sort=${sort}&_order=${order}`;
-  return '';
+  return sort && order ? `&_sort=${sort}&_order=${order}` : '';
 };
 
 export interface IWinnerBody {
