@@ -60,6 +60,7 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
     setCurrentWord(guessItems[randomIdx].name);
     const soundSrc = guessItems[randomIdx].sound;
     const audio = new Audio(soundSrc);
+    audio.currentTime = 0;
     audio.play();
   }
 
@@ -95,8 +96,9 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
 
   const cardsComponents = items.map(item => {
     return <Card key={item.id}
+      id={item.id}
       word={item.word} 
-      image={item.image}
+      image={item.image} 
       translation={item.translation}
       audioSrc={item.audioSrc}
       gameItem={currentWord}
@@ -122,7 +124,7 @@ const MainField = ( { match }: RouteComponentProps<MatchId> ) => {
       </div>
       { mode === 'GAME' ? 
         <button
-          disabled={!!isGameStartded}
+          disabled={isGameStartded}
           className="game__play-button" 
           onClick={handlePlay} 
         >

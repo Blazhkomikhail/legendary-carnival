@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useSelector } from 'react-redux';
+import { updateStatistic } from '../../Statistic/Statistic';
 import './card.scss';
 
 type MyProps = {
+  id: number,
   word: string;
   image: string;
   translation: string;
@@ -14,7 +16,16 @@ type MyProps = {
 
 const Card = (props: MyProps) => {
     const mode = useSelector(state => state);
-    const { word, image, translation, audioSrc, gameItem, successMatchHandler, errorMatchHandler } = props;
+    const { 
+      id,
+      word, 
+      image, 
+      translation, 
+      audioSrc, 
+      gameItem, 
+      successMatchHandler, 
+      errorMatchHandler 
+    } = props;
     const [isFlipped, setFlip] = useState(false);
     const [isActive, setActive] = useState(true);
     const handleFlip = (event: React.MouseEvent) => {
@@ -34,17 +45,19 @@ const Card = (props: MyProps) => {
 
     const handleTrainCardClick = () => {
       sound(audioSrc);
+      updateStatistic(id, mode)
     }
 
-    const handleGameCardClick = (event: Event) => {
-      if (word === gameItem) {
-        const correctSoundSrc = 'audio/correct.mp3';
-        sound(correctSoundSrc);
+    const handleGameCardClick = () => {
+      const isMatch = word === gameItem;
+      if (isMatch) {
+        sound('audio/correct.mp3');
         setActive(currentState => !currentState);
+        updateStatistic(id, mode, isMatch);
         successMatchHandler();
       } else {
-        const errorSoundSrc = 'audio/error.mp3';
-        sound(errorSoundSrc);
+        sound('audio/error.mp3');
+        updateStatistic(id, mode, isMatch);
         errorMatchHandler();
       }
     }
@@ -60,7 +73,7 @@ const Card = (props: MyProps) => {
             { !isActive ? <div className="card__front_frontground"></div> : null }
             <div className={"card__image" + (mode === 'GAME' ? ' card__image_game' : '')} 
               onClick={
-                () => mode === 'TRAIN' ? handleTrainCardClick() : handleGameCardClick(event)
+                () => mode === 'TRAIN' ? handleTrainCardClick() : handleGameCardClick()
               }
               style={{ backgroundImage: `url(${ image })` }}>
             </div>
