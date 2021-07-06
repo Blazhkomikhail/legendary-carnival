@@ -85,17 +85,35 @@ const createStorageData = () => {
 };
 
 export const Statistic = (): ReactElement => {
-  const storageData = createStorageData();
+  // const [items, setItems] = useState([]);
   const [sortConfig, setSortConfig] = useState({
     key: null,
     direction: 'ascending',
   });
 
   if (!localStorage.getItem('statistic')) {
+    const storageData = createStorageData();
     localStorage.setItem('statistic', JSON.stringify(storageData));
   }
-
+  
   const items = getStorageData();
+ 
+  const resetHandler = () => {
+    const items = getStorageData();
+    const clearItems = items.map(item => {
+      return {
+        category: item.category,
+        id: item.id,
+        word: item.word,
+        translation: item.translation,
+        trainClick: 0,
+        guesses: 0,
+        mistakes: 0,
+      }
+    })
+    localStorage.setItem('statistic', JSON.stringify(clearItems));
+    window.location.reload();
+  }
 
   useMemo(() => {
     const sortedItems = [...items];
@@ -122,6 +140,14 @@ export const Statistic = (): ReactElement => {
   return (
     <div className="statistic">
       <h1 className="statistic__heading">Your statistic</h1>
+      <div className="statistic__buttons-wrap">
+        <button className="statistic__repeat-btn" type="button">Repeat difficult words</button>
+        <button 
+        type="button" 
+        className="statistic__reset-btn"
+        onClick={resetHandler}
+        >Reset</button>
+      </div>
       <div className="statistic__tabel-wrap">
         <table className="statistic__tabel">
           <thead>
