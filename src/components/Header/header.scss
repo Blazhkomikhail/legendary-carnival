@@ -26,6 +26,7 @@
   align-items: flex-end;
   width: 60px;
   height: 40px;
+  background-color: rgba(253, 239, 228, 0.6);
   background-position: top;
   background-size: contain;
   background-repeat: no-repeat;
@@ -37,6 +38,6 @@
 
   &:hover {
     cursor: pointer;
-    background-color: darken($color: #cfc7c7, $amount: 4);
+    background-color: darken($color: #ffeaea, $amount: 2);
   }
 }
