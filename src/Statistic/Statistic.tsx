@@ -1,6 +1,7 @@
 import React, { ReactNode, useState, useMemo, ReactElement } from 'react';
 import type { DefaultRootState } from 'react-redux';
 import { categoryData, cardSets } from '../assets/cards';
+import './statistic.scss';
 
 interface IStorageItem {
   id: number;
@@ -119,10 +120,10 @@ export const Statistic = (): ReactElement => {
   };
 
   return (
-    <>
-      <h1 className="statistic-heading">Statistic</h1>
-      <div className="statistic-tabel">
-        <table>
+    <div className="statistic">
+      <h1 className="statistic__heading">Your statistic</h1>
+      <div className="statistic__tabel-wrap">
+        <table className="statistic__tabel">
           <thead>
             <tr>
               <th onClick={() => requestSort('category')}>Category</th>
@@ -134,9 +135,9 @@ export const Statistic = (): ReactElement => {
               <th onClick={() => requestSort('percent')}>Guess percent</th>
             </tr>
           </thead>
-          <tbody>{createTableBody()}</tbody>
+          <tbody className="statistic__tabel-body">{createTableBody()}</tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 };

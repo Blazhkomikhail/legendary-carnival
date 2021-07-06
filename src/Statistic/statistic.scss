@@ -1,0 +1,20 @@
+.statistic { 
+  padding-left: 40px;
+
+  &__tabel {
+    text-align: center;
+
+    & thead {
+      background-color: cornflowerblue;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    & td {
+      padding: 4px;
+      border-bottom: 1px solid rgb(104, 248, 241);
+    }
+  }
+}
