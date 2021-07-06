@@ -1,11 +1,15 @@
-export const train = () => {
-  return {
-    type: 'TRAIN'
-  }
-}
+type StateType = {
+  type: string;
+};
 
-export const game = () => {
+export const train = (): StateType => {
   return {
-    type: 'GAME'
-  }
-}
+    type: 'TRAIN',
+  };
+};
+
+export const game = (): StateType => {
+  return {
+    type: 'GAME',
+  };
+};

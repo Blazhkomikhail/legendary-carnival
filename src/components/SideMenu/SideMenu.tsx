@@ -1,36 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect, ReactElement } from 'react';
 import { slide as Menu } from 'react-burger-menu';
+import { Link } from 'react-router-dom';
 import { categoryData } from '../../assets/cards';
-import { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+
 import './sideMenu.scss';
 
-const SideMenu = () => {
-  useEffect(() => {
-    getData();
-  }, []);
-
+const SideMenu = (): ReactElement => {
   const [categories, setCategories] = useState([]);
 
   const getData = () => {
     const categoriesNameData = categoryData;
     setCategories(categoriesNameData);
-  }
+  };
 
-  const categoryComponents = categories.map(({name, id}, idx) => {
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const categoryComponents = categories.map(({ name, id }, idx) => {
     return (
-      <Link to={'/' + id} className="side-menu__category side-menu__category" key={categoryData[idx].id}>
-        { name }
+      <Link
+        to={`/${id}`}
+        className="side-menu__category side-menu__category"
+        key={categoryData[idx].id}
+      >
+        {name}
       </Link>
-    )
-  })
+    );
+  });
 
   return (
-      <Menu>
-        <Link to={'/'} className="side-menu__category side-menu__category_main" key={123}>Main Page</Link>
-        {categoryComponents}
-      </Menu>
-  )
-}
+    <Menu>
+      <Link
+        to="/"
+        className="side-menu__category side-menu__category_main"
+        key={123}
+      >
+        Main Page
+      </Link>
+      {categoryComponents}
+    </Menu>
+  );
+};
 
 export default SideMenu;

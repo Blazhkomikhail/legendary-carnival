@@ -1,20 +1,22 @@
-import React from 'react';
-import Switcher from './Switcher/Switcher';
+import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
+import Switcher from './Switcher/Switcher';
 
 import './header.scss';
 
-const Header = () => {
+const Header = (): ReactElement => {
   return (
     <header className="header">
       <div className="header__content">
-        < Switcher />
-        <Link to={'/statistic'} className="header__statistic-button">
-          <button className="statistic-button">Statistic</button>
-      </Link>
+        <Switcher />
+        <Link to="/statistic" className="header__statistic-button">
+          <button type="button" className="statistic-button">
+            Statistic
+          </button>
+        </Link>
       </div>
     </header>
-  )
-}
+  );
+};
 
 export default Header;

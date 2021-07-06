@@ -1,16 +1,16 @@
-import { AnyAction, Reducer } from 'redux'
+import { AnyAction, Reducer } from 'redux';
 
 const modeReducer: Reducer = (state = 'TRAIN', action: AnyAction) => {
-  switch(action.type) {
-    case 'TRAIN': 
-      return state = 'GAME';
+  switch (action.type) {
+    case 'TRAIN':
+      return 'GAME';
 
-    case 'GAME': 
-      return state = 'TRAIN';
+    case 'GAME':
+      return 'TRAIN';
 
-    default: 
+    default:
       return state;
   }
-}
+};
 
 export default modeReducer;
