@@ -64,7 +64,9 @@ const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
     const soundSrc = guessItems[randomIdx].sound;
     const audio = new Audio(soundSrc);
     audio.currentTime = 0;
-    audio.play();
+    setTimeout(() => {
+      audio.play();
+    }, 1000);
   };
 
   const succesStar = (
