@@ -10,9 +10,9 @@ const Header = (): ReactElement => {
       <div className="header__content">
         <Switcher />
         <Link to="/statistic" className="header__statistic-button">
-          <button type="button" className="statistic-button">
-            Statistic
-          </button>
+          <button type="button" className="statistic-button"
+            style={{ backgroundImage: `url(./stat.png)` }}
+          />
         </Link>
       </div>
     </header>

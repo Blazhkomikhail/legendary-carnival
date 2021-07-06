@@ -19,3 +19,24 @@
     flex-grow: 1;
   }
 }
+
+.statistic-button {
+  margin-left: 30px;
+  display: flex;
+  align-items: flex-end;
+  width: 60px;
+  height: 40px;
+  background-position: top;
+  background-size: contain;
+  background-repeat: no-repeat;
+  text-decoration: none;
+  border-radius: 3px;
+  border: none;
+  outline-style: none;
+  transition: ease-in-out all 0.3s;
+
+  &:hover {
+    cursor: pointer;
+    background-color: darken($color: #cfc7c7, $amount: 4);
+  }
+}
