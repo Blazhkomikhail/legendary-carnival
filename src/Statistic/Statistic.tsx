@@ -18,31 +18,6 @@ const getStorageData = (): Array<IStorageItem> => {
   return JSON.parse(localStorage.getItem('statistic'));
 };
 
-export const updateStatistic = (
-  id: number,
-  mode: DefaultRootState,
-  isMatched: boolean | null = null
-): void => {
-  const items = getStorageData();
-
-  items.forEach((item) => {
-    if (item.id !== id) return;
-
-    const innerItem = item;
-    if (mode === 'TRAIN') {
-      innerItem.trainClick += 1;
-      return;
-    }
-
-    if (isMatched) {
-      innerItem.guesses += 1;
-    } else {
-      innerItem.mistakes += 1;
-    }
-  });
-  localStorage.setItem('statistic', JSON.stringify(items));
-};
-
 const createTableBody = (): Array<ReactNode> => {
   const items = getStorageData();
   return items.map((item: IStorageItem) => {
@@ -85,6 +60,37 @@ const createStorageData = () => {
   });
   const flated = [].concat(...storageData);
   return flated;
+};
+
+export const updateStatistic = (
+  id: number,
+  mode: DefaultRootState,
+  isMatched: boolean | null = null
+): void => {
+  let items = getStorageData();
+
+  if (!items) {
+    const storageData = createStorageData();
+    localStorage.setItem('statistic', JSON.stringify(storageData));
+    items = getStorageData();
+  }
+
+  items.forEach((item) => {
+    if (item.id !== id) return;
+
+    const innerItem = item;
+    if (mode === 'TRAIN') {
+      innerItem.trainClick += 1;
+      return;
+    }
+
+    if (isMatched) {
+      innerItem.guesses += 1;
+    } else {
+      innerItem.mistakes += 1;
+    }
+  });
+  localStorage.setItem('statistic', JSON.stringify(items));
 };
 
 export const Statistic = (): ReactElement => {
