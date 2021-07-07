@@ -113,6 +113,7 @@ const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
         id={item.id}
         word={item.word}
         image={item.image}
+        gameStarted={isGameStartded}
         translation={item.translation}
         audioSrc={item.audioSrc}
         gameItem={currentWord}

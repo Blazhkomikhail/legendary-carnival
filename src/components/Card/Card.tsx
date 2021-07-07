@@ -7,6 +7,7 @@ type MyProps = {
   id: number;
   word: string;
   image: string;
+  gameStarted: boolean;
   translation: string;
   audioSrc: string;
   gameItem: string;
@@ -20,6 +21,7 @@ const Card = (props: MyProps): ReactElement => {
     id,
     word,
     image,
+    gameStarted,
     translation,
     audioSrc,
     gameItem,
@@ -49,6 +51,8 @@ const Card = (props: MyProps): ReactElement => {
   };
 
   const handleGameCardClick = () => {
+    if(!gameStarted) return;
+
     const isMatch = word === gameItem;
     if (isMatch) {
       sound('audio/correct.mp3');
