@@ -65,7 +65,6 @@ const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
       cardsItems = getDifficultWords();
     } else {
       const cat = cardSets.find((set) => set.id.toString() === match.params.id);
-      console.log('cat: ', cat);
       cardsItems = cat.items;
     }
     if (!cardsItems) return;

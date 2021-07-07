@@ -34,6 +34,7 @@ const SideMenu = (): ReactElement => {
     <Menu isOpen={menuOpen}>
       <Link
         to="/"
+        onClick={() => setMenuOpen(!menuOpen)}
         className="side-menu__category side-menu__category_main"
         key={123}
       >
@@ -42,6 +43,7 @@ const SideMenu = (): ReactElement => {
       {categoryComponents}
       <Link
         to="/statistic"
+        onClick={() => setMenuOpen(!menuOpen)}
         className="side-menu__category side-menu__category_statistic"
       >
         Statistic
