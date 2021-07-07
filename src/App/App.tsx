@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
 import Categories from '../Pages/Categories/Categories';
 import MainField from '../Pages/MainField/MainField';
 import SideMenu from '../components/SideMenu/SideMenu';
@@ -19,6 +20,7 @@ const App = (): ReactElement => {
           <Route path="/:id" component={MainField} />
           <Route path="/repeat" component={MainField} />
         </Switch>
+        <Footer />
       </div>
     </Router>
   );
