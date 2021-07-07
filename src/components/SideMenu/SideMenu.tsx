@@ -40,7 +40,10 @@ const SideMenu = (): ReactElement => {
         Main Page
       </Link>
       {categoryComponents}
-      <Link to="/statistic" className="side-menu__category side-menu__category_statistic">
+      <Link
+        to="/statistic"
+        className="side-menu__category side-menu__category_statistic"
+      >
         Statistic
       </Link>
     </Menu>

@@ -1,7 +1,7 @@
 import React, { ReactNode, useState, useMemo, ReactElement } from 'react';
 import type { DefaultRootState } from 'react-redux';
-import { categoryData, cardSets } from '../assets/cards';
 import { Link } from 'react-router-dom';
+import { categoryData, cardSets } from '../assets/cards';
 import './statistic.scss';
 
 interface IStorageItem {

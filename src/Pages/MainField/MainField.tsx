@@ -13,40 +13,38 @@ type MatchId = {
 };
 
 interface ICategotyItem {
-  id: number,
-  word: string,
-  translation: string,
-  image: string,
-  audioSrc: string,
+  id: number;
+  word: string;
+  translation: string;
+  image: string;
+  audioSrc: string;
 }
 
 interface IStorageItem {
-  category: string,
-  id: number,
-  word:string,
-  translation: string,
-  image: string,
-  audioSrc: string,
-  trainClick: number,
-  guesses: number,
-  mistakes: number
+  category: string;
+  id: number;
+  word: string;
+  translation: string;
+  image: string;
+  audioSrc: string;
+  trainClick: number;
+  guesses: number;
+  mistakes: number;
 }
 
 const getItemsFromLocalStorage = () => {
   return JSON.parse(localStorage.getItem('statistic'));
-}
+};
 
 const getDifficultWords = () => {
   const localStorageItems = getItemsFromLocalStorage();
 
-      const difficultWords = localStorageItems.filter((word: IStorageItem, i: number) => {
-        if (word.mistakes > word.guesses) {
-          return word;
-        }
-      })
+  const difficultWords = localStorageItems.filter((word: IStorageItem) => {
+    return word.mistakes > word.guesses;
+  });
   const MAX_CARDS_COUNT = 8;
   return difficultWords.slice(0, MAX_CARDS_COUNT);
-}
+};
 
 const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
   const mode = useSelector((state) => state);
@@ -66,13 +64,12 @@ const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
     if (match.params.id === 'repeat') {
       cardsItems = getDifficultWords();
     } else {
-        const cat = cardSets.find(
-          (set) => set.id.toString() === match.params.id
-        );
-        cardsItems = cat.items;
+      const cat = cardSets.find((set) => set.id.toString() === match.params.id);
+      console.log('cat: ', cat);
+      cardsItems = cat.items;
     }
     if (!cardsItems) return;
-    
+
     const gameItems = cardsItems.map((item) => {
       return {
         name: item.word,

@@ -51,7 +51,7 @@ const Card = (props: MyProps): ReactElement => {
   };
 
   const handleGameCardClick = () => {
-    if(!gameStarted) return;
+    if (!gameStarted) return;
 
     const isMatch = word === gameItem;
     if (isMatch) {
