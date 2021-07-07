@@ -17,6 +17,7 @@ const App = (): ReactElement => {
           <Route path="/" exact component={Categories} />
           <Route path="/statistic" component={Statistic} />
           <Route path="/:id" component={MainField} />
+          <Route path="/repeat" component={MainField} />
         </Switch>
       </div>
     </Router>

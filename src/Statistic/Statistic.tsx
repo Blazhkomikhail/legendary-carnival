@@ -1,6 +1,7 @@
 import React, { ReactNode, useState, useMemo, ReactElement } from 'react';
 import type { DefaultRootState } from 'react-redux';
 import { categoryData, cardSets } from '../assets/cards';
+import { Link } from 'react-router-dom';
 import './statistic.scss';
 
 interface IStorageItem {
@@ -74,6 +75,8 @@ const createStorageData = () => {
         id: item.id,
         word: item.word,
         translation: item.translation,
+        image: item.image,
+        audioSrc: item.audioSrc,
         trainClick: 0,
         guesses: 0,
         mistakes: 0,
@@ -85,7 +88,6 @@ const createStorageData = () => {
 };
 
 export const Statistic = (): ReactElement => {
-  // const [items, setItems] = useState([]);
   const [sortConfig, setSortConfig] = useState({
     key: null,
     direction: 'ascending',
@@ -141,9 +143,11 @@ export const Statistic = (): ReactElement => {
     <div className="statistic">
       <h1 className="statistic__heading">Your statistic</h1>
       <div className="statistic__buttons-wrap">
-        <button className="statistic__repeat-btn" type="button">
-          Repeat difficult words
-        </button>
+        <Link to="/repeat">
+          <button className="statistic__repeat-btn" type="button">
+            Repeat difficult words
+          </button>
+        </Link>
         <button
           type="button"
           className="statistic__reset-btn"

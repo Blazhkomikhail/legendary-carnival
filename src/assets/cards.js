@@ -486,14 +486,14 @@ const cardSets = [
         audioSrc: 'audio/small.mp3',
       },
       {
-        id: 56,
+        id: 64,
         word: 'unfriendly',
         translation: 'недружелюбный',
         image: 'img/unfriendly.jpg',
         audioSrc: 'audio/unfriendly.mp3',
       },
       {
-        id: 57,
+        id: 65,
         word: 'young',
         translation: 'молодой',
         image: 'img/young.jpg',
