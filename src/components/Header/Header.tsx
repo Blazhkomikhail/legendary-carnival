@@ -12,7 +12,7 @@ const Header = (): ReactElement => {
         <Link to="/statistic" className="header__statistic-button">
           <div
             className="statistic-button"
-            style={{ backgroundImage: `url(./stat.png)` }}
+            style={{ backgroundImage: `url(./icons/stat.png)` }}
           />
         </Link>
       </div>

@@ -112,7 +112,7 @@ export const Statistic = (): ReactElement => {
       };
     });
     localStorage.setItem('statistic', JSON.stringify(clearItems));
-    window.location.reload();
+    setSortConfig({ key: null, direction: 'ascending' });
   };
 
   useMemo(() => {
