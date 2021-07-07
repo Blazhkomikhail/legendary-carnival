@@ -6,6 +6,7 @@ import './sideMenu.scss';
 
 const SideMenu = (): ReactElement => {
   const [categories, setCategories] = useState([]);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const getData = () => {
     const categoriesNameData = categoryData;
@@ -20,6 +21,7 @@ const SideMenu = (): ReactElement => {
     return (
       <Link
         to={`/${id}`}
+        onClick={() => setMenuOpen(!menuOpen)}
         className="side-menu__category"
         key={categoryData[idx].id}
       >
@@ -29,7 +31,7 @@ const SideMenu = (): ReactElement => {
   });
 
   return (
-    <Menu>
+    <Menu isOpen={menuOpen}>
       <Link
         to="/"
         className="side-menu__category side-menu__category_main"
