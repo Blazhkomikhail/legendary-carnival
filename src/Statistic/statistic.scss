@@ -4,7 +4,7 @@
   align-items: center;
   padding-left: 40px;
   width: 80vw;
-  max-width: 1000px;
+  max-width: 1200px;
 
   &__buttons-wrap {
     margin-left: 40px;
@@ -27,8 +27,14 @@
     }
   }
 
+  &__tabel-wrap {
+    width: 100%;
+    overflow: auto;
+  }
+
   &__tabel {
     text-align: center;
+    table-layout: fixed;
 
     & thead {
       background-color: cornflowerblue;
@@ -40,7 +46,31 @@
 
     & td {
       padding: 4px;
+      min-width: 100px;
       border-bottom: 1px solid rgb(104, 248, 241);
+    }
+  }
+}
+
+@media screen and (max-width: 470px) {
+
+  .statistic {
+    padding: 0;
+    width: 100%;
+
+    &__buttons-wrap {
+      margin: 0;
+      margin-bottom: 20px;
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    &__repeat-btn {
+      margin-right: 10px;
+    }
+
+    &__reset-btn {
+      margin-left: 10px;
     }
   }
 }

@@ -84,3 +84,14 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .bm-overlay {
   background: rgba(0, 0, 0, 0.3);
 }
+
+
+
+@media screen and (max-width: 470px) {
+
+  .bm-burger-button {
+    left: 20px;
+    top: 15px;
+  }
+  
+}
