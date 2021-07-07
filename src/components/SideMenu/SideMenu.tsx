@@ -20,7 +20,7 @@ const SideMenu = (): ReactElement => {
     return (
       <Link
         to={`/${id}`}
-        className="side-menu__category side-menu__category"
+        className="side-menu__category"
         key={categoryData[idx].id}
       >
         {name}
@@ -38,6 +38,9 @@ const SideMenu = (): ReactElement => {
         Main Page
       </Link>
       {categoryComponents}
+      <Link to="/statistic" className="side-menu__category side-menu__category_statistic">
+        Statistic
+      </Link>
     </Menu>
   );
 };
