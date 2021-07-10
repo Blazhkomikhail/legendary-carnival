@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { updateStatistic } from '../../Statistic/Statistic';
+import { updateStatistic } from '../../Pages/Statistic/Statistic';
 import './card.scss';
 
 type MyProps = {

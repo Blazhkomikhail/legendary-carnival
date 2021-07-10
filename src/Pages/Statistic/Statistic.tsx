@@ -1,7 +1,7 @@
 import React, { ReactNode, useState, useMemo, ReactElement } from 'react';
 import type { DefaultRootState } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { categoryData, cardSets } from '../assets/cards';
+import { categoryData, cardSets } from '../../assets/cards';
 import './statistic.scss';
 
 interface IStorageItem {
@@ -93,7 +93,7 @@ export const updateStatistic = (
   localStorage.setItem('statistic', JSON.stringify(items));
 };
 
-export const Statistic = (): ReactElement => {
+const Statistic = (): ReactElement => {
   const [sortConfig, setSortConfig] = useState({
     key: null,
     direction: 'ascending',
@@ -181,3 +181,6 @@ export const Statistic = (): ReactElement => {
     </div>
   );
 };
+
+
+export default Statistic;
