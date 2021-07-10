@@ -12,29 +12,14 @@ export default class Winners extends Component {
 
   constructor(parentNode: HTMLElement | null = null) {
     super(parentNode, 'div', ['winners-page']);
-    (async () => {
-      await updateWinnersStore(
-        store.winnersPage,
-        store.sortBy,
-        store.sortOrder
-      ).then(() => this.renderWinners());
-    })();
+    updateWinnersStore(
+      store.winnersPage,
+      store.sortBy,
+      store.sortOrder
+    ).then(() => this.renderWinners());
   }
 
-  public async renderWinners(): Promise<void> {
-    this.clear();
-    const { winnersCount: count, winners: items, winnersPage: page } = store;
-    this.currentPage = page;
-
-    new Component(this.element, 'h1', ['winners-heading'], `Winners(${count})`);
-
-    new Component(
-      this.element,
-      'h3',
-      ['winners-preheading'],
-      `Page #(${page})`
-    );
-
+  private createWinnersTable(data: Array<IWinner>): void {
     new Component(
       this.element,
       'div',
@@ -49,7 +34,7 @@ export default class Winners extends Component {
           <th class="theading theading-bestTime">Best Time (seconds)</th>
         </thead>
         <tbody>
-            ${items
+            ${data
               .map(
                 (winner: IWinner, idx) => `
             <tr>
@@ -66,6 +51,24 @@ export default class Winners extends Component {
       </table>
     `
     );
+  }
+
+  public renderWinners(): void {
+    this.clear();
+    const { winnersCount: count, winners: items, winnersPage: page } = store;
+    this.currentPage = page;
+
+    new Component(this.element, 'h1', ['winners-heading'], `Winners(${count})`);
+
+    new Component(
+      this.element,
+      'h3',
+      ['winners-preheading'],
+      `Page #(${page})`
+    );
+
+    this.createWinnersTable(items);
+
     const wins = this.element.querySelector('.theading-wins');
     const bestTime = this.element.querySelector('.theading-bestTime');
 
@@ -113,33 +116,29 @@ export default class Winners extends Component {
 
   onWinsClick(): void {
     if (store.sortOrder === 'ASC') {
-      (async () => {
-        await updateWinnersStore(store.winnersPage, 'wins', 'DESC').then(() =>
+      updateWinnersStore(store.winnersPage, 'wins', 'DESC')
+        .then(() =>
           this.renderWinners()
         );
-      })();
     } else {
-      (async () => {
-        await updateWinnersStore(store.winnersPage, 'wins', 'ASC').then(() =>
+      updateWinnersStore(store.winnersPage, 'wins', 'ASC')
+        .then(() =>
           this.renderWinners()
         );
-      })();
     }
   }
 
   onBestTimeClick(): void {
     if (store.sortOrder === 'ASC') {
-      (async () => {
-        await updateWinnersStore(store.winnersPage, 'time', 'DESC').then(() =>
+      updateWinnersStore(store.winnersPage, 'time', 'DESC')
+        .then(() =>
           this.renderWinners()
         );
-      })();
     } else {
-      (async () => {
-        await updateWinnersStore(store.winnersPage, 'time', 'ASC').then(() =>
+      updateWinnersStore(store.winnersPage, 'time', 'ASC')
+        .then(() =>
           this.renderWinners()
         );
-      })();
     }
   }
 }
