@@ -9,13 +9,20 @@ import './garagePage.css';
 export default class GaragePage extends Component {
   private controlPanel: ControlPanel;
 
+  garage: Garage;
+
   constructor(parentNode: HTMLElement | null = null) {
     super(parentNode, 'div', ['garage-page']);
 
-    this.controlPanel = new ControlPanel(this.element);
-    const garage = new Garage(this.element);
+    this.controlPanel = new ControlPanel(
+      this.element,
+      this.onRaceHandler,
+      this.onResetHandler,
+      this.onGenerateHandler
+    );
+    this.garage = new Garage(this.element);
 
-    garage.grabSubscriber(this.controlPanel);
+    this.garage.grabSubscriber(this.controlPanel);
 
     this.controlPanel.onDataSend = async () => {
       if (store.garageInputType === 'create') {
@@ -23,33 +30,6 @@ export default class GaragePage extends Component {
       } else {
         this.onUpdate();
       }
-    };
-
-    this.controlPanel.onGenerate = () => {
-      const cars = generateRandomCars();
-      const result = cars.map((car) => createCar(car));
-      Promise.all(result)
-        .then(() => updateGarageStore(store.carsPage))
-        .then(() => garage.renderGarage(store.carsPage));
-    };
-
-    this.controlPanel.onRace = () => {
-      if (garage.isRacing) return;
-      const racers = garage.getRacers();
-      racers.forEach((racer) => {
-        garage.onCarStart(racer);
-      });
-      garage.isRacing = true;
-    };
-
-    this.controlPanel.onReset = () => {
-      const racers = garage.getRacers();
-      if (!racers.length) return;
-      racers.forEach((racer) => {
-        Garage.onCarStop(racer);
-      });
-      garage.isRacing = false;
-      garage.amIFirst = true;
     };
 
     window.addEventListener('click', (e) => {
@@ -79,6 +59,33 @@ export default class GaragePage extends Component {
       }
     });
   }
+
+  onGenerateHandler = () => {
+    const cars = generateRandomCars();
+    const result = cars.map((car) => createCar(car));
+    Promise.all(result)
+      .then(() => updateGarageStore(store.carsPage))
+      .then(() => this.garage.renderGarage(store.carsPage));
+  };
+
+  onRaceHandler = () => {
+    if (this.garage.isRacing) return;
+    const racers = this.garage.getRacers();
+    racers.forEach((racer) => {
+      this.garage.onCarStart(racer);
+    });
+    this.garage.isRacing = true;
+  };
+
+  onResetHandler = () => {
+    const racers = this.garage.getRacers();
+    if (!racers.length) return;
+    racers.forEach((racer) => {
+      Garage.onCarStop(racer);
+    });
+    this.garage.isRacing = false;
+    this.garage.amIFirst = true;
+  };
 
   onCreate = async () => {
     const body = this.controlPanel.getInpCarData();

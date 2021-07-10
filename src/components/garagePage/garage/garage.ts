@@ -40,11 +40,10 @@ export default class Garage extends Component {
 
   constructor(parentNode: HTMLElement) {
     super(parentNode, 'div', ['garage']);
-    (async () => {
-      await updateGarageStore(store.carsPage).then(() =>
-        this.renderGarage(store.carsPage)
-      );
-    })();
+
+    updateGarageStore(store.carsPage).then(() =>
+      this.renderGarage(store.carsPage)
+    );
   }
 
   public grabSubscriber(subscriber: ControlPanel): void {
@@ -58,7 +57,6 @@ export default class Garage extends Component {
   renderGarage(page: number): void {
     this.clear();
     const { cars, carsCount } = store;
-    // this.currentPage = page;
     this.racers = [];
     store.carsPage = page;
     const pageNumber = `Page #${page.toString()}`;

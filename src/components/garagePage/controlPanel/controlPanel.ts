@@ -16,12 +16,6 @@ export default class ControlPanel extends Component {
 
   onUpdate: () => void;
 
-  onRace: () => void;
-
-  onReset: () => void;
-
-  onGenerate: () => void;
-
   onDataSend: () => void;
 
   nameInp: Component;
@@ -30,7 +24,12 @@ export default class ControlPanel extends Component {
 
   sendDataButton: Component;
 
-  constructor(parentNode: HTMLElement | null = null) {
+  constructor(
+    parentNode: HTMLElement | null = null,
+    onRace: () => void,
+    onReset: () => void,
+    onGenerate: () => void
+  ) {
     super(parentNode, 'div', ['control-panel']);
 
     const inputsWrapper = new Component(this.element, 'form', ['create-form']);
@@ -52,11 +51,11 @@ export default class ControlPanel extends Component {
     ]);
     this.colorInp.element.setAttribute('type', 'color');
 
-    if (store.inputData.color === store.DEF_INP_COLOR) {
-      this.colorInp.element.setAttribute('value', `${store.DEF_INP_COLOR}`);
-    } else {
-      this.colorInp.element.setAttribute('value', `${store.inputData.color}`);
-    }
+    const color =
+      store.inputData.color === store.DEF_INP_COLOR
+        ? store.DEF_INP_COLOR
+        : store.inputData.color;
+    this.colorInp.element.setAttribute('value', color);
 
     this.colorInp.element.addEventListener('input', () => {
       store.inputData.color = (this.colorInp.element as HTMLInputElement).value;
@@ -76,18 +75,20 @@ export default class ControlPanel extends Component {
       'buttons-wrapper',
     ]);
 
-    const buttonNames = ['race', 'reset', 'generate'];
-    const buttons = buttonNames.map((btnName) => {
-      return new Component(
+    const buttonData = [
+      { name: 'race', handler: onRace },
+      { name: 'reset', handler: onReset },
+      { name: 'generate', handler: onGenerate },
+    ];
+    buttonData.forEach((button) => {
+      const btn = new Component(
         buttonsWrapper.element,
         'button',
-        [`${btnName}-btn`, 'form-btn'],
-        btnName
+        [`${button.name}-btn`, 'form-btn'],
+        button.name
       );
+      btn.element.addEventListener('click', button.handler);
     });
-    buttons[0].element.addEventListener('click', () => this.onRace());
-    buttons[1].element.addEventListener('click', () => this.onReset());
-    buttons[2].element.addEventListener('click', () => this.onGenerate());
   }
 
   public getInpCarData(): INewCar {

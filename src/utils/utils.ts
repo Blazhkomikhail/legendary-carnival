@@ -37,7 +37,9 @@ export const getRandomColor = (): string => {
   return color;
 };
 
-export const generateRandomCars = (count = 100): Array<IBody> => {
+const carsNumber = 100;
+
+export const generateRandomCars = (count = carsNumber): Array<IBody> => {
   return new Array(count)
     .fill(null)
     .map(() => ({ name: getRandomName(), color: getRandomColor() }));

@@ -2,6 +2,11 @@ import { IWinner } from '../shared/i-winner';
 import { ICar } from '../shared/i-car';
 import store from '../store/store';
 
+const DEFAULT_PAGE = 1;
+const GRAGE_CARS_LIMIT = 7;
+const WINNERS_CARS_LIMIT = 10;
+const SUCCES_RES_STATUS = 200;
+
 interface IResponse {
   count: string;
   items: Array<ICar>;
@@ -13,7 +18,10 @@ const garage = `${base}/garage`;
 const engine = `${base}/engine`;
 const winners = `${base}/winners`;
 
-export const getCars = async (page = 1, limit = 7): Promise<IResponse> => {
+export const getCars = async (
+  page = DEFAULT_PAGE,
+  limit = GRAGE_CARS_LIMIT
+): Promise<IResponse> => {
   const response = await fetch(`${garage}?_page=${page}&_limit=${limit}`);
 
   return {
@@ -72,7 +80,7 @@ interface ISuccesFalse {
 
 export const drive = async (id: number): Promise<ISuccesFalse> => {
   const response = await fetch(`${engine}?id=${id}&status=drive`).catch();
-  return response.status !== 200
+  return response.status !== SUCCES_RES_STATUS
     ? { success: false }
     : { ...(await response.json()) };
 };
@@ -93,11 +101,11 @@ interface IWinnersResponse {
 }
 
 export const getWinners = async (
-  page = 1,
+  page = DEFAULT_PAGE,
   sort: 'id' | 'wins' | 'time' = 'time',
   order: 'ASC' | 'DESC' = 'ASC'
 ): Promise<IWinnersResponse> => {
-  const limit = 10;
+  const limit = WINNERS_CARS_LIMIT;
   store.sortBy = sort;
   store.sortOrder = order;
   const response = await fetch(
@@ -150,10 +158,12 @@ export const updateWinner = async (
     })
   ).json();
 
+const ERROR_RES_STATUS = 404;
+
 export const saveWinner = async (id: number, time: number): Promise<void> => {
   const winnerStatus = await getWinnerStatus(id);
 
-  if (winnerStatus === 404) {
+  if (winnerStatus === ERROR_RES_STATUS) {
     await createWinner({
       id,
       wins: 1,
