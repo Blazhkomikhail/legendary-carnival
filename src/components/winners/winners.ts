@@ -12,11 +12,9 @@ export default class Winners extends Component {
 
   constructor(parentNode: HTMLElement | null = null) {
     super(parentNode, 'div', ['winners-page']);
-    updateWinnersStore(
-      store.winnersPage,
-      store.sortBy,
-      store.sortOrder
-    ).then(() => this.renderWinners());
+    updateWinnersStore(store.winnersPage, store.sortBy, store.sortOrder).then(
+      () => this.renderWinners()
+    );
   }
 
   private createWinnersTable(data: Array<IWinner>): void {
@@ -116,29 +114,25 @@ export default class Winners extends Component {
 
   onWinsClick(): void {
     if (store.sortOrder === 'ASC') {
-      updateWinnersStore(store.winnersPage, 'wins', 'DESC')
-        .then(() =>
-          this.renderWinners()
-        );
+      updateWinnersStore(store.winnersPage, 'wins', 'DESC').then(() =>
+        this.renderWinners()
+      );
     } else {
-      updateWinnersStore(store.winnersPage, 'wins', 'ASC')
-        .then(() =>
-          this.renderWinners()
-        );
+      updateWinnersStore(store.winnersPage, 'wins', 'ASC').then(() =>
+        this.renderWinners()
+      );
     }
   }
 
   onBestTimeClick(): void {
     if (store.sortOrder === 'ASC') {
-      updateWinnersStore(store.winnersPage, 'time', 'DESC')
-        .then(() =>
-          this.renderWinners()
-        );
+      updateWinnersStore(store.winnersPage, 'time', 'DESC').then(() =>
+        this.renderWinners()
+      );
     } else {
-      updateWinnersStore(store.winnersPage, 'time', 'ASC')
-        .then(() =>
-          this.renderWinners()
-        );
+      updateWinnersStore(store.winnersPage, 'time', 'ASC').then(() =>
+        this.renderWinners()
+      );
     }
   }
 }

@@ -56,7 +56,7 @@ export default class GaragePage extends Component {
         this.controlPanel.makeContolsDefault();
       }
     });
-  }
+  };
 
   onGenerateHandler = () => {
     const cars = generateRandomCars();

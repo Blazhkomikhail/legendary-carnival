@@ -122,11 +122,10 @@ export default class ControlPanel extends Component {
 
   public makeContolsDefault = () => {
     (this.nameInp.element as HTMLInputElement).value = '';
-    (this.colorInp.element as HTMLInputElement).value =
-      store.DEF_INP_COLOR;
-    (this.sendDataButton.element as HTMLButtonElement).innerHTML = 
+    (this.colorInp.element as HTMLInputElement).value = store.DEF_INP_COLOR;
+    (this.sendDataButton.element as HTMLButtonElement).innerHTML =
       store.DEF_BUTTON_TEXT;
     store.inputData.color = store.DEF_INP_COLOR;
     store.inputData.name = '';
-  }
+  };
 }
