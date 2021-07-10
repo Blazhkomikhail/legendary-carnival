@@ -24,6 +24,8 @@ export default class ControlPanel extends Component {
 
   sendDataButton: Component;
 
+  inputsWrapper: Component;
+
   constructor(
     parentNode: HTMLElement | null = null,
     onRace: () => void,
@@ -32,9 +34,36 @@ export default class ControlPanel extends Component {
   ) {
     super(parentNode, 'div', ['control-panel']);
 
-    const inputsWrapper = new Component(this.element, 'form', ['create-form']);
+    this.inputsWrapper = new Component(this.element, 'form', ['create-form']);
 
-    this.nameInp = new Component(inputsWrapper.element, 'input', [
+    const raceButtonsWrapper = new Component(this.element, 'div', [
+      'buttons-wrapper',
+    ]);
+
+    this.createNameInput();
+
+    this.createColorInput();
+
+    this.createSendDataButton();
+
+    const buttonData = [
+      { name: 'race', handler: onRace },
+      { name: 'reset', handler: onReset },
+      { name: 'generate', handler: onGenerate },
+    ];
+    buttonData.forEach((button) => {
+      const btn = new Component(
+        raceButtonsWrapper.element,
+        'button',
+        [`${button.name}-btn`, 'form-btn'],
+        button.name
+      );
+      btn.element.addEventListener('click', button.handler);
+    });
+  }
+
+  private createNameInput(): void {
+    this.nameInp = new Component(this.inputsWrapper.element, 'input', [
       'input-text',
     ]);
     this.nameInp.element.setAttribute('type', 'text');
@@ -45,8 +74,10 @@ export default class ControlPanel extends Component {
     this.nameInp.element.addEventListener('input', () => {
       store.inputData.name = (this.nameInp.element as HTMLInputElement).value;
     });
+  }
 
-    this.colorInp = new Component(inputsWrapper.element, 'input', [
+  private createColorInput(): void {
+    this.colorInp = new Component(this.inputsWrapper.element, 'input', [
       'input-color',
     ]);
     this.colorInp.element.setAttribute('type', 'color');
@@ -60,9 +91,11 @@ export default class ControlPanel extends Component {
     this.colorInp.element.addEventListener('input', () => {
       store.inputData.color = (this.colorInp.element as HTMLInputElement).value;
     });
+  }
 
+  private createSendDataButton(): void {
     this.sendDataButton = new Component(
-      inputsWrapper.element,
+      this.inputsWrapper.element,
       'button',
       ['send-btn', 'form-btn'],
       store.garageInputType
@@ -70,25 +103,6 @@ export default class ControlPanel extends Component {
     this.sendDataButton.element.addEventListener('click', () =>
       this.onDataSend()
     );
-
-    const buttonsWrapper = new Component(this.element, 'div', [
-      'buttons-wrapper',
-    ]);
-
-    const buttonData = [
-      { name: 'race', handler: onRace },
-      { name: 'reset', handler: onReset },
-      { name: 'generate', handler: onGenerate },
-    ];
-    buttonData.forEach((button) => {
-      const btn = new Component(
-        buttonsWrapper.element,
-        'button',
-        [`${button.name}-btn`, 'form-btn'],
-        button.name
-      );
-      btn.element.addEventListener('click', button.handler);
-    });
   }
 
   public getInpCarData(): INewCar {
