@@ -30,7 +30,10 @@ export default class GaragePage extends Component {
         this.onUpdate();
       }
     };
+    this.clearControlsByAnywhereClick();
+  }
 
+  clearControlsByAnywhereClick = () => {
     window.addEventListener('click', (e) => {
       const { target } = e;
       const forbidenTargetClassNames = [
