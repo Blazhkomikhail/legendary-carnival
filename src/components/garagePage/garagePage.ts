@@ -21,7 +21,6 @@ export default class GaragePage extends Component {
       this.onGenerateHandler
     );
     this.garage = new Garage(this.element);
-
     this.garage.grabSubscriber(this.controlPanel);
 
     this.controlPanel.onDataSend = async () => {
@@ -51,11 +50,7 @@ export default class GaragePage extends Component {
       );
 
       if (!isInputEmpty && !isTargetForbiden) {
-        (this.controlPanel.nameInp.element as HTMLInputElement).value = '';
-        (this.controlPanel.colorInp.element as HTMLInputElement).value =
-          store.DEF_INP_COLOR;
-        store.inputData.color = store.DEF_INP_COLOR;
-        store.inputData.name = '';
+        this.controlPanel.makeContolsDefault();
       }
     });
   }

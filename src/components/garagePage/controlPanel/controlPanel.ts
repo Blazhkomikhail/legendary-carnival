@@ -65,7 +65,7 @@ export default class ControlPanel extends Component {
       inputsWrapper.element,
       'button',
       ['send-btn', 'form-btn'],
-      `create`
+      store.garageInputType
     );
     this.sendDataButton.element.addEventListener('click', () =>
       this.onDataSend()
@@ -104,5 +104,15 @@ export default class ControlPanel extends Component {
       colorInput: this.colorInp.element,
       button: this.sendDataButton.element,
     };
+  }
+
+  public makeContolsDefault = () => {
+    (this.nameInp.element as HTMLInputElement).value = '';
+    (this.colorInp.element as HTMLInputElement).value =
+      store.DEF_INP_COLOR;
+    (this.sendDataButton.element as HTMLButtonElement).innerHTML = 
+      store.DEF_BUTTON_TEXT;
+    store.inputData.color = store.DEF_INP_COLOR;
+    store.inputData.name = '';
   }
 }

@@ -11,6 +11,7 @@ let winners: Array<IWinner>;
 let winnersCount: string;
 const animation: IAnimation = {};
 const DEF_INP_COLOR = '#5d72bb';
+const DEF_BUTTON_TEXT = 'Create';
 const inputData = {
   name: '',
   color: '#5d72bb',
@@ -30,5 +31,6 @@ export default {
   sortOrder: null,
   inputData,
   DEF_INP_COLOR,
+  DEF_BUTTON_TEXT,
   garageInputType,
 };
