@@ -32,6 +32,7 @@ const AdminCategoryCard = (props: MyProps): ReactElement => {
       _id: id,
       name: categoryName,
     }
+
     await updateCards(name, categoryName);
     await updateCategory(category);
     setIsRedacting(false);
@@ -69,7 +70,7 @@ const AdminCategoryCard = (props: MyProps): ReactElement => {
       <div className="admin__category-card">
         {nameComponent()}
         <span className="admin__category-card-length">Includes: {length} words</span>
-        <Link to={`admin/${name}`} className="category" key={id}>
+        <Link to={`admin/${categoryName}`} className="category" key={id}>
           <button className="admin__cards-button" >Cards</button>
         </Link>
       </div>
