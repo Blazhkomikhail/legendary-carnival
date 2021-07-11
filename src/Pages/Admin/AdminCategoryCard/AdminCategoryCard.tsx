@@ -4,7 +4,7 @@ import {
   updateCards, 
   updateCategory, 
   deleteCardsByCategoryName, 
-  deleteCategory 
+  deleteCategory
 } from '../../../api/api';
 import './adminCategoryCard.scss';
 

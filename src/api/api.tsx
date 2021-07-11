@@ -2,6 +2,22 @@ const baseUrl = 'http://127.0.0.1:3000';
 const category = `${baseUrl}/api/category`;
 const card = `${baseUrl}/api/card`;
 
+interface ICreateCategoryBody {
+  name: string
+}
+
+export const createCategory = async (body: ICreateCategoryBody) => {
+  const response = await fetch(category, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+  const createdCategory = response.json();
+  return createdCategory;
+}
+
 export const getCategories = async () => {
   const response = await fetch(category);
   const categories = await response.json();
