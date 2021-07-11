@@ -31,6 +31,14 @@ export const updateCategory = async (body: ICategory) => {
   return updated;
 }
 
+export const deleteCategory = async (id: string) => {
+  console.log(`${category}/${id}`);
+  const response = await fetch(`${category}/${id}`, {
+    method: 'DELETE'
+  });
+  const deleted = await response.json();
+  return deleted;
+}
 
 
 export const updateCards = async (oldCategoryName: string, newCategoryName: string) => {
@@ -47,4 +55,20 @@ export const updateCards = async (oldCategoryName: string, newCategoryName: stri
   });
   const updatedCards = await response.json();
   return updatedCards;
+}
+
+interface IDeleteCardsBody {
+  categoryName: string;
+}
+
+export const deleteCardsByCategoryName = async (body: IDeleteCardsBody) => {
+  const response = await fetch(card, {
+    method: 'DELETE',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const deleted = await response.json();
+  return deleted;
 }

@@ -3,8 +3,53 @@
   &__category-card {
     padding: 15px;
     width: 250px;
-    height: 150px;
+    height: 100px;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
+    border: 1px solid #000;
+  }
+
+  &__category-card-wrap_deleted {
+    background: rgba(255, 00, 00, 0.6);
+  }
+
+  &__name-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__category-btns-wrap {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__redact-icon {
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__remove-icon {
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__category-cards-button {
+    align-self: flex-end;
   }
 }
