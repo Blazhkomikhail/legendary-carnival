@@ -4,6 +4,9 @@ body {
   padding: 0;
 }
 
+.main-app {
+  min-height: calc(100vh - 160px);
+}
 
 .main-field__cards-wrapper {
   margin: 0 auto;

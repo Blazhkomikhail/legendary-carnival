@@ -1,0 +1,10 @@
+.admin {
+
+  &__category-card {
+    padding: 15px;
+    width: 250px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+  }
+}

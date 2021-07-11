@@ -16,14 +16,16 @@ const App = (): ReactElement => {
       <SideMenu />
       <div className="container">
         <Header />
-        <Switch>
-          <Route path="/" exact component={Categories} />
-          <Route path="/statistic" component={Statistic} />
-          <Route path="/admin" exact component={Admin} />
-          <Route path="/admin/:id" exact component={AdminCategotyPage} />
-          <Route path="/:id" exact component={MainField} />
-          <Route path="/repeat" component={MainField} />
-        </Switch>
+        <main className="main-app">
+          <Switch>
+            <Route path="/" exact component={Categories} />
+            <Route path="/statistic" component={Statistic} />
+            <Route path="/admin" exact component={Admin} />
+            <Route path="/admin/:id" component={AdminCategotyPage} />
+            <Route path="/:id" exact component={MainField} />
+            <Route path="/repeat" component={MainField} />
+          </Switch>
+        </main>
         <Footer />
       </div>
     </Router>

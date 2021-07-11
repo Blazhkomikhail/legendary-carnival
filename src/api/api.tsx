@@ -13,3 +13,38 @@ export const getCardsByCategoryName = async (categoryName: String) => {
   const categories = await response.json();
   return categories;
 }
+
+interface ICategory {
+  _id: string,
+  name: string,
+}
+
+export const updateCategory = async (body: ICategory) => {
+  const response = await fetch(category, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const updated = await response.json();
+  return updated;
+}
+
+
+
+export const updateCards = async (oldCategoryName: string, newCategoryName: string) => {
+  const body = {
+    filter: { categoryName : oldCategoryName },
+    update: { categoryName : newCategoryName },
+  }
+  const response = await fetch(card, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const updatedCards = await response.json();
+  return updatedCards;
+}
