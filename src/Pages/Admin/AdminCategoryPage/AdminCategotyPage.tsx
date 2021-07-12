@@ -1,6 +1,7 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { getCardsByCategoryName } from '../../../api/api';
+import WordCard from '../WordCard/WordCard';
 
 type MatchId = {
   id: string;
@@ -8,14 +9,29 @@ type MatchId = {
 
 
 const AdminCategotyPage = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
-  
-  getCardsByCategoryName(match.params.id).then((response) => {
-    console.log(response);
-  })
+  const [wordCards, setWordCards] = useState([]);
+
+  useEffect(() => {
+    getCardsByCategoryName(match.params.id)
+      .then((response) => {
+        console.log(response)
+      const cards = response.map((card: any) => {
+        return <WordCard 
+          word={card.word} 
+          translation={card.translation}
+          sound={card.audioSrc}
+          key={card._id} 
+        />
+      })
+      setWordCards(cards);
+    })
+  }, []);
+ 
+
   return (
-    <>
-      Category PAGE!!!
-    </>
+    <div className="admin__category-page">
+      {wordCards}
+    </div>
   )
 };
 

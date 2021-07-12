@@ -20,4 +20,20 @@
     }
   }
 
+  &__category-page {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &__card {
+    padding: 15px;
+    width: 250px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border: 1px solid #000;
+  }
+
 }
