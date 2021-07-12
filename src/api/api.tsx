@@ -56,6 +56,11 @@ export const deleteCategory = async (id: string) => {
   return deleted;
 }
 
+export const deleteCardById = async (id: string) => {
+  const response = await fetch(`${card}/${id}`, { method: 'DELETE' });
+  const deleted = await response.json();
+  return deleted;
+}
 
 export const updateCards = async (oldCategoryName: string, newCategoryName: string) => {
   const body = {

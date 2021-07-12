@@ -47,7 +47,7 @@ const Admin = (): ReactElement => {
     const body = { name: newCategoryName };
     await createCategory(body);
     cancelModalHandler();
-    window.location.reload();
+    console.log('Success message');
   }
 
   const categoryComponents = categories.map(({ name, _id, length }) => {

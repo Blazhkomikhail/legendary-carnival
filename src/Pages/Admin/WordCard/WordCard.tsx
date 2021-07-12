@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { deleteCardById } from '../../../api/api';
 
 const WordCard = (props: any) => {
   const [isPictureShowed, setIsPictureShowed] = useState(false);
-  const { word, translation, sound, picture } = props;
+  const [isCardDeleted, setCardIsDeleted] = useState(false);
+  const { word, translation, sound, picture, id } = props;
 
   const soundHandler = () => {
     const audio = new Audio(sound);
@@ -17,8 +19,13 @@ const WordCard = (props: any) => {
     setIsPictureShowed(false);
   }
 
+  const deleteCardHandler = async () => {
+    await deleteCardById(id);
+    setCardIsDeleted(true);
+  }
+
   return (
-    <div className="admin__card">
+    <div className={`admin__card ${isCardDeleted ? ' admin__card_deleted' : ''}` }>
       <div className="admin__card-word">Word: {word}</div>
       <div className="admin__card-translation">Translation: {translation}</div>
       <div className="admin__card-audio-wrap">
@@ -46,6 +53,11 @@ const WordCard = (props: any) => {
           ) : null
         }
       </div>
+      <span 
+        className="admin__remove-icon"
+        onClick={deleteCardHandler}
+        style={{ backgroundImage: `url('icons/delete-icon.jpg')` }}
+        />
     </div>
   )
 }

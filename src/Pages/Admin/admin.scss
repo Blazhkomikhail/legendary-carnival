@@ -29,7 +29,7 @@
   &__card {
     padding: 15px;
     width: 250px;
-    height: 100px;
+    height: 150px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -80,6 +80,10 @@
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
+    }
+
+    &_deleted {
+      background: rgba(255, 00, 00, 0.6);
     }
   }
 

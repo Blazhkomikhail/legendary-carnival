@@ -13,18 +13,18 @@ const AdminCategotyPage = ({ match }: RouteComponentProps<MatchId>): ReactElemen
   useEffect(() => {
     getCardsByCategoryName(match.params.id)
       .then((response) => {
-        console.log(response)
-      const cards = response.map((card: any) => {
-        return <WordCard 
-          word={card.word} 
-          translation={card.translation}
-          sound={card.audioSrc}
-          picture={card.picture}
-          key={card._id} 
-        />
+        const cards = response.map((card: any) => {
+          return <WordCard 
+            word={card.word} 
+            translation={card.translation}
+            sound={card.audioSrc}
+            picture={card.picture}
+            id={card._id}
+            key={card._id}
+          />
+        })
+        setWordCards(cards);
       })
-      setWordCards(cards);
-    })
   }, []);
  
 
