@@ -7,7 +7,6 @@ type MatchId = {
   id: string;
 };
 
-
 const AdminCategotyPage = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
   const [wordCards, setWordCards] = useState([]);
 
@@ -20,6 +19,7 @@ const AdminCategotyPage = ({ match }: RouteComponentProps<MatchId>): ReactElemen
           word={card.word} 
           translation={card.translation}
           sound={card.audioSrc}
+          picture={card.picture}
           key={card._id} 
         />
       })
