@@ -56,10 +56,22 @@ export const deleteCategory = async (id: string) => {
   return deleted;
 }
 
-export const deleteCardById = async (id: string) => {
-  const response = await fetch(`${card}/${id}`, { method: 'DELETE' });
-  const deleted = await response.json();
-  return deleted;
+export const createCard = async(data: FormData) => {
+  const response = await fetch(card, {
+    method: 'POST',
+    body: data
+  });
+  const created = await response.json();
+  return created;
+}
+
+export const udateCard = async (data: FormData) => {
+  const response = await fetch(card, {
+    method: 'PUT',
+    body: data
+  });
+  const updated = await response.json();
+  return updated;
 }
 
 export const updateCards = async (oldCategoryName: string, newCategoryName: string) => {
@@ -78,23 +90,6 @@ export const updateCards = async (oldCategoryName: string, newCategoryName: stri
   return updatedCards;
 }
 
-// interface IUpdateCard {
-//   _id: string,
-//   word: string,
-//   translation: string,
-//   sound : string,
-//   picture: File
-// }
-
-export const udateCard = async (data: FormData) => {
-  const response = await fetch(card, {
-    method: 'PUT',
-    body: data
-  });
-  const updated = await response.json();
-  return updated;
-}
-
 interface IDeleteCardsBody {
   categoryName: string;
 }
@@ -107,6 +102,12 @@ export const deleteCardsByCategoryName = async (body: IDeleteCardsBody) => {
       'Content-Type': 'application/json',
     },
   });
+  const deleted = await response.json();
+  return deleted;
+}
+
+export const deleteCardById = async (id: string) => {
+  const response = await fetch(`${card}/${id}`, { method: 'DELETE' });
   const deleted = await response.json();
   return deleted;
 }

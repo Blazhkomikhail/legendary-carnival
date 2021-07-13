@@ -1,65 +1,55 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 import './newCardModal.scss';
 
-const newCardModal = (cancelModalHandler: () => void): ReactElement => {
-  const [newWord, setNewWord] = useState('');
-  // const [newTranslation, setNewTranslation] = useState('');
-  // const [newSoundSrc, setNewSoundSrc] = useState('');
-  // const fileInput = useRef<HTMLInputElement>();
-
-  const changeWordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewWord(e.target.value);
-  }
-  console.log(newWord);
-
-  // const submitHandle = (event: Event) => {
-  //   event.preventDefault();
-  //   const word = newWord;
-  //   const translation = newTranslation;
-  //   const sound = newSoundSrc;
-  //   const picture = fileInput.current.files[0];
-  //   console.log(word, translation, sound, picture);
-  // }
+const newCardModal = (
+  cancelHandler: () => void,
+  changeWordHandler: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  changeTranslationHandler: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  changeNewSoundSrc: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  submitHandle: () => void,
+  ref: React.Ref<HTMLInputElement>
+  ): ReactElement => {
 
   return (
     <div className="card-modal">
       <div className="card-modal__window">
-        <form>
+        <form onSubmit={submitHandle}>
             <label>
               Word:
               <input 
                 type="text" 
-                onChange={changeWordHandler}
+                onChange={event => changeWordHandler(event)}
               />
             </label>
             <label>
               Translation:
               <input 
                 type="text"
-                // onChange={event => setNewTranslation(event.target.value)}
+                onChange={event => changeTranslationHandler(event)}
               />
             </label>
             <label>
               Sound:
               <input 
                 type="text"
-                // onChange={event => setNewSoundSrc(event.target.value)}
+                onChange={event => changeNewSoundSrc(event)}
               />
             </label>
             <label>
               Image:
               <input 
                 type="file"
+                ref={ref}
               />
             </label>
             <button 
               className="card-modal__cancel-button" 
               type="button"
-              onClick={cancelModalHandler}
+              onClick={cancelHandler}
             >
               Cancel
             </button>
-            <button className="card-modal__create-button" type="submit">Create</button>
+            <input className="card-modal__create-button" type="submit" value="Create"/>
           </form>
         </div>
       </div>
