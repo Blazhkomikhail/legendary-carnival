@@ -1,45 +1,66 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState, useRef } from "react";
+import {createCard} from '../../../api/api';
 import './newCardModal.scss';
 
-const newCardModal = (
-  cancelHandler: () => void,
-  changeWordHandler: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  changeTranslationHandler: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  changeNewSoundSrc: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  submitHandle: () => void,
-  ref: React.Ref<HTMLInputElement>
-  ): ReactElement => {
+type MyProps = {
+  categoryName: string
+  cancelHandler: () => void
+}
+
+const NewCardModal = (props: MyProps): ReactElement => {
+  const {categoryName, cancelHandler} = props;
+  const [newWord, setNewWord] = useState('');
+  const [newTranslation, setNewTranslation] = useState('');
+  const [newSoundSrc, setNewSoundSrc] = useState('');
+  const fileInput = useRef<HTMLInputElement>();
+
+  const submitModalHandler = async () => {
+      const formData = new FormData();
+      formData.append('picture', fileInput.current.files[0]);
+      formData.set('word', newWord);
+      formData.set('translation', newTranslation);
+      formData.set('audioSrc', newSoundSrc);
+      formData.set('categoryName', categoryName);
+  
+      try {
+        await createCard(formData);
+        cancelHandler();
+        window.location.reload();
+      } catch (err) {
+        console.log(err.message);
+      } 
+    }
 
   return (
     <div className="card-modal">
       <div className="card-modal__window">
-        <form onSubmit={submitHandle}>
+        <form onSubmit={submitModalHandler}>
             <label>
               Word:
               <input 
                 type="text" 
-                onChange={event => changeWordHandler(event)}
+                onChange={event => setNewWord(event.target.value)}
               />
             </label>
             <label>
               Translation:
               <input 
                 type="text"
-                onChange={event => changeTranslationHandler(event)}
+                onChange={event => setNewTranslation(event.target.value)}
               />
             </label>
             <label>
               Sound:
               <input 
                 type="text"
-                onChange={event => changeNewSoundSrc(event)}
+                onChange={event => setNewSoundSrc(event.target.value)}
               />
             </label>
             <label>
               Image:
               <input 
                 type="file"
-                ref={ref}
+                ref={fileInput}
               />
             </label>
             <button 
@@ -56,4 +77,4 @@ const newCardModal = (
   )
 }
 
-export default newCardModal;
+export default NewCardModal;

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, ReactElement } from 'react';
 import AdminCategoryCard from './AdminCategoryCard/AdminCategoryCard';
-import { getCategories, getCardsByCategoryName, createCategory } from '../../api/api';
-import newCategoryModal from './NewCategoryModal/newCategoryModal';
+import { getCategories, getCardsByCategoryName } from '../../api/api';
+import NewCategoryModal from './NewCategoryModal/NewCategoryModal';
+import NewCardModal from './NewCardModal/NewCardModal';
 import './admin.scss';
 
 interface GettedCategory {
@@ -11,8 +12,9 @@ interface GettedCategory {
 
 const Admin = (): ReactElement => {
   const [categories, setCategories] = useState([]);
-  const [isModalSgowed, setIsModalSgowed] = useState(false);
-  const [newCategoryName, setNewCategoryName] = useState('');
+  const [isCategotyModalShowed, setCategoryModalShowed] = useState(false);
+  const [isCardModalShowed, setIsCardModalShowed] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState('');
 
   useEffect(() => {
     getCategories()
@@ -29,30 +31,20 @@ const Admin = (): ReactElement => {
       })
   }, []);
 
-  const cancelModalHandler = () => {
-    setIsModalSgowed(false);
-  }
-
   const addNewCategoryHandler = () => {
-    setIsModalSgowed(true);
-  }
-
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewCategoryName(e.target.value);
-  }
-
-  const submitModalHandler = async () => {
-    if (!newCategoryName) return;
-
-    const body = { name: newCategoryName };
-    await createCategory(body);
-    cancelModalHandler();
-    console.log('Success message');
+    setCategoryModalShowed(true);
   }
 
   const categoryComponents = categories.map(({ name, _id, length }) => {
     return (
-      <AdminCategoryCard name={name} length={length} id={_id} key={_id} />
+      <AdminCategoryCard 
+        name={name} 
+        length={length} 
+        id={_id} 
+        key={_id} 
+        cardModalHandler={setIsCardModalShowed}
+        shareCategoryName={setCurrentCategory}
+      />
     );
   });
 
@@ -66,12 +58,19 @@ const Admin = (): ReactElement => {
       >
         Add new category
       </button>
-      {isModalSgowed ? 
-        newCategoryModal(
-          cancelModalHandler, 
-          submitModalHandler, 
-          changeHandler) 
-        : null}
+      { isCategotyModalShowed ? 
+          <NewCategoryModal 
+            cancelHandler={() => setCategoryModalShowed(false)} 
+          />
+          : null
+      }
+      { isCardModalShowed ? 
+          <NewCardModal 
+            categoryName={currentCategory} 
+            cancelHandler={() => setIsCardModalShowed(false)}
+          />
+          : null
+      }
     </div>
   )
 };

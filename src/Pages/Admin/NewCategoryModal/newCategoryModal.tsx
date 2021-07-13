@@ -1,11 +1,27 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
+import { createCategory } from '../../../api/api';
 import './newCategoryModal.scss';
 
-const  newCategoryModal = (
-  cancelHandler: () => void, 
-  createlHandler: () => void,
-  changeHandler: (event: React.ChangeEvent<HTMLInputElement>) => void
-  ): ReactElement => {
+type CategoryModalProps = {
+  cancelHandler: () => void
+}
+
+const  NewCategoryModal = (props: CategoryModalProps): ReactElement => {
+  const {cancelHandler} = props;
+  const [newCategoryName, setNewCategoryName] = useState('');  
+
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewCategoryName(e.target.value);
+  }
+
+  const submitHandler = async () => {
+    if (!newCategoryName) return;
+
+    const body = { name: newCategoryName };
+    await createCategory(body);
+    cancelHandler();
+    console.log('Success message');
+  }
 
   return (
     <div className="category-modal">
@@ -29,7 +45,7 @@ const  newCategoryModal = (
           <button
           className="category-modal__create-button"
           type="button"
-          onClick={createlHandler}
+          onClick={submitHandler}
           >
             Create
           </button>
@@ -39,4 +55,4 @@ const  newCategoryModal = (
   )
 }
 
-export default newCategoryModal;
+export default NewCategoryModal;

@@ -12,10 +12,12 @@ type MyProps = {
   name: string;
   length: number;
   id: string;
+  cardModalHandler: (arg0: boolean) => void;
+  shareCategoryName: (arg0: string) => void;
 };
 
 const AdminCategoryCard = (props: MyProps): ReactElement => {
-  const { name, length, id } = props;
+  const { name, length, id, cardModalHandler, shareCategoryName } = props;
   const [isRedacting, setIsRedacting] = useState(false);
   const [categoryName, setCategoryName] = useState(name);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -49,6 +51,11 @@ const AdminCategoryCard = (props: MyProps): ReactElement => {
     setIsDeleted(true);
     await deleteCategory(id);
     await deleteCardsByCategoryName(body);
+  }
+
+  const addCardHandler = () => {
+    cardModalHandler(true);
+    shareCategoryName(categoryName);
   }
 
   const nameComponent = () => {
@@ -98,6 +105,14 @@ const AdminCategoryCard = (props: MyProps): ReactElement => {
             onClick={removeHandler}
             style={{ backgroundImage: `url('icons/delete-icon.jpg')` }}
           />
+
+          <button 
+            type="button"
+            className="admin__new-card-icon" 
+            onClick={addCardHandler}
+          >
+            Add Card
+          </button>
           <Link 
             to={`admin/${categoryName}`} 
             className="admin__category-cards-button" 
