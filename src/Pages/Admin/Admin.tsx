@@ -56,7 +56,6 @@ const Admin = (): ReactElement => {
     );
   });
 
-
   return (
     <div className="categories">
       {categoryComponents}
@@ -67,7 +66,12 @@ const Admin = (): ReactElement => {
       >
         Add new category
       </button>
-      {isModalSgowed ? newCategoryModal(cancelModalHandler, submitModalHandler, changeHandler) : null}
+      {isModalSgowed ? 
+        newCategoryModal(
+          cancelModalHandler, 
+          submitModalHandler, 
+          changeHandler) 
+        : null}
     </div>
   )
 };

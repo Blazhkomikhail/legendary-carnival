@@ -78,6 +78,23 @@ export const updateCards = async (oldCategoryName: string, newCategoryName: stri
   return updatedCards;
 }
 
+// interface IUpdateCard {
+//   _id: string,
+//   word: string,
+//   translation: string,
+//   sound : string,
+//   picture: File
+// }
+
+export const udateCard = async (data: FormData) => {
+  const response = await fetch(card, {
+    method: 'PUT',
+    body: data
+  });
+  const updated = await response.json();
+  return updated;
+}
+
 interface IDeleteCardsBody {
   categoryName: string;
 }
