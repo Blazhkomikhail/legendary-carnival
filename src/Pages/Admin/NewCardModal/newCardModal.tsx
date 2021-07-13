@@ -34,7 +34,7 @@ const NewCardModal = (props: MyProps): ReactElement => {
   return (
     <div className="card-modal">
       <div className="card-modal__window">
-        <form onSubmit={submitModalHandler}>
+        <form className="card-modal__form" onSubmit={submitModalHandler}>
             <label>
               Word:
               <input 
@@ -63,14 +63,16 @@ const NewCardModal = (props: MyProps): ReactElement => {
                 ref={fileInput}
               />
             </label>
-            <button 
-              className="card-modal__cancel-button" 
-              type="button"
-              onClick={cancelHandler}
-            >
-              Cancel
-            </button>
-            <input className="card-modal__create-button" type="submit" value="Create"/>
+            <div className="card-modal__button-wrap">
+              <button 
+                className="card-modal__cancel-button" 
+                type="button"
+                onClick={cancelHandler}
+              >
+                Cancel
+              </button>
+              <input className="card-modal__create-button" type="submit" value="Create"/>
+            </div>
           </form>
         </div>
       </div>
