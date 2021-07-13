@@ -1,6 +1,7 @@
 import React, { useState, useEffect, ReactElement } from 'react';
+import { useHistory } from 'react-router';
 import AdminCategoryCard from './AdminCategoryCard/AdminCategoryCard';
-import { getCategories, getCardsByCategoryName } from '../../api/api';
+import { getCategories, getCardsByCategoryName, checkUser } from '../../api/api';
 import NewCategoryModal from './NewCategoryModal/NewCategoryModal';
 import NewCardModal from './NewCardModal/NewCardModal';
 import './admin.scss';
@@ -15,6 +16,21 @@ const Admin = (): ReactElement => {
   const [isCategotyModalShowed, setCategoryModalShowed] = useState(false);
   const [isCardModalShowed, setIsCardModalShowed] = useState(false);
   const [currentCategory, setCurrentCategory] = useState('');
+  const history = useHistory();
+
+  if (!localStorage.getItem('loginData')) {
+    history.push('/auth');
+    return;
+  } 
+
+  const userId = JSON.parse(localStorage.getItem('loginData')).user.id;
+
+  checkUser().then(response => {
+    if (response.id !== userId) {
+      history.push('/auth');
+      return;
+    }
+  })
 
   useEffect(() => {
     getCategories()

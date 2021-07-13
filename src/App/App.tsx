@@ -7,6 +7,7 @@ import MainField from '../Pages/MainField/MainField';
 import SideMenu from '../components/SideMenu/SideMenu';
 import Statistic from '../Pages/Statistic/Statistic';
 import Admin from '../Pages/Admin/Admin';
+import Authorisation from '../Pages/Authorisation/Authorisation';
 import AdminCategotyPage from '../Pages/Admin/AdminCategoryPage/AdminCategotyPage';
 import './app.scss';
 
@@ -20,6 +21,7 @@ const App = (): ReactElement => {
           <Switch>
             <Route path="/" exact component={Categories} />
             <Route path="/statistic" component={Statistic} />
+            <Route path="/auth" component={Authorisation} />
             <Route path="/admin" exact component={Admin} />
             <Route path="/admin/:id" component={AdminCategotyPage} />
             <Route path="/:id" exact component={MainField} />

@@ -1,6 +1,7 @@
 const baseUrl = 'http://127.0.0.1:3000';
 const category = `${baseUrl}/api/category`;
 const card = `${baseUrl}/api/card`;
+const auth = `${baseUrl}/auth/login`;
 
 interface ICreateCategoryBody {
   name: string
@@ -110,4 +111,28 @@ export const deleteCardById = async (id: string) => {
   const response = await fetch(`${card}/${id}`, { method: 'DELETE' });
   const deleted = await response.json();
   return deleted;
+}
+
+type LoginBody = {
+  username: string;
+  password: string
+}
+
+export const login = async (body: LoginBody) => {
+  const response = await fetch(auth, { 
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const user = await response.json();
+  return user;
+}
+
+export const checkUser = async () => {
+  const userId = JSON.parse(localStorage.getItem('loginData')).user.id;
+  const response = await fetch(`${auth}/${userId}`);
+  const user = response.json();
+  return user;
 }

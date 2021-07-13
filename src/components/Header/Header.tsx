@@ -15,7 +15,7 @@ const Header = (): ReactElement => {
             style={{ backgroundImage: `url(./icons/stat.png)` }}
           />
         </Link>
-        <Link to="/admin" className="header__admin-button">
+        <Link to="/auth" className="header__admin-button">
           <button
             type="button"
             className="admin-button"
