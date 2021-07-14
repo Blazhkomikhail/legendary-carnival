@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, useEffect, ReactElement } from 'react';
+import React, { ReactNode, useState, useMemo, ReactElement } from 'react';
 import type { DefaultRootState } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllCards } from '../../api/api';
@@ -128,7 +128,7 @@ const Statistic = (): ReactElement => {
     setSortConfig({ key: null, direction: 'ascending' });
   };
 
-  useEffect(() => {
+  useMemo(() => {
     const sortedItems = [...items];
     sortedItems.sort((a, b) => {
       if ((a as any)[sortConfig.key] < (b as any)[sortConfig.key]) {
@@ -171,7 +171,7 @@ const Statistic = (): ReactElement => {
         <table className="statistic__tabel">
           <thead>
             <tr>
-              <th onClick={() => requestSort('category')}>Category</th>
+              <th onClick={() => requestSort('categoryName')}>Category</th>
               <th onClick={() => requestSort('word')}>Word</th>
               <th onClick={() => requestSort('translation')}>Translation</th>
               <th onClick={() => requestSort('trainClick')}>Train clicks</th>
