@@ -1,5 +1,9 @@
 import React, { ReactElement } from 'react';
 
+// type SuccessGameProps = {
+//   gameOver =
+// }
+
 const SuccessGame = (): ReactElement => {
   const audio = new Audio('audio/success.mp3');
   audio.play();

@@ -7,7 +7,7 @@ type MyProps = {
 };
 
 const CategoryCard = (props: MyProps): ReactElement => {
-  const { image, name, cardsNum} = props;
+  const { image, name, cardsNum } = props;
   return (
     <div className="category-card-wrap">
       <div className="category-card">
@@ -19,7 +19,6 @@ const CategoryCard = (props: MyProps): ReactElement => {
           <div className="category-card__name">{name}</div>
           <span className="category-card__number">{cardsNum} cards</span>
         </div>
-        
       </div>
     </div>
   );

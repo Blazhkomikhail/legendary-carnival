@@ -1,7 +1,7 @@
 import React, { ReactNode, useState, useMemo, ReactElement } from 'react';
 import type { DefaultRootState } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getAllCards } from '../../api/api';
+import { getAllCards, ICard } from '../../api/api';
 import './statistic.scss';
 
 interface IStorageItem {
@@ -42,28 +42,20 @@ const createTableBody = (): Array<ReactNode> => {
   });
 };
 
-interface IGettedItem {
-  categoryName: string;
-  id: number;
-  word: string;
-  translation: string;
-  image: string;
-  audioSrc: string;
-}
-
 export const createStorageData = (): void => {
   getAllCards()
-    .then((cards: Array<IGettedItem>) => {
-      const data = cards.map(card => {
+    .then((cards: Array<ICard>) => {
+      const data = cards.map((card) => {
         return {
           ...card,
           trainClick: 0,
           guesses: 0,
           mistakes: 0,
-        }
-      })
+        };
+      });
       localStorage.setItem('statistic', JSON.stringify(data));
-    }).catch((err) => {
+    })
+    .catch((err) => {
       console.error(err);
     });
 };
@@ -98,13 +90,12 @@ export const updateStatistic = (
   localStorage.setItem('statistic', JSON.stringify(items));
 };
 
-
 const Statistic = (): ReactElement => {
   const [sortConfig, setSortConfig] = useState({
     key: null,
     direction: 'ascending',
   });
-  
+
   if (!localStorage.getItem('statistic')) {
     createStorageData();
   }
@@ -186,6 +177,5 @@ const Statistic = (): ReactElement => {
     </div>
   );
 };
-
 
 export default Statistic;

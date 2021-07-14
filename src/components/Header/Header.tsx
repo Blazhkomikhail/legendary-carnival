@@ -10,7 +10,7 @@ const Header = (): ReactElement => {
   const history = useHistory();
 
   const isAuthorised = localStorage.getItem('loginData');
-  useEffect(() => setIsLogined(() => !!isAuthorised), [])
+  useEffect(() => setIsLogined(() => !!isAuthorised), [isAuthorised]);
 
   const authorisationHandler = () => {
     if (!isLogined) {
@@ -18,28 +18,33 @@ const Header = (): ReactElement => {
     } else {
       localStorage.removeItem('loginData');
       setIsLogined(false);
-      history.push('/')
+      history.push('/');
     }
-  }
+  };
 
   return (
     <header className="header">
       <div className="header__content">
         <Switcher />
-        <Link to="/statistic" className="header__statistic-button">
+        <div className="header__buttons-wrap">
+          <Link to="/statistic" className="header__statistic-button">
+            <div
+              className="statistic-button"
+              style={{ backgroundImage: `url(./icons/stat.png)` }}
+            />
+          </Link>
           <div
-            className="statistic-button"
-            style={{ backgroundImage: `url(./icons/stat.png)` }}
+            role="presentation"
+            className="header__admin-button"
+            style={{
+              backgroundImage: `url(./icons/${
+                !isLogined ? 'login-icon.png' : 'logout-icon.png'
+              })
+                `,
+            }}
+            onClick={authorisationHandler}
           />
-        </Link>
-        <button
-          type="button"
-          className="header__admin-button"
-          style={{ backgroundImage: `url(./icons/${!isLogined ? 
-                'login-icon.png' : 'logout-icon.png'})
-              ` }}
-          onClick={authorisationHandler}
-        />
+        </div>
       </div>
     </header>
   );

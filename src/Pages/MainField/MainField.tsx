@@ -2,7 +2,7 @@ import React, { useState, useEffect, ReactElement } from 'react';
 import { RouteComponentProps, useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import Card from '../../components/Card/Card';
-import { getCardsByCategoryName } from '../../api/api';
+import { getCardsByCategoryName, ICard } from '../../api/api';
 import { game } from '../../actions/modeActions';
 import SuccessGame from './SuccessGame/SuccessGame';
 import FailureGame from './FailureGame/FailureGame';
@@ -13,14 +13,6 @@ const baseUrl = 'http://127.0.0.1:3000/';
 type MatchId = {
   id: string;
 };
-
-interface ICategotyItem {
-  id: number;
-  word: string;
-  translation: string;
-  picture: string;
-  audioSrc: string;
-}
 
 interface IStorageItem {
   category: string;
@@ -61,25 +53,24 @@ const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
   const [errors, setErrors] = useState(0);
 
   useEffect(() => {
-    let cardsItems: Array<ICategotyItem> | Array<IStorageItem>;
+    let cardsItems: Array<ICard> | Array<IStorageItem>;
 
     if (match.params.id === 'repeat') {
       cardsItems = getDifficultWords();
     } else {
-      getCardsByCategoryName(match.params.id)
-        .then((response) => {
-          cardsItems = response;
+      getCardsByCategoryName(match.params.id).then((response) => {
+        cardsItems = response;
 
-          const gameItems = cardsItems.map((item) => {
-            return {
-              name: item.word,
-              sound: item.audioSrc,
-            };
-          });
+        const gameItems = cardsItems.map((item) => {
+          return {
+            name: item.word,
+            sound: item.audioSrc,
+          };
+        });
 
-          setItems(cardsItems);
-          setGuessItems(gameItems);
-        })
+        setItems(cardsItems);
+        setGuessItems(gameItems);
+      });
     }
   }, [match.params.id]);
 

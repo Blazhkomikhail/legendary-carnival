@@ -17,7 +17,7 @@ const SideMenu = (): ReactElement => {
     getData();
   }, []);
 
-  const categoryComponents = categories.map(({ name, id }, idx) => {
+  const categoryComponents = categories.map(({ name }, idx) => {
     return (
       <Link
         to={`/${name}`}
