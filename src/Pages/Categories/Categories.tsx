@@ -1,6 +1,7 @@
 import React, { useState, useEffect, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import CategoryCard from './CategoryCard/CategoryCard';
+import { createStorageData } from '../Statistic/Statistic';
 import { getAllCards, getAllCategories } from '../../api/api';
 import './categories.scss';
 
@@ -9,6 +10,10 @@ const baseUrl = 'http://127.0.0.1:3000/';
 const Categories = (): ReactElement => {
   const [categories, setCategories] = useState([]);
   const [cards, setCards] = useState([]);
+
+  if (!localStorage.getItem('statistic')) {
+    createStorageData();
+  }
 
   useEffect(() => {
 

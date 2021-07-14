@@ -65,7 +65,7 @@ export const getCardsByCategoryName = async (categoryName: String) => {
 
 export const getAllCards = async() => {
   const response = await fetch(card);
-  const cards = response.json();
+  const cards = await response.json();
   return cards;
 }
 

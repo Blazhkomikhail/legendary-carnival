@@ -1,12 +1,12 @@
-import React, { ReactNode, useState, useMemo, ReactElement } from 'react';
+import React, { ReactNode, useState, useEffect, ReactElement } from 'react';
 import type { DefaultRootState } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { categoryData, cardSets } from '../../assets/cards';
+import { getAllCards } from '../../api/api';
 import './statistic.scss';
 
 interface IStorageItem {
-  id: number;
-  category: string;
+  _id: number;
+  categoryName: string;
   word: string;
   translation: string;
   trainClick: number;
@@ -22,8 +22,8 @@ const createTableBody = (): Array<ReactNode> => {
   const items = getStorageData();
   return items.map((item: IStorageItem) => {
     return (
-      <tr key={item.id}>
-        <td>{item.category}</td>
+      <tr key={item._id}>
+        <td>{item.categoryName}</td>
         <td>{item.word}</td>
         <td>{item.translation}</td>
         <td>{item.trainClick}</td>
@@ -42,24 +42,30 @@ const createTableBody = (): Array<ReactNode> => {
   });
 };
 
-const createStorageData = () => {
-  const storageData = cardSets.map((set) => {
-    return set.items.map((item) => {
-      return {
-        category: categoryData.find((cat) => cat.id === set.id).name,
-        id: item.id,
-        word: item.word,
-        translation: item.translation,
-        image: item.image,
-        audioSrc: item.audioSrc,
-        trainClick: 0,
-        guesses: 0,
-        mistakes: 0,
-      };
+interface IGettedItem {
+  categoryName: string;
+  id: number;
+  word: string;
+  translation: string;
+  image: string;
+  audioSrc: string;
+}
+
+export const createStorageData = (): void => {
+  getAllCards()
+    .then((cards: Array<IGettedItem>) => {
+      const data = cards.map(card => {
+        return {
+          ...card,
+          trainClick: 0,
+          guesses: 0,
+          mistakes: 0,
+        }
+      })
+      localStorage.setItem('statistic', JSON.stringify(data));
+    }).catch((err) => {
+      console.error(err);
     });
-  });
-  const flated = [].concat(...storageData);
-  return flated;
 };
 
 export const updateStatistic = (
@@ -70,13 +76,12 @@ export const updateStatistic = (
   let items = getStorageData();
 
   if (!items) {
-    const storageData = createStorageData();
-    localStorage.setItem('statistic', JSON.stringify(storageData));
+    createStorageData();
     items = getStorageData();
   }
 
   items.forEach((item) => {
-    if (item.id !== id) return;
+    if (item._id !== id) return;
 
     const innerItem = item;
     if (mode === 'TRAIN') {
@@ -93,15 +98,15 @@ export const updateStatistic = (
   localStorage.setItem('statistic', JSON.stringify(items));
 };
 
+
 const Statistic = (): ReactElement => {
   const [sortConfig, setSortConfig] = useState({
     key: null,
     direction: 'ascending',
   });
-
+  
   if (!localStorage.getItem('statistic')) {
-    const storageData = createStorageData();
-    localStorage.setItem('statistic', JSON.stringify(storageData));
+    createStorageData();
   }
 
   const items = getStorageData();
@@ -110,8 +115,8 @@ const Statistic = (): ReactElement => {
     const itemsData = getStorageData();
     const clearItems = itemsData.map((item) => {
       return {
-        category: item.category,
-        id: item.id,
+        categoryName: item.categoryName,
+        _id: item._id,
         word: item.word,
         translation: item.translation,
         trainClick: 0,
@@ -123,7 +128,7 @@ const Statistic = (): ReactElement => {
     setSortConfig({ key: null, direction: 'ascending' });
   };
 
-  useMemo(() => {
+  useEffect(() => {
     const sortedItems = [...items];
     sortedItems.sort((a, b) => {
       if ((a as any)[sortConfig.key] < (b as any)[sortConfig.key]) {

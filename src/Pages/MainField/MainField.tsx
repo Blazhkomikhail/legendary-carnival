@@ -27,7 +27,7 @@ interface IStorageItem {
   id: number;
   word: string;
   translation: string;
-  image: string;
+  picture: string;
   audioSrc: string;
   trainClick: number;
   guesses: number;
@@ -148,7 +148,7 @@ const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
     return (
       <Card
         key={item._id}
-        id={item.id}
+        id={item._id}
         word={item.word}
         image={`${baseUrl}${item.picture}`}
         gameStarted={isGameStartded}

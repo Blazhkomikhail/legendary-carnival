@@ -20,7 +20,7 @@ const SideMenu = (): ReactElement => {
   const categoryComponents = categories.map(({ name, id }, idx) => {
     return (
       <Link
-        to={`/${id}`}
+        to={`/${name}`}
         onClick={() => setMenuOpen(!menuOpen)}
         className="side-menu__category"
         key={categoryData[idx].id}
