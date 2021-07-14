@@ -1,4 +1,5 @@
 import React, { ReactElement, useState } from "react";
+import { checkUser } from '../../api/api';
 import { useHistory } from 'react-router-dom';
 import { login } from '../../api/api';
 
@@ -6,6 +7,16 @@ const Authorisation = (): ReactElement => {
   const [userLogin, setUserLogin] = useState('');
   const [password, setPassword] = useState('');
   const history = useHistory();
+
+  if (localStorage.getItem('loginData')) {
+    const userId = JSON.parse(localStorage.getItem('loginData')).user.id;
+    
+    checkUser().then(response => {
+      if (response.id === userId) {
+        history.push('/admin');        
+      }
+    })
+  }
 
   const submitHandle = async () => {
     const reqBody = {
@@ -22,8 +33,6 @@ const Authorisation = (): ReactElement => {
       history.push('/admin');
     }
   
-  
-
   return (
     <div className="auth-window">
       <h3 className="auth-heading">Authorisation</h3>

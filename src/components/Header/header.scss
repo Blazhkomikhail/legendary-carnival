@@ -18,6 +18,28 @@
     align-items: center;
     flex-grow: 1;
   }
+
+  &__admin-button-link {
+    display: flex;
+  }
+
+  &__admin-button {
+    margin-left: 10px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 4px;
+    background-color: rgba(255,255,255,0.6);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: ease all 0.3s;
+  
+    &:hover {
+      cursor: pointer;
+      background-color: darken($color: #ffeaea, $amount: 2);
+    }
+  }
 }
 
 .statistic-button {

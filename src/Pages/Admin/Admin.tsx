@@ -20,17 +20,15 @@ const Admin = (): ReactElement => {
 
   if (!localStorage.getItem('loginData')) {
     history.push('/auth');
-    return;
-  } 
+  } else {
+    const userId = JSON.parse(localStorage.getItem('loginData')).user.id;
 
-  const userId = JSON.parse(localStorage.getItem('loginData')).user.id;
-
-  checkUser().then(response => {
-    if (response.id !== userId) {
-      history.push('/auth');
-      return;
-    }
-  })
+    checkUser().then(response => {
+      if (response.id !== userId) {
+        history.push('/auth');
+      }
+    })
+  }
 
   useEffect(() => {
     getCategories()
