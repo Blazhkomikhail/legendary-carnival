@@ -7,6 +7,12 @@ interface ICreateCategoryBody {
   name: string
 }
 
+export const getAllCategories = async () => {
+  const response = await fetch(category);
+  const categories = response.json();
+  return categories;
+}
+
 export const createCategory = async (body: ICreateCategoryBody) => {
   const response = await fetch(category, {
     method: 'POST',
@@ -21,12 +27,6 @@ export const createCategory = async (body: ICreateCategoryBody) => {
 
 export const getCategories = async () => {
   const response = await fetch(category);
-  const categories = await response.json();
-  return categories;
-}
-
-export const getCardsByCategoryName = async (categoryName: String) => {
-  const response = await fetch(`${card}/?name=${categoryName}`);
   const categories = await response.json();
   return categories;
 }
@@ -55,6 +55,18 @@ export const deleteCategory = async (id: string) => {
   });
   const deleted = await response.json();
   return deleted;
+}
+
+export const getCardsByCategoryName = async (categoryName: String) => {
+  const response = await fetch(`${card}/?name=${categoryName}`);
+  const categories = await response.json();
+  return categories;
+}
+
+export const getAllCards = async() => {
+  const response = await fetch(card);
+  const cards = response.json();
+  return cards;
 }
 
 export const createCard = async(data: FormData) => {
@@ -117,6 +129,8 @@ type LoginBody = {
   username: string;
   password: string
 }
+
+
 
 export const login = async (body: LoginBody) => {
   const response = await fetch(auth, { 

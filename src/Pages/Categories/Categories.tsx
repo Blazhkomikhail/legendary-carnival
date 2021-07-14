@@ -1,29 +1,37 @@
 import React, { useState, useEffect, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import CategoryCard from './CategoryCard/CategoryCard';
-import { cardSets, categoryData } from '../../assets/cards';
+import { getAllCards, getAllCategories } from '../../api/api';
 import './categories.scss';
+
+const baseUrl = 'http://127.0.0.1:3000/';
 
 const Categories = (): ReactElement => {
   const [categories, setCategories] = useState([]);
-  const [item, setItem] = useState([]);
-
-  const getData = () => {
-    const namesData = categoryData;
-    const cardsData = cardSets;
-    setCategories(namesData);
-    setItem(cardsData);
-  };
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    getData();
+
+    getAllCards()
+      .then(cards => {
+        setCards(cards);
+      }).then(() => {
+          getAllCategories()
+            .then(categories => {
+              setCategories(categories);
+            })
+        })
   }, []);
 
-  const categoryComponents = categories.map(({ name, id }, idx) => {
-    const imageSrc = item[idx].items[0].image;
+  const categoryComponents = categories.map(({ name }, idx) => {
+    
+    const categoryCards = cards.filter(card => card.categoryName === name);
+    const picture = categoryCards[0].picture;
+    const cardsCount = categoryCards.length;
+    
     return (
-      <Link to={`/${id}`} className="category" key={categoryData[idx].id}>
-        <CategoryCard name={name} image={imageSrc} />
+      <Link to={`/${name}`} className="category" key={categories[idx]._id}>
+        <CategoryCard name={name} cardsNum={cardsCount} image={`${baseUrl}${picture || 'no-img.png'}`} />
       </Link>
     );
   });

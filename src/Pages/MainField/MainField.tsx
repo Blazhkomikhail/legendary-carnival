@@ -2,11 +2,13 @@ import React, { useState, useEffect, ReactElement } from 'react';
 import { RouteComponentProps, useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import Card from '../../components/Card/Card';
-import { cardSets } from '../../assets/cards';
+import { getCardsByCategoryName } from '../../api/api';
 import { game } from '../../actions/modeActions';
 import SuccessGame from './SuccessGame/SuccessGame';
 import FailureGame from './FailureGame/FailureGame';
 import './mainField.scss';
+
+const baseUrl = 'http://127.0.0.1:3000/';
 
 type MatchId = {
   id: string;
@@ -16,7 +18,7 @@ interface ICategotyItem {
   id: number;
   word: string;
   translation: string;
-  image: string;
+  picture: string;
   audioSrc: string;
 }
 
@@ -64,20 +66,21 @@ const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
     if (match.params.id === 'repeat') {
       cardsItems = getDifficultWords();
     } else {
-      const cat = cardSets.find((set) => set.id.toString() === match.params.id);
-      cardsItems = cat.items;
+      getCardsByCategoryName(match.params.id)
+        .then((response) => {
+          cardsItems = response;
+
+          const gameItems = cardsItems.map((item) => {
+            return {
+              name: item.word,
+              sound: item.audioSrc,
+            };
+          });
+
+          setItems(cardsItems);
+          setGuessItems(gameItems);
+        })
     }
-    if (!cardsItems) return;
-
-    const gameItems = cardsItems.map((item) => {
-      return {
-        name: item.word,
-        sound: item.audioSrc,
-      };
-    });
-
-    setItems(cardsItems);
-    setGuessItems(gameItems);
   }, [match.params.id]);
 
   const handlePlay = () => {
@@ -144,10 +147,10 @@ const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
   const cardsComponents = items.map((item) => {
     return (
       <Card
-        key={item.id}
+        key={item._id}
         id={item.id}
         word={item.word}
-        image={item.image}
+        image={`${baseUrl}${item.picture}`}
         gameStarted={isGameStartded}
         translation={item.translation}
         audioSrc={item.audioSrc}
