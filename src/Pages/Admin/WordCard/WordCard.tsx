@@ -1,5 +1,5 @@
 import React, { useState, useRef, ReactElement } from 'react';
-import { deleteCardById, udateCard, baseUrl } from '../../../api/api';
+import { deleteCardById, udateCard } from '../../../api/api';
 
 type MyProps = {
   word: string;
@@ -41,6 +41,7 @@ const WordCard = (props: MyProps): ReactElement => {
     try {
       await udateCard(formData);
       setIsRedactMode(false);
+      window.location.reload();
     } catch (err) {
       console.error(err);
     }
@@ -76,7 +77,7 @@ const WordCard = (props: MyProps): ReactElement => {
               <div
                 className="admin__card-image"
                 style={{
-                  backgroundImage: `url(${baseUrl}/${picture || 'no-img.png'})`,
+                  backgroundImage: `url(${picture || 'no-img.png'})`,
                 }}
               />
             ) : null}

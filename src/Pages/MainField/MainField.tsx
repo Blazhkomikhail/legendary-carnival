@@ -8,8 +8,6 @@ import SuccessGame from './SuccessGame/SuccessGame';
 import FailureGame from './FailureGame/FailureGame';
 import './mainField.scss';
 
-const baseUrl = 'http://127.0.0.1:3000/';
-
 type MatchId = {
   id: string;
 };
@@ -141,7 +139,7 @@ const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
         key={item._id}
         id={item._id}
         word={item.word}
-        image={`${baseUrl}${item.picture}`}
+        image={`${item.picture || 'no-img.png'}`}
         gameStarted={isGameStartded}
         translation={item.translation}
         audioSrc={item.audioSrc}

@@ -1,4 +1,5 @@
-export const baseUrl = 'https://supermarche-livre-09213.herokuapp.com';
+export const baseUrl = 'http://127.0.0.1:3000';
+// 'https://supermarche-livre-09213.herokuapp.com';
 const category = `${baseUrl}/api/category`;
 const card = `${baseUrl}/api/card`;
 const auth = `${baseUrl}/auth/login`;

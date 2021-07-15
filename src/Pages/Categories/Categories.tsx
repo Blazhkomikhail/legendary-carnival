@@ -2,7 +2,7 @@ import React, { useState, useEffect, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import CategoryCard from './CategoryCard/CategoryCard';
 import { createStorageData } from '../Statistic/Statistic';
-import { getAllCards, getCategories, baseUrl } from '../../api/api';
+import { getAllCards, getCategories } from '../../api/api';
 import './categories.scss';
 
 const Categories = (): ReactElement => {
@@ -35,7 +35,7 @@ const Categories = (): ReactElement => {
         <CategoryCard
           name={name}
           cardsNum={cardsCount}
-          image={`${baseUrl}/${picture || 'no-img.png'}`}
+          image={`${picture || 'no-img.png'}`}
         />
       </Link>
     );
