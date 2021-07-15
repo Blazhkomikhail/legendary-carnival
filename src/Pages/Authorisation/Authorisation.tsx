@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { checkUser, login } from '../../api/api';
+import './authorisation.scss';
 
 const Authorisation = (): ReactElement => {
   const [userLogin, setUserLogin] = useState('');
@@ -37,7 +38,7 @@ const Authorisation = (): ReactElement => {
     <div className="auth-window">
       <h3 className="auth-heading">Authorisation</h3>
       <form className="auth-form" onSubmit={submitHandle}>
-        <label htmlFor="login">
+        <label className="auth-form__login" htmlFor="login">
           Login:
           <input
             id="login"

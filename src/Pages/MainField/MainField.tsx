@@ -25,9 +25,9 @@ interface IStorageItem {
 }
 
 type GameItem = {
-  name: string,
-  sound: string,
-}
+  name: string;
+  sound: string;
+};
 
 const getItemsFromLocalStorage = () => {
   return JSON.parse(localStorage.getItem('statistic'));
@@ -43,14 +43,16 @@ const getDifficultWords = () => {
   return difficultWords.slice(0, MAX_CARDS_COUNT);
 };
 
-const createGameItems = (gameCards: Array<ICard | IStorageItem>): Array<GameItem> => {
-  return gameCards.map(item => {
+const createGameItems = (
+  gameCards: Array<ICard | IStorageItem>
+): Array<GameItem> => {
+  return gameCards.map((item) => {
     return {
       name: item.word,
       sound: item.audioSrc,
     };
   });
-} 
+};
 
 const sound = (soundSrc: string, delay: number): void => {
   const audio = new Audio(soundSrc);
@@ -58,7 +60,7 @@ const sound = (soundSrc: string, delay: number): void => {
   setTimeout(() => {
     audio.play();
   }, delay);
-}
+};
 
 const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
   const mode = useSelector((state) => state);
@@ -79,11 +81,10 @@ const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
       setItems(cardsItems);
       setGuessItems(createGameItems(cardsItems));
     } else {
-        getCardsByCategoryName(match.params.id)
-          .then(response => {
-            setItems(response);
-            setGuessItems(createGameItems(response));
-          });
+      getCardsByCategoryName(match.params.id).then((response) => {
+        setItems(response);
+        setGuessItems(createGameItems(response));
+      });
     }
   }, [match.params.id]);
 
@@ -176,28 +177,29 @@ const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
           type="button"
           className="game__play-button"
           onClick={handlePlay}
-        > Play
+        >
+          {' '}
+          Play
         </button>
-      )
-    } else {
-      return (
+      );
+    }
+    return (
       <button
-          type="button"
-          className="game__play-button"
-          onClick={() => sound(currentSoundSrc, 200)}
-        > Repeat
+        type="button"
+        className="game__play-button"
+        onClick={() => sound(currentSoundSrc, 200)}
+      >
+        {' '}
+        Repeat
       </button>
-    )}
-  }
+    );
+  };
 
   return (
     <main className="main-field">
       <div className="main-field__stars-wrapper">{stars}</div>
       <div className="main-field__cards-wrapper">{gameOverHandle()}</div>
-      { mode === 'GAME' ? (
-          createGameButton()
-          ) : null
-      }
+      {mode === 'GAME' ? createGameButton() : null}
     </main>
   );
 };
