@@ -24,6 +24,11 @@ interface IStorageItem {
   mistakes: number;
 }
 
+type GameItem = {
+  name: string,
+  sound: string,
+}
+
 const getItemsFromLocalStorage = () => {
   return JSON.parse(localStorage.getItem('statistic'));
 };
@@ -37,6 +42,16 @@ const getDifficultWords = () => {
   const MAX_CARDS_COUNT = 8;
   return difficultWords.slice(0, MAX_CARDS_COUNT);
 };
+
+const createGameItems = (gameCards: Array<ICard | IStorageItem>): Array<GameItem> => {
+  return gameCards.map(item => {
+    return {
+      name: item.word,
+      sound: item.audioSrc,
+    };
+  });
+} 
+
 
 const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
   const mode = useSelector((state) => state);
@@ -55,20 +70,16 @@ const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
 
     if (match.params.id === 'repeat') {
       cardsItems = getDifficultWords();
+      setItems(getDifficultWords());
+      setGuessItems(createGameItems(cardsItems));
     } else {
-      getCardsByCategoryName(match.params.id).then((response) => {
-        cardsItems = response;
+      getCardsByCategoryName(match.params.id)
+        .then((response) => {
+          cardsItems = response;
 
-        const gameItems = cardsItems.map((item) => {
-          return {
-            name: item.word,
-            sound: item.audioSrc,
-          };
+          setItems(cardsItems);
+          setGuessItems(createGameItems(cardsItems));
         });
-
-        setItems(cardsItems);
-        setGuessItems(gameItems);
-      });
     }
   }, [match.params.id]);
 
