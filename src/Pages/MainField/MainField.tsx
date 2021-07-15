@@ -52,6 +52,13 @@ const createGameItems = (gameCards: Array<ICard | IStorageItem>): Array<GameItem
   });
 } 
 
+const sound = (soundSrc: string, delay: number): void => {
+  const audio = new Audio(soundSrc);
+  audio.currentTime = 0;
+  setTimeout(() => {
+    audio.play();
+  }, delay);
+}
 
 const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
   const mode = useSelector((state) => state);
@@ -60,6 +67,7 @@ const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
   const [items, setItems] = useState([]);
   const [guessItems, setGuessItems] = useState([]);
   const [currentWord, setCurrentWord] = useState('');
+  const [currentSoundSrc, setCurrentSoundSrc] = useState('');
   const [isGameStartded, setIsGameStarted] = useState(false);
   const [isGameOver, setGameOver] = useState(false);
   const [stars, setStars] = useState([]);
@@ -95,12 +103,9 @@ const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
 
     const randomIdx = Math.floor(Math.random() * guessItems.length);
     setCurrentWord(guessItems[randomIdx].name);
-    const soundSrc = guessItems[randomIdx].sound;
-    const audio = new Audio(soundSrc);
-    audio.currentTime = 0;
-    setTimeout(() => {
-      audio.play();
-    }, 1000);
+    const cardSoundSrc = guessItems[randomIdx].sound;
+    setCurrentSoundSrc(cardSoundSrc);
+    sound(cardSoundSrc, 1000);
   };
 
   const succesStar = (
@@ -164,20 +169,35 @@ const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
     return errors ? <FailureGame errors={errors} /> : <SuccessGame />;
   };
 
+  const createGameButton = () => {
+    if (!isGameStartded) {
+      return (
+        <button
+          type="button"
+          className="game__play-button"
+          onClick={handlePlay}
+        > Play
+        </button>
+      )
+    } else {
+      return (
+      <button
+          type="button"
+          className="game__play-button"
+          onClick={() => sound(currentSoundSrc, 200)}
+        > Repeat
+      </button>
+    )}
+  }
+
   return (
     <main className="main-field">
       <div className="main-field__stars-wrapper">{stars}</div>
       <div className="main-field__cards-wrapper">{gameOverHandle()}</div>
-      {mode === 'GAME' ? (
-        <button
-          type="button"
-          disabled={isGameStartded}
-          className="game__play-button"
-          onClick={handlePlay}
-        >
-          Play
-        </button>
-      ) : null}
+      { mode === 'GAME' ? (
+          createGameButton()
+          ) : null
+      }
     </main>
   );
 };
