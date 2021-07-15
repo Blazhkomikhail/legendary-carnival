@@ -17,7 +17,7 @@ const CategoryCard = (props: MyProps): ReactElement => {
         />
         <div className="category-card__info">
           <div className="category-card__name">{name}</div>
-          <span className="category-card__number">{cardsNum} cards</span>
+          <span className="category-card__number">Includes: {cardsNum} cards</span>
         </div>
       </div>
     </div>

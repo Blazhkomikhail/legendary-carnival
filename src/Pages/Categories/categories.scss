@@ -49,6 +49,10 @@
         background: rgba(0,0,0,0.5);
       }
 
+      &__number { 
+        color: rgb(22, 70, 230);
+      }
+
     &:hover {
       box-shadow: 6px 6px 13px rgba(0,0,0,0.5);
     }
