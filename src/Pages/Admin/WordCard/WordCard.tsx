@@ -77,7 +77,7 @@ const WordCard = (props: MyProps): ReactElement => {
               <div
                 className="admin__card-image"
                 style={{
-                  backgroundImage: `url(${picture || 'no-img.png'})`,
+                  backgroundImage: `url(${picture || 'img/no-img.png'})`,
                 }}
               />
             ) : null}

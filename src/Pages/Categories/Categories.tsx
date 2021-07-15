@@ -35,7 +35,7 @@ const Categories = (): ReactElement => {
         <CategoryCard
           name={name}
           cardsNum={cardsCount}
-          image={`${picture || 'no-img.png'}`}
+          image={`${picture || 'img/no-img.png'}`}
         />
       </Link>
     );
