@@ -66,17 +66,16 @@ const MainField = ({ match }: RouteComponentProps<MatchId>): ReactElement => {
   const [errors, setErrors] = useState(0);
 
   useEffect(() => {
-
     if (match.params.id === 'repeat') {
       const cardsItems = getDifficultWords();
       setItems(cardsItems);
       setGuessItems(createGameItems(cardsItems));
     } else {
-      getCardsByCategoryName(match.params.id)
-        .then((response) => {
-          setItems(response);
-          setGuessItems(createGameItems(response));
-        });
+        getCardsByCategoryName(match.params.id)
+          .then(response => {
+            setItems(response);
+            setGuessItems(createGameItems(response));
+          });
     }
   }, [match.params.id]);
 
