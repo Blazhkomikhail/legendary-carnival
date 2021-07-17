@@ -5,7 +5,7 @@ import './authorisation.scss';
 
 const Authorisation = (): ReactElement => {
   const [userLogin, setUserLogin] = useState('');
-  const [password, setPassword] = useState('');
+  const [userPassword, setUserPassword] = useState('');
   const history = useHistory();
 
   if (localStorage.getItem('loginData')) {
@@ -21,7 +21,7 @@ const Authorisation = (): ReactElement => {
   const submitHandle = async () => {
     const reqBody = {
       username: userLogin,
-      password,
+      password: userPassword,
     };
 
     const response = await login(reqBody);
@@ -37,7 +37,7 @@ const Authorisation = (): ReactElement => {
   return (
     <div className="auth-window">
       <h3 className="auth-heading">Authorisation</h3>
-      <form className="auth-form" onSubmit={submitHandle}>
+      <form className="auth-form">
         <label className="auth-form__login" htmlFor="login">
           Login:
           <input
@@ -53,10 +53,12 @@ const Authorisation = (): ReactElement => {
             id="password"
             type="password"
             className="auth-password"
-            onChange={(event) => setPassword(event.target.value)}
+            onChange={(event) => setUserPassword(event.target.value)}
           />
         </label>
-        <input type="submit" value="Ok" />
+        <button type="button" onClick={submitHandle}>
+          OK
+        </button>
       </form>
     </div>
   );

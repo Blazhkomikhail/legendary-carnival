@@ -27,7 +27,7 @@ const Categories = (): ReactElement => {
 
   const categoryComponents = categories.map(({ name }, idx) => {
     const categoryCards = cards.filter((card) => card.categoryName === name);
-    const { picture } = categoryCards[0];
+    const { picture } = categoryCards[0] || 'img/no-img.jpg';
     const cardsCount = categoryCards.length;
 
     return (
