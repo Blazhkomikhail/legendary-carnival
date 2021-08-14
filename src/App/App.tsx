@@ -16,7 +16,7 @@ const App = (): ReactElement => {
 
   const isLoginedHandler = (flag: boolean) => {
     setIsLogined(flag);
-  }
+  };
   return (
     <Router>
       <SideMenu />
@@ -26,8 +26,8 @@ const App = (): ReactElement => {
           <Switch>
             <Route path="/" exact component={Categories} />
             <Route path="/statistic" component={Statistic} />
-            <Route path="/auth"> 
-              <Authorisation handleLogined={isLoginedHandler}/>
+            <Route path="/auth">
+              <Authorisation handleLogined={isLoginedHandler} />
             </Route>
             <Route path="/admin" exact component={Admin} />
             <Route path="/admin/:id" component={AdminCategotyPage} />

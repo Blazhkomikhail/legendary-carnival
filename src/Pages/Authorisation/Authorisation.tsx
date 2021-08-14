@@ -3,7 +3,11 @@ import { useHistory } from 'react-router-dom';
 import { checkUser, login } from '../../api/api';
 import './authorisation.scss';
 
-const Authorisation = ({handleLogined}: {handleLogined: (flag: boolean) => void}): ReactElement => {
+const Authorisation = ({
+  handleLogined,
+}: {
+  handleLogined: (flag: boolean) => void;
+}): ReactElement => {
   const [userLogin, setUserLogin] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const history = useHistory();
@@ -59,7 +63,7 @@ const Authorisation = ({handleLogined}: {handleLogined: (flag: boolean) => void}
             onChange={(event) => setUserPassword(event.target.value)}
           />
         </label>
-        <input type="submit" value="OK"/>
+        <input type="submit" value="OK" />
       </form>
     </div>
   );

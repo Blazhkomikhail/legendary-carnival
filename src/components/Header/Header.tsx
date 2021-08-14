@@ -10,12 +10,11 @@ interface IHeaderProps {
   handleLogined: (flag: boolean) => void;
 }
 
-const Header = ({logined, handleLogined}: IHeaderProps): ReactElement => {
-  
+const Header = ({ logined, handleLogined }: IHeaderProps): ReactElement => {
   const history = useHistory();
 
   const isAuthorised = localStorage.getItem('loginData');
-  useEffect(() => handleLogined(!!isAuthorised), [isAuthorised]);
+  useEffect(() => handleLogined(!!isAuthorised), [handleLogined, isAuthorised]);
 
   const authorisationHandler = () => {
     if (!logined) {
