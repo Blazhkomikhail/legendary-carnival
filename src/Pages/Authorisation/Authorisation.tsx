@@ -39,7 +39,7 @@ const Authorisation = (): ReactElement => {
       <h3 className="auth-heading">Authorisation</h3>
       <form className="auth-form">
         <label className="auth-form__login" htmlFor="login">
-          Login:
+          Login (admin):
           <input
             id="login"
             type="text"
@@ -48,7 +48,7 @@ const Authorisation = (): ReactElement => {
           />
         </label>
         <label htmlFor="password">
-          Password:
+          Password (admin):
           <input
             id="password"
             type="password"
