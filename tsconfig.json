@@ -1,35 +1,19 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "jsx": "react",
-    "noEmitOnError": true,
-    "noUnusedLocals": true,
-    "removeComments": true,
-    "esModuleInterop": true,
-    "baseUrl": "./",
+    "target": "esnext",
     "outDir": "./dist/",
+    "rootDir": "./src/",
     "noImplicitAny": true,
-    "module": "CommonJS",
+    "module": "commonjs",
     "allowJs": true,
     "sourceMap": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true
   },
-
-  "files": [
-    "./declarations.d.ts"
-  ],
-
-  "paths": {
-    "App": ["src/App"],
-    "Pages/*": ["src/Pages/*"],
-  },
-
-  "include": [
-    "./src/Client.tsx",
-  ],
 
   "exclude": [
     "node_modules",
-    "./src/assets/cards.js"
+    "dist"
   ]
-
 }
