@@ -15,8 +15,9 @@ export default class Menu extends BaseComponent {
   private createMenu() {
     this.menuBtnWrap = new BaseComponent('ul', ['menu__items-wrapper']);
 
-    this.buttons = ['About Game', 'Best Score', 'Game Settings']
-      .map(btnText => Menu.createButton(btnText).element);
+    this.buttons = ['About Game', 'Best Score', 'Game Settings'].map(
+      (btnText) => Menu.createButton(btnText).element
+    );
 
     render(this.menuBtnWrap.element, [...this.buttons]);
     return this.menuBtnWrap.element;

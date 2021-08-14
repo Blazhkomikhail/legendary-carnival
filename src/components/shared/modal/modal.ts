@@ -40,8 +40,8 @@ export default class Modal extends BaseComponent {
       this.mainContent = form.element;
     }
 
-    this.db.showMessage = (message: string) => {
-      const successMessage = new Message(message);
+    this.db.showMessage = (messageText: string) => {
+      const successMessage = new Message(messageText);
       this.mainContent.innerHTML = '';
       this.mainContent.appendChild(successMessage.element);
       setTimeout(() => {

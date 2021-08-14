@@ -94,7 +94,9 @@ export default class Form extends BaseComponent {
     const btnsWrapper = new BaseComponent('div', ['form__buttons-wrap']);
 
     this.cancelButton = new Button('Cancel', ['form__cancel-btn']);
-    this.cancelButton.element.addEventListener('click', () => this.cancelHandler());
+    this.cancelButton.element.addEventListener('click', () =>
+      this.cancelHandler()
+    );
     this.cancelButton.element.setAttribute('type', 'Button');
 
     this.avatarInput.addEventListener('change', () => this.getAvatarImage());

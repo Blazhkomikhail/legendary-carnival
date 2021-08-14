@@ -2,7 +2,6 @@ const SECOND = 1000;
 const START_SECOND = 0;
 let interval: ReturnType<typeof setInterval>;
 
-
 export default class Timer {
   private seconds: number;
 
@@ -37,7 +36,7 @@ export default class Timer {
     const maxAdditionalZero = 10;
 
     this.seconds += step;
-    
+
     if (this.seconds / maxSeconds === step) {
       this.seconds = START_SECOND;
       this.minutes += step;

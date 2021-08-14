@@ -4,27 +4,27 @@ import { gameSettings } from '../../services/settings/settings';
 import './game-settings.scss';
 
 export default class GameSettings extends BaseComponent {
-
   constructor() {
     super('main', ['settings']);
     const contentWrapper = document.createElement('div');
     contentWrapper.classList.add('settings__container');
 
     const cadsSelect = GameSettings.createSelect(
-      'cards', 
+      'cards',
       'Game cards',
       ` <option value='animals'>Animals</option>
         <option value='dogs'>Dogs</option>
       `
-      );
+    );
 
     const levelSelect = GameSettings.createSelect(
-      'level', 
+      'level',
       'Difficulty',
       ` <option value='low'>Low</option>
         <option value='middle'>Middle</option>
         <option value='high'>High</option>
-      `);
+      `
+    );
 
     render(contentWrapper, [cadsSelect, levelSelect]);
     render(this.element, [contentWrapper]);
@@ -40,7 +40,11 @@ export default class GameSettings extends BaseComponent {
     });
   }
 
-  static createSelect(className: string, selectName: string, options: string): HTMLElement {
+  static createSelect(
+    className: string,
+    selectName: string,
+    options: string
+  ): HTMLElement {
     const selectWrap = document.createElement('div');
     selectWrap.classList.add(`settings__${className}-container`);
     const label = document.createElement('label');
