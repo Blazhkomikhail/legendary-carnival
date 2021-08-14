@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { checkUser, login } from '../../api/api';
 import './authorisation.scss';
 
-const Authorisation = (): ReactElement => {
+const Authorisation = ({handleLogined}: {handleLogined: (flag: boolean) => void}): ReactElement => {
   const [userLogin, setUserLogin] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const history = useHistory();
@@ -18,7 +18,8 @@ const Authorisation = (): ReactElement => {
     });
   }
 
-  const submitHandle = async () => {
+  const submitHandle = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const reqBody = {
       username: userLogin,
       password: userPassword,
@@ -32,12 +33,14 @@ const Authorisation = (): ReactElement => {
     }
     localStorage.setItem('loginData', JSON.stringify(response));
     history.push('/admin');
+    console.log('logined');
+    handleLogined(true);
   };
 
   return (
     <div className="auth-window">
       <h3 className="auth-heading">Authorisation</h3>
-      <form className="auth-form">
+      <form className="auth-form" onSubmit={(e) => submitHandle(e)}>
         <label className="auth-form__login" htmlFor="login">
           Login (admin):
           <input
@@ -56,9 +59,7 @@ const Authorisation = (): ReactElement => {
             onChange={(event) => setUserPassword(event.target.value)}
           />
         </label>
-        <button type="button" onClick={submitHandle}>
-          OK
-        </button>
+        <input type="submit" value="OK"/>
       </form>
     </div>
   );

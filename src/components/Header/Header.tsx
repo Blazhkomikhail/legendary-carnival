@@ -1,23 +1,28 @@
-import React, { ReactElement, useState, useEffect } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import Switcher from './Switcher/Switcher';
 
 import './header.scss';
 
-const Header = (): ReactElement => {
-  const [isLogined, setIsLogined] = useState(false);
+interface IHeaderProps {
+  logined: boolean;
+  handleLogined: (flag: boolean) => void;
+}
+
+const Header = ({logined, handleLogined}: IHeaderProps): ReactElement => {
+  
   const history = useHistory();
 
   const isAuthorised = localStorage.getItem('loginData');
-  useEffect(() => setIsLogined(() => !!isAuthorised), [isAuthorised]);
+  useEffect(() => handleLogined(!!isAuthorised), [isAuthorised]);
 
   const authorisationHandler = () => {
-    if (!isLogined) {
+    if (!logined) {
       history.push('/auth');
     } else {
       localStorage.removeItem('loginData');
-      setIsLogined(false);
+      handleLogined(false);
       history.push('/');
     }
   };
@@ -38,7 +43,7 @@ const Header = (): ReactElement => {
             className="header__admin-button"
             style={{
               backgroundImage: `url(./icons/${
-                !isLogined ? 'login-icon.png' : 'logout-icon.png'
+                !logined ? 'login-icon.png' : 'logout-icon.png'
               })
                 `,
             }}

@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
@@ -12,16 +12,23 @@ import AdminCategotyPage from '../Pages/Admin/AdminCategoryPage/AdminCategotyPag
 import './app.scss';
 
 const App = (): ReactElement => {
+  const [isLogined, setIsLogined] = useState(false);
+
+  const isLoginedHandler = (flag: boolean) => {
+    setIsLogined(flag);
+  }
   return (
     <Router>
       <SideMenu />
       <div className="container">
-        <Header />
+        <Header logined={isLogined} handleLogined={isLoginedHandler} />
         <main className="main-app">
           <Switch>
             <Route path="/" exact component={Categories} />
             <Route path="/statistic" component={Statistic} />
-            <Route path="/auth" component={Authorisation} />
+            <Route path="/auth"> 
+              <Authorisation handleLogined={isLoginedHandler}/>
+            </Route>
             <Route path="/admin" exact component={Admin} />
             <Route path="/admin/:id" component={AdminCategotyPage} />
             <Route path="/:id" exact component={MainField} />
